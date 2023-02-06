@@ -1,0 +1,90 @@
+.contract_page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 1130px;
+    margin: 0 auto;
+
+    .content {
+        flex: 1 1 auto;
+        margin-top: 30px;
+        display: flex;
+        flex-direction: row;
+
+        @media (max-width: 320px) {
+            & {
+                margin-top: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            & .menu {
+                display: none;
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex: 0 1 100%;
+
+            .wrapper_contract {
+                margin-top: 0;
+
+                .title_contract {
+                    font-weight: 700;
+                    font-size: 32px;
+                    line-height: 40px;
+
+                    @media (max-width: 768px) {
+                        & {
+                            font-weight: 700;
+                            font-size: 18px;
+                            line-height: 28px;
+                        }
+                    }
+                }
+
+                .subtitle_contract {
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 24px;
+                    margin-top: 32px;
+                    margin-bottom: 0;
+                }
+
+                .paragraph_contract {
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 24px;
+                    margin-top: 16px;
+                    margin-left: 30px;
+
+                    @media (max-width: 320px) {
+                        & {
+                            font-weight: 400;
+                            font-size: 15px;
+                            line-height: 20px;
+                        }
+                    }
+                }
+
+                .subparagraph_contract {
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 24px;
+                    margin-top: 16px;
+                    margin-left: 60px;
+                }
+
+                .sub_contract {
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 24px;
+                    margin-top: 16px;
+                    margin-left: 90px;
+                }
+            }
+        }
+    }
+}
