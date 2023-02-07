@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useParams } from 'react-router-dom';
 import {Header} from '../../components/header';
 import { Search } from '../../components/search/search';
 import { Sections } from '../../components/sections';
@@ -10,7 +9,6 @@ import { Footer } from '../../components/footer';
 import {data} from '../../data'
 
 import styles from './main-page.module.scss';
-import burgerStyles from '../../assets/styles/burger.module.scss';
 import { Card } from '../../components/card';
 
 
@@ -28,9 +26,9 @@ interface Book {
 
 export const MainPage:React.FC = () => {
 
-
     const { view } = useAppSelector((state: RootState) => state.card);
-    const { menuIsOpen } = useAppSelector((state: RootState) => state.burger);
+    const { menuIsOpen} = useAppSelector((state: RootState) => state.burger);
+
 
 
 return(
@@ -40,9 +38,10 @@ return(
         <section className={styles.content}>
             <div
             onClick={e => e.stopPropagation() } role='presentation'
-            className={ menuIsOpen ? burgerStyles.burger_menu_active : burgerStyles.burger_menu}>
+            className={ menuIsOpen ? styles.burger_menu_active :styles.burger_menu}>
             <Sections />
             </div>
+
 
         <div className={styles.container}>
         <Search/>

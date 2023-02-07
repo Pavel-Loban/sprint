@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
+import BookImageAnather from '../../assets/image/book-image-anather.jpg';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import Star from '../../assets/image/icon_star.svg';

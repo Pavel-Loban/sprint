@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { links } from '../../data';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { setMenuIsOpen, setCategoriesBooks} from '../../store/burger-slice';
+import { setMenuIsOpen, setCategoriesBooks,setLinksBurger, setNewLinksBurger } from '../../store/burger-slice';
 import { ReactComponent as IconArrow } from '../../assets/image/icon-list-sections.svg';
 import styles from './burger.module.scss';
 
@@ -108,7 +108,6 @@ export const Burger: React.FC = () => {
         </section>
     )
 }
-
 
 
 

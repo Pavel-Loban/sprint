@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import cnBind from 'classnames/bind';
 import IconSearch from '../../assets/image/search.svg';
 import IconSelect from '../../assets/image/select.svg';
@@ -83,7 +84,6 @@ export const Search:React.FC = () => {
             if(ee.target !== sortRef.current &&  ee.target !== sortRefPopup.current){
                 setIsVisiblePopup(false);
             }
-
         }
 
         document.body.addEventListener('click',onClickOutsideSort)

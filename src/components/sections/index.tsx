@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { links } from '../../data';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { setMenuIsOpen, setCategoriesBooks} from '../../store/burger-slice';
+import { setMenuIsOpen, setCategoriesBooks,setLinksBurger, setNewLinksBurger } from '../../store/burger-slice';
 import { ReactComponent as IconArrow } from '../../assets/image/icon-list-sections.svg';
 import styles from './sections.module.scss';
 
@@ -36,7 +36,7 @@ export const Sections: React.FC = () => {
     const location = useLocation();
 
     const dispatch = useAppDispatch();
-    const { menuIsOpen, categoriesBooks } = useAppSelector((state: RootState) => state.burger);
+    const { menuIsOpen, categoriesBooks, linksBurger  } = useAppSelector((state: RootState) => state.burger);
 
     const getBook = (sublink: string) => {
         push(`/books/${sublink}`);
@@ -56,11 +56,9 @@ export const Sections: React.FC = () => {
         setText(activeLink);
         push(`${link}`);
         dispatch(setMenuIsOpen(false));
+        dispatch(setCategoriesBooks(true));
     }
 
-    React.useEffect(() => {
-
-    }, [])
 
     const [arrowUp,setArrowUp] = React.useState<boolean>(false)
 
@@ -71,7 +69,6 @@ export const Sections: React.FC = () => {
 
     return (
         <section
-
         className={styles.wrapper}
         >
            <IconArrow
@@ -82,7 +79,6 @@ export const Sections: React.FC = () => {
                 {text.map((item, i) => (
 
                         <li
-                    data-test-id={menuIsOpen ? item.testIdBoorger : item.testId}
 
                     key={item.title} className={
                         location.pathname.includes(`${item.link}books`)
@@ -91,49 +87,37 @@ export const Sections: React.FC = () => {
 
                             ? styles.subTitle_active : styles.subTitle} >
                        {item.title !== 'Витрина книг' ? <p
+                       data-test-id={menuIsOpen ? item.testIdBoorger : item.testId}
                         onClick={() => getActiveTextLink(item.id, item.link)} role='presentation'>{item.title}
                         </p>
                         : <p
+
+                        data-test-id={menuIsOpen ? item.testIdBoorger : item.testId}
                         onClick={getRotateIconArrow}
-                        role='presentation'>{item.title}
+                        role='presentation'
+                        >{item.title}
                         </p>}
 
 
 
-                        {/* <div className={styles.divFirst}
-                        data-test-id={menuIsOpen ? 'burger-books' : 'navigation-books'}
-                        > */}
+                        <div className={styles.divFirst}>
                             {item.sectionsBooks.map((item) =>
 
 
-                            // <div
-
-                            // data-test-id={menuIsOpen &&  item.testId !== null ? item.testIdBoorger : item.testId}
-                            //     key={item.subSectionsBooks}
-                            // >
-                                categoriesBooks && (
+                            (
                                 item.testId !== null ?
-                                <p
-                                data-test-id={arrowUp ? item.testIdBoorger : item.testId}
-                                key={item.subSectionsBooks}
-
-                                className={location.pathname.includes(item.subLink) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.subLink)} role='presentation'>{item.subSectionsBooks} <span>{item.count}</span></p>
+                                <p data-test-id={menuIsOpen ? item.testIdBoorger : item.testId} key={item.subSectionsBooks} className={location.pathname.includes(item.subLink) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.subLink)} role='presentation'
+                                style={{display: !categoriesBooks ? 'block' : 'none'}}
+                                >{item.subSectionsBooks} <span>{item.count}</span></p>
                                 :
-                                <p  key={item.subSectionsBooks} className={location.pathname.includes(item.subLink) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.subLink)} role='presentation'>{item.subSectionsBooks} <span>{item.count}</span></p>
-                            )
-                            // </div>
-                            //  !categoriesBooks && (
-                            //     item.testId !== null ?
-                            //     <p
-                            //     // data-test-id={menuIsOpen ? item.testIdBoorger : item.testId}
-                            //     key={item.subSectionsBooks} className={location.pathname.includes(item.subLink) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.subLink)} role='presentation'>{item.subSectionsBooks} <span>{item.count}</span></p>
-                            //     :
-                            //     <p  key={item.subSectionsBooks} className={location.pathname.includes(item.subLink) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.subLink)} role='presentation'>{item.subSectionsBooks} <span>{item.count}</span></p>
-                            // )
-                            )}
-                        {/* </div> */}
+                                <p  key={item.subSectionsBooks} className={location.pathname.includes(item.subLink) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.subLink)} role='presentation'
+                                style={{display: !categoriesBooks ? 'block' : 'none'}}
+                                >{item.subSectionsBooks} <span>{item.count}</span></p>
+                            ))}
+                        </div>
 
                     </li>
+                    // </div>
 
                 ))}
             </ul>

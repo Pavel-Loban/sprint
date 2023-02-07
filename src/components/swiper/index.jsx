@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -19,11 +19,10 @@ import BookImageAnather from '../../assets/image/book-image-anather.png';
 
 export const Sswiper= ({img, bookImages}) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
   const date = new Date()
 
   return (
-    <>
+    <React.Fragment>
 
 {img !== '' ?
 <Swiper
@@ -42,7 +41,7 @@ export const Sswiper= ({img, bookImages}) => {
       >
         {bookImages.map((imag,i, array) =>
         (
-          <SwiperSlide key={Math.random() * date.getMilliseconds()} >
+          <SwiperSlide key={Math.random() * date.getMilliseconds()}>
           <img src={imag} alt='book' />
         </SwiperSlide>
         ))}
@@ -86,14 +85,14 @@ export const Sswiper= ({img, bookImages}) => {
         className="mySwiper"
       >
         {bookImages.map((img,i,array) => (
-            <SwiperSlide data-test-id='slide-mini'>
+            <SwiperSlide data-test-id='slide-mini' key={Math.random() * date.getMilliseconds()}>
             <img src={ img } alt='book' />
           </SwiperSlide>
         ))}
 
       </Swiper>
       )}
-    </>
+    </React.Fragment>
   );
 }
 
