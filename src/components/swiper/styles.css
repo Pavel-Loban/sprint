@@ -113,11 +113,6 @@
 
   }
 
-
-
-
-
-
   .mySwiper2 > .swiper-pagination, .swiper-pagination-bullets, .swiper-pagination-horizontal {
     opacity: 0;
   }
@@ -129,12 +124,34 @@
       opacity: 1;
 
     }
+
+
 }
-
-
-
 
   .swiper-wrapper {
     height: auto;
 
+  }
+
+  @media (max-width: 768px) {
+
+
+    .swiper-wrapper {
+      height: auto !important;
+
+    }
+  }
+
+  .swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet, .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet{
+    background: rgb(0, 0, 0) !important ;
+  }
+
+
+
+  .swiper-button-prev {
+    pointer-events: none;
+  }
+
+  .swiper-button-next {
+    pointer-events: none;
   }

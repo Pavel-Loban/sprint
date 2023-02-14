@@ -1,9 +1,28 @@
+.wrapper_preloader{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(54, 54, 54, 0.3);
+    backdrop-filter: blur(10px);
+    z-index: 15;
+    .preloader{
+
+    }
+
+}
+
+
 .main_page {
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    max-width: 1130px;
+    max-width: 1110px;
     margin: 0 auto;
+
 
     .content {
         flex: 1 1 auto;
@@ -12,6 +31,30 @@
         flex-direction: row;
 
 
+      .menu{
+          padding-right: 6px;
+          /* flex: 1 1 100%; */
+      }
+
+
+
+      @media (max-width: 768px) {
+
+
+          & .menu {
+               display: none ;
+          }
+      }
+
+
+
+      .menu2 {
+          @extend %box_burger;
+          left: 0;
+          top: 90px;
+          height: 85vh;
+          overflow-y: scroll;
+      }
 
 
         .container {
@@ -31,6 +74,7 @@
                 margin-top: 70px;
                 flex-wrap: wrap;
                 margin: 70px -5px 0 -5px;
+                /* margin-top: -24px; */
 
                 @media (max-width: 768px) {
                     & {
@@ -67,7 +111,6 @@
 
 
 
-
 %box_burger {
     position: absolute;
     z-index: 10;
@@ -76,7 +119,7 @@
     width: 502px;
     box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
     border-radius: 10px;
-    padding: 32px 32px 52px 32px;
+    padding: 32px 32px 32px 32px;
     transition: left 0.3s ease 0s;
     height: 100%;
 
@@ -87,7 +130,7 @@
 .burger_menu_active {
     @extend %box_burger;
     left: 10px;
-    height: 85%;
+    height: 85vh;
     overflow-y: scroll;
 
 
@@ -120,7 +163,7 @@
 
     @media (min-width: 769px) {
         & {
-            position: static;
+            display: none;
         }
     }
 

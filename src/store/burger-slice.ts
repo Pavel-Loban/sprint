@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
-// interface Menu {
-//   menuIsOpen: boolean,
-//   }
+
 
 interface SectionBooks {
   subSectionsBooks: string,
@@ -48,7 +46,6 @@ const burgerMenuSlice = createSlice({
       newState.linksBurger = action.payload;
     },
     setNewLinksBurger(state, action: PayloadAction<number>) {
-      // const newState = state;
       return{
         ...state,
         linksBurger : state.linksBurger.map((item:Links) => item.id === action.payload ? { ...item, active: true } : { ...item, active: false })

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 body {
+  position: relative;
   height: 100%;
   justify-content: center;
   scroll-behavior: smooth;
@@ -77,4 +78,9 @@ select {
 
 .menu_burger_open{
   overflow: hidden;
+}
+
+.preloader_true{
+  overflow: hidden;
+  padding: 0 0;
 }

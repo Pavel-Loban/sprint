@@ -1,15 +1,16 @@
 import React from 'react';
 import cn from 'classnames';
 import cnBind from 'classnames/bind';
+
+import { ReactComponent as CloseSearch } from '../../assets/image/close-search.svg';
+import { ReactComponent as List } from '../../assets/image/list2.svg';
 import IconSearch from '../../assets/image/search.svg';
 import IconSelect from '../../assets/image/select.svg';
+import { ReactComponent as Tile } from '../../assets/image/tile2.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { setView,setViewList } from '../../store/card-slice';
 import { setSort } from '../../store/sort-slice';
-import { ReactComponent as Tile } from '../../assets/image/tile2.svg';
-import { ReactComponent as List } from '../../assets/image/list2.svg';
-import { ReactComponent as CloseSearch } from '../../assets/image/close-search.svg';
 
 import styles from './search.module.scss';
 
@@ -37,6 +38,7 @@ export const Search:React.FC = () => {
     const getViewList = () => {
         dispatch(setViewList(false));
     }
+
     React.useEffect(() => {
 
     },[view])
@@ -81,12 +83,14 @@ export const Search:React.FC = () => {
     React.useEffect(() => {
         const onClickOutsideSort = (e: MouseEvent) => {
         const ee = e;
+
             if(ee.target !== sortRef.current &&  ee.target !== sortRefPopup.current){
                 setIsVisiblePopup(false);
             }
         }
 
         document.body.addEventListener('click',onClickOutsideSort)
+
         return () => {
           document.body.removeEventListener('click',onClickOutsideSort);
         };
