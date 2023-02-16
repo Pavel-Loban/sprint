@@ -1,9 +1,10 @@
 import React from 'react';
-import Avatar from  '../../assets/image/review_avatar.png';
-import { Button } from '../button';
+
 import Star from '../../assets/image/icon_star.svg';
 import StarEmpty from '../../assets/image/icon_star_empty.svg';
 import { ReactComponent as CloseAndOpenReview } from '../../assets/image/icon-list-sections.svg';
+import Avatar from  '../../assets/image/review_avatar.png';
+import { Button } from '../button';
 
 import styles from './review.module.scss';
 
@@ -45,7 +46,7 @@ interface Props{
 
 export const Review: React.FC<Props> = ({rating,delivery, booking,createdAt, id, commentRating, text, user, comments}) => {
 
-    // console.log(booking, delivery)
+
     const [isVisibleReview, setIsVisibleReview] = React.useState<boolean>(true)
     const date = new Date()
 
@@ -53,12 +54,7 @@ export const Review: React.FC<Props> = ({rating,delivery, booking,createdAt, id,
         setIsVisibleReview(!isVisibleReview);
     }
 
-    // console.log(new Date(createdAt).toLocaleString('ru',
-    // {
-    //     day: 'numeric',
-    //     month: 'long',
-    //     year: 'numeric'
-    // }))
+
 
     return(
     <section className={styles.wrapper}>
@@ -82,11 +78,15 @@ export const Review: React.FC<Props> = ({rating,delivery, booking,createdAt, id,
                 </div>
 
             </div>
-            {/* <div  className={styles.review_grade}>
-            {[...new Array(grade)].map((item) => <img src={Star} alt='star' key={Math.random() * date.getMilliseconds()} />)}
-                        {5 - grade !== 5 ?
-                            [...new Array(5 - grade)].map((item) => <img src={StarEmpty} alt='starEmpty' key={date.getMilliseconds()} />) : 'еще нет оценок'}
-            </div> */}
+            <div  className={styles.review_grade}>
+            {rating === null ? 'еще нет оценок' :
+                    [...new Array(Math.floor(rating))].map((item) => <img src={Star} alt='star' key={Math.random() * date.getMilliseconds()} />)
+                    }
+
+                    {rating === null ? '' :
+                    [...new Array(5 - Math.floor(rating))].map((item) => <img src={StarEmpty} alt='starEmpty' key={Math.random() * date.getMilliseconds()} />)
+                    }
+            </div>
             <div  className={styles.review_text}>
             {text}
             </div>

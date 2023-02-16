@@ -1,5 +1,6 @@
 import React from 'react'
 
+import {ReactComponent as  Preloader} from '../../assets/image/preloader.svg';
 import { Footer } from '../../components/footer'
 import { Header } from '../../components/header'
 import { Sample } from '../../components/sample';
@@ -12,9 +13,15 @@ import styles from './rules.module.scss';
 export const Rules: React.FC = () => {
 
     const { menuIsOpen} = useAppSelector((state: RootState) => state.burger);
+    const { books, status} = useAppSelector((state: RootState) => state.books);
 
  return(
-    <section className={styles.rules_page}>
+
+<React.Fragment>
+{status === 'loading'  ? <div className={styles.wrapper_preloader} data-test-id='loader'
+> <Preloader className={styles.preloader} width={68.7} height={68.7} /></div>  : null}
+
+<section className={styles.rules_page}>
         <Header />
         <section className={styles.content}>
 
@@ -37,5 +44,8 @@ export const Rules: React.FC = () => {
 
         <Footer />
     </section>
+</React.Fragment>
+
+
 )
 }

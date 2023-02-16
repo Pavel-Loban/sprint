@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {ReactComponent as  Preloader} from '../../assets/image/preloader.svg';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
 import { Sample } from '../../components/sample';
@@ -12,8 +13,13 @@ import styles from './contract.module.scss';
 export const Contract:React.FC  = () => {
 
     const { menuIsOpen} = useAppSelector((state: RootState) => state.burger);
+    const { status} = useAppSelector((state: RootState) => state.books);
 
 return(
+
+    <React.Fragment>
+     {status === 'loading'  ? <div className={styles.wrapper_preloader} data-test-id='loader'
+> <Preloader className={styles.preloader} width={68.7} height={68.7} /></div>  : null}
 
 <section className={styles.contract_page}>
         <Header />
@@ -36,5 +42,8 @@ return(
 
         <Footer/>
     </section>
+    </React.Fragment>
+
+
   )
 }

@@ -25,7 +25,8 @@ interface Props{
 export const Sswiper:React.FC<Props> = ({img, bookImages}) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass>();
   const date = new Date()
-console.log(img)
+
+
   return (
 
     <React.Fragment>
@@ -81,9 +82,9 @@ console.log(img)
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        {bookImages.map((img) => (
+        {bookImages.map((bookImg) => (
             <SwiperSlide data-test-id='slide-mini' key={Math.random() * date.getMilliseconds()}>
-            <img src={ img } alt='book' />
+            <img src={ bookImg } alt='book' />
           </SwiperSlide>
         ))}
 

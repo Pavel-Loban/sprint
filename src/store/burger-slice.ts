@@ -20,12 +20,12 @@ interface Links {
 interface LinksBurger {
   linksBurger: Links[],
   menuIsOpen: boolean,
-  categoriesBooks: boolean,
+  categoriesBooksShowOrHide: boolean,
 }
 
 const initialState: LinksBurger = {
   menuIsOpen: false,
-  categoriesBooks: false,
+  categoriesBooksShowOrHide: false,
   linksBurger: [],
 };
 
@@ -35,14 +35,17 @@ const burgerMenuSlice = createSlice({
   reducers: {
     setMenuIsOpen(state, action: PayloadAction<boolean>) {
       const newState = state;
+
       newState.menuIsOpen = action.payload;
     },
     setCategoriesBooks(state, action: PayloadAction<boolean>) {
       const newState = state;
-      newState.categoriesBooks = action.payload;
+
+      newState.categoriesBooksShowOrHide = action.payload;
     },
     setLinksBurger(state, action: PayloadAction<any>) {
       const newState = state;
+
       newState.linksBurger = action.payload;
     },
     setNewLinksBurger(state, action: PayloadAction<number>) {

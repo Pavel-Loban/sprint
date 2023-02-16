@@ -1,114 +1,148 @@
-import { createAsyncThunk,  createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+export const fetchCategories = createAsyncThunk(
+  'books/fetchCategories',
+
+  async (urlCategories: string) => {
+    const data = await axios.get(urlCategories);
+
+
+
+    return data.data;
+  }
+);
 
 export const fetchBooks = createAsyncThunk(
-    'books/fetchBooksStatus',
+  'books/fetchBooksStatus',
 
-    async (baseUrl:string) => {
-      try {
+  async (baseUrl: string) => {
+    const data = await axios.get(baseUrl);
 
-      const  data = await axios.get(baseUrl)
-      console.log(data.data)
-      return data.data;
-      } catch (error) {
-
-        console.log(error);
-      }
-      return null;
-    }
-  )
-
-
-  export enum Status {
-    LOADING = 'loading',
-    SUCCESS = 'success',
-    ERROR = 'error',
+    return data.data;
   }
+);
 
-interface Histories{
-    userId: number,
-    id: number,
+export enum Status {
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+export enum StatusCategories {
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+interface Histories {
+  userId: number;
+  id: number;
 }
 interface Booking {
-    customerFirstName: string,
-    customerId: number,
-    customerLastName:string,
-    dateOrder: string,
-    id: number,
-    order: boolean,
+  customerFirstName: string;
+  customerId: number;
+  customerLastName: string;
+  dateOrder: string;
+  id: number;
+  order: boolean;
 }
 
-interface Image{
-  url:string,
+interface Image {
+  url: string;
 }
 
 export interface Book {
-    image: Image,
-    id: number,
-    title: string,
-    authors: string[],
-    booking: Booking | null,
-    issueYear: number,
-    delivery: boolean | null,
-    categories:string[],
-    histories: Histories[] | null,
-    rating: number | null,
+  image: Image;
+  id: number;
+  title: string;
+  authors: string[];
+  booking: Booking | null;
+  issueYear: number;
+  delivery: boolean | null;
+  categories: string[];
+  histories: Histories[] | null;
+  rating: number | null;
+}
+
+interface BooksCategories {
+  id: number;
+  path: string;
+  name: string;
 }
 
 interface BooksState {
-    books: Book[];
-    status: Status;
-    loading: string,
+  books: Book[];
+  status: Status;
+  loading: string;
+  statusCategories: StatusCategories;
+  booksCategories: BooksCategories[],
 }
 
 const initialState: BooksState = {
-    books: [],
-    status: Status.LOADING,
-    loading: '',
-}
+  books: [],
+  status: Status.LOADING,
+  statusCategories: StatusCategories.LOADING,
+  loading: '',
+  booksCategories: [],
+};
 
-
-
- const booksSlice = createSlice({
+const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
+    setLoading(state, action: PayloadAction<string>) {
+      const newState = state;
 
-    setLoading(state,action: PayloadAction<string>) {
-        const newState = state;
-
-        newState.loading = action.payload;
-  },
-
+      newState.loading = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
     builder.addCase(fetchBooks.pending, (state) => {
-        const newState = state;
+      const newState = state;
 
-        newState.status = Status.LOADING;
-        newState.books = [];
-    })
+      newState.status = Status.LOADING;
+      newState.books = [];
+    });
 
-    builder.addCase(fetchBooks.fulfilled, (state, action: PayloadAction<any>) => {
-        const newState = state;
+    builder.addCase(fetchBooks.fulfilled, (state, action: PayloadAction<Book[]>) => {
+      const newState = state;
 
-        newState.books =action.payload;
+      newState.books = action.payload;
       newState.status = Status.SUCCESS;
-    })
+    });
 
     builder.addCase(fetchBooks.rejected, (state) => {
-        const newState = state;
+      const newState = state;
 
-        newState.status = Status.ERROR;
-        newState.books = [];
-    })
-},
-})
+      newState.status = Status.ERROR;
+      newState.books = [];
+    });
 
+    builder.addCase(fetchCategories.pending, (state) => {
+      const newState = state;
 
+      newState.statusCategories = StatusCategories.LOADING;
+      newState.booksCategories = [];
+    });
 
-export const {setLoading} = booksSlice.actions;
+    builder.addCase(fetchCategories.fulfilled, (state, action: PayloadAction<BooksCategories[]>) => {
+      const newState = state;
 
-export default booksSlice.reducer
+      newState.booksCategories = action.payload;
+      newState.statusCategories = StatusCategories.SUCCESS;
+    });
+
+    builder.addCase(fetchCategories.rejected, (state) => {
+      const newState = state;
+
+      newState.statusCategories = StatusCategories.ERROR;
+      newState.booksCategories = [];
+    });
+  },
+});
+
+export const { setLoading } = booksSlice.actions;
+
+export default booksSlice.reducer;

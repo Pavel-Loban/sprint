@@ -4,36 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import BookImageAnather from '../../assets/image/book-image-anather.png';
 import Star from '../../assets/image/icon_star.svg';
 import StarEmpty from '../../assets/image/icon_star_empty.svg';
-import { useAppSelector, useAppDispatch} from '../../hooks/redux-hooks';
+import { useAppDispatch,useAppSelector} from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { Book, setLoading} from '../../store/books-slice';
 import { Button } from '../button';
 
 import styles from './card.module.scss';
 
-// interface Book {
-//     image: string,
-//     id: number,
-//     title: string,
-//     author: string,
-//     year: number,
-//     free: boolean,
-//     returnDate: string,
-//     grade: number,
-// }
 
-
-// interface Props {
-//     image: string,
-//     id: number,
-//     title: string,
-//     author: string,
-//     year: number,
-//     free: boolean,
-//     returnDate: string,
-//     grade: number,
-//     books: Book,
-// }
 
 
 export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, booking, delivery, rating, histories }) => {
@@ -44,14 +22,14 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
 
     const date = new Date()
 
-    const newDate: string = booking?.dateOrder !== undefined ? booking?.dateOrder : '';
+    const newDate: string = booking?.dateOrder === undefined ? '' : booking?.dateOrder;
 
     const dayOrder = new Date(newDate).getDate() >= 10 ? new Date(newDate).getDate() : `0${(new Date(newDate).getDate())}`;
 
     const monthOrder = new Date(newDate).getMonth() + 1 >= 10 ? new Date(newDate).getMonth() + 1 : `0${(new Date(newDate).getMonth() + 1)}`;
 
-    const getBook = (id: number) => {
-        push(`/books/all/${id}`);
+    const getBook = (idx: number) => {
+        push(`/books/all/${idx}`);
         dispatch(setLoading('loading'))
     }
 

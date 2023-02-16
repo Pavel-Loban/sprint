@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 import cnBind from 'classnames/bind';
 
 import { ReactComponent as CloseSearch } from '../../assets/image/close-search.svg';
@@ -29,6 +28,7 @@ export const Search:React.FC = () => {
     const inputIconRef = React.useRef<HTMLImageElement>(null);
     const dispatch = useAppDispatch();
     const { view } = useAppSelector((state: RootState) => state.card);
+    const { status} = useAppSelector((state: RootState) => state.books);
     const { sort } = useAppSelector((state: RootState) => state.sort);
 
 
@@ -98,7 +98,7 @@ export const Search:React.FC = () => {
 
 
 return(
-    <section className={styles.main_search}>
+    <section className={ status === 'success' ? styles.main_search : styles.hide}>
         <section
         className={cx('search', {search_active : isVisibleInput})}
         >

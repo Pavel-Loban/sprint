@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 import {ReactComponent as  Preloader} from '../../assets/image/preloader.svg';
 import { Card } from '../../components/card';
@@ -8,33 +7,21 @@ import {Header} from '../../components/header';
 import { Message } from '../../components/message-after-loading/message';
 import { Search } from '../../components/search/search';
 import { Sections } from '../../components/sections';
-import {data} from '../../data'
 import { useAppDispatch,useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { fetchBooks,setLoading} from '../../store/books-slice';
-import {setCloseError,setIsLoading } from '../../store/card-slice';
+import { fetchBooks} from '../../store/books-slice';
 
 import styles from './main-page.module.scss';
 
 
 
-// interface Book {
-//     image: string,
-//     id: number,
-//     title:string,
-//     author:string,
-//     year: number,
-//     free:boolean,
-//     returnDate:string,
-//     grade: number,
-// }
 
 export const MainPage:React.FC = () => {
 
 
-    const { view, isLoading, closeError } = useAppSelector((state: RootState) => state.card);
+    const { view} = useAppSelector((state: RootState) => state.card);
     const { menuIsOpen} = useAppSelector((state: RootState) => state.burger);
-    const { books, status, loading} = useAppSelector((state: RootState) => state.books);
+    const { books, status} = useAppSelector((state: RootState) => state.books);
     const dispatch = useAppDispatch();
 
 
@@ -60,33 +47,14 @@ React.useEffect(() => {
 },[status])
 
 
-// const getBooks = async () => {
 
-//     try {
-//         await dispatch(fetchBooks(baseUrl));
-//     } catch (error) {
-//         dispatch(setLoading('error'))
-//     }
-
-
-// }
 
 React.useEffect(() => {
 
-    // const getBooks = async () => {
-
-    //     try {
-    //         await dispatch(fetchBooks(baseUrl));
-    //     } catch (error) {
-    //         dispatch(setLoading('error'))
-    //     }
-    // }
-
-    // getBooks();
      dispatch(fetchBooks(baseUrl));
 }, [dispatch])
 
-console.log(status)
+
 
 return(
 
@@ -95,7 +63,7 @@ return(
 > <Preloader className={styles.preloader} width={68.7} height={68.7} /></div>  : null}
     <section className={styles.main_page}>
 
-        {/* {status === 'error' ? <Message/> : ''} */}
+        {status === 'error' ? <Message/> : ''}
         <Header />
         <section className={styles.content}>
             <div

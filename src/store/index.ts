@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import bookSliceReducer from './book-slice';
 import booksSliceReducer from './books-slice';
 import burgerMenuSlice from './burger-slice';
 import cardSliceReducer from './card-slice';
@@ -11,6 +12,7 @@ export const store = configureStore({
       sort: sortSliceReducer,
       burger: burgerMenuSlice,
       books: booksSliceReducer,
+      book: bookSliceReducer,
     },
   });
 

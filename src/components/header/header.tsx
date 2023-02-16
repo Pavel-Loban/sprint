@@ -1,22 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import cn from 'classnames';
-import cnBind from 'classnames/bind';
-import Logo from '../../assets/image/logo.svg';
+
 import Avatar from '../../assets/image/avatar.png';
+import Logo from '../../assets/image/logo.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { setMenuIsOpen } from '../../store/burger-slice';
 
-
 import styles from './header.module.scss';
 
 
-const cx = cnBind.bind(styles);
 
-interface Data {
-  data: string[],
-}
 
 export const Header: React.FC = () => {
 
@@ -51,6 +45,7 @@ export const Header: React.FC = () => {
   React.useEffect(() => {
     const onClickOutsideBurger = (e: MouseEvent) => {
     const ee = e;
+
         if( ee.target !== boxBurgerRef.current && ee.target !== box.current){
           dispatch(setMenuIsOpen(false));
         }
@@ -59,13 +54,14 @@ export const Header: React.FC = () => {
     }
 
     document.body.addEventListener('click',onClickOutsideBurger)
+
     return () => {
       document.body.removeEventListener('click',onClickOutsideBurger);
     };
 
   },[dispatch])
 
-const openAndCloseBurgerMenu = cx({burger_menu : !menuIsOpen}, { burger_menu_active: menuIsOpen})
+
 
   return (
 

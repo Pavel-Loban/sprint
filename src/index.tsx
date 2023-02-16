@@ -16,8 +16,8 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
 
-
-    <Provider store={store}>
+  <React.StrictMode>
+  <Provider store={store}>
       <HashRouter basename="/">
         <Routes>
           <Route path='/' element={<Navigate to='books/all' />} />
@@ -28,5 +28,7 @@ root.render(
         </Routes>
       </HashRouter>
     </Provider>
+  </React.StrictMode>
+
 
 );

@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 
 export const Message: React.FC = () => {
 
-  const { view, isLoading, closeError } = useAppSelector((state: RootState) => state.card);
+  const {  closeError } = useAppSelector((state: RootState) => state.card);
   const dispatch = useAppDispatch();
 
   const closeModalError = () => {

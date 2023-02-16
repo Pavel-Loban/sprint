@@ -8,9 +8,6 @@
     background: rgba(54, 54, 54, 0.3);
     backdrop-filter: blur(10px);
     z-index: 15;
-    .preloader{
-
-    }
 
 }
 
@@ -33,7 +30,6 @@
 
       .menu{
           padding-right: 6px;
-          /* flex: 1 1 100%; */
       }
 
 
@@ -74,7 +70,6 @@
                 margin-top: 70px;
                 flex-wrap: wrap;
                 margin: 70px -5px 0 -5px;
-                /* margin-top: -24px; */
 
                 @media (max-width: 768px) {
                     & {
