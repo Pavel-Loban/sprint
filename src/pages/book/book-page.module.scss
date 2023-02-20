@@ -146,7 +146,7 @@
           }
         }
 
-        & h3 {
+        /* & h3 {
           font-weight: 700;
           font-size: 32px;
           line-height: 40px;
@@ -184,7 +184,7 @@
               margin-top: 8px;
             }
           }
-        }
+        } */
 
         .wrapper_button_book {
           margin-top: 10px;
@@ -347,97 +347,6 @@
       }
     }
 
-    .book_detail_wrapper {
-      display: flex;
-      flex-direction: column;
-      margin-top: 62px;
-
-      & h3 {
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
-        max-width: 350px;
-        border-bottom: 1px solid #ebebeb;
-        padding-bottom: 16px;
-
-        @media (max-width: 450px) {
-          & {
-            font-weight: 700;
-            font-size: 18px;
-            line-height: 28px;
-          }
-        }
-      }
-
-      .book_tables {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        margin-top: 16px;
-
-        @media (max-width: 720px) {
-          & {
-            display: flex;
-            flex-direction: column;
-          }
-        }
-
-        .book_tables_left {
-          font-weight: 400;
-          font-size: 16px;
-          margin-right: 146px;
-
-          .tables_title {
-            font-weight: 600;
-            font-size: 16px;
-            color: #a7a7a7;
-            padding: 5px 0;
-          }
-
-          @media (max-width: 895px) {
-            & {
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 18px;
-            }
-
-            .tables_title {
-              font-weight: 600;
-              font-size: 14px;
-              color: #a7a7a7;
-              padding-right: 30px;
-            }
-          }
-        }
-
-        .book_tables_rigth {
-          font-weight: 400;
-          font-size: 16px;
-
-          .tables_title {
-            font-weight: 600;
-            font-size: 16px;
-            color: #a7a7a7;
-            padding-right: 30px;
-          }
-
-          @media (max-width: 895px) {
-            & {
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 18px;
-            }
-
-            .tables_title {
-              font-weight: 600;
-              font-size: 14px;
-              color: #a7a7a7;
-              padding-right: 30px;
-            }
-          }
-        }
-      }
-    }
   }
 }
 

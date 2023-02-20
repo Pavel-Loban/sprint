@@ -27,16 +27,36 @@ export const Sswiper:React.FC<Props> = ({img, bookImages}) => {
   const date = new Date()
 
 
+
   return (
 
     <React.Fragment>
 
-{img.length !== 0 ?
+{
+
+
+img === null  ?
+
+<Swiper
+
+data-test-id='slide-big'
+  spaceBetween={10}
+  modules={[FreeMode, Navigation, Thumbs,Pagination]}
+  className="mySwiper2"
+>
+
+    <SwiperSlide>
+    <img src={BookImageAnather} alt='book' />
+  </SwiperSlide>
+
+</Swiper>
+
+:
 <Swiper
       data-test-id='slide-big'
         spaceBetween={30}
         navigation={true}
-        pagination={bookImages.length > 1 ? true : false}
+        pagination={img.length > 1 ? true : false}
         thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
         modules={[FreeMode, Navigation, Thumbs,Pagination]}
         className='mySwiper2'
@@ -48,23 +68,8 @@ export const Sswiper:React.FC<Props> = ({img, bookImages}) => {
         </SwiperSlide>
         ))}
       </Swiper>
-      :
-      <Swiper
 
-      data-test-id='slide-big'
-        spaceBetween={10}
-        navigation={true}
-        pagination={bookImages.length > 1 ? true : false}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs,Pagination]}
-        className="mySwiper2"
-      >
 
-          <SwiperSlide>
-          <img src={BookImageAnather} alt='book' />
-        </SwiperSlide>
-
-      </Swiper>
 }
 
 
@@ -72,7 +77,7 @@ export const Sswiper:React.FC<Props> = ({img, bookImages}) => {
 
 
 
-      {bookImages.length !== 1 && bookImages.length !== 0 &&(
+  {img === null ? '' : img.length !== 1 && img.length !== 0 &&  (
         <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={5}

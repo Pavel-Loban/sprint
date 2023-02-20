@@ -8,7 +8,9 @@ import IconSelect from '../../assets/image/select.svg';
 import { ReactComponent as Tile } from '../../assets/image/tile2.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
+import { Book,setBooks } from '../../store/books-slice';
 import { setView,setViewList } from '../../store/card-slice';
+import {setSearch } from '../../store/filter-books-slice';
 import { setSort } from '../../store/sort-slice';
 
 import styles from './search.module.scss';
@@ -19,6 +21,8 @@ interface Lists{
 
 const cx = cnBind.bind(styles);
 
+
+
 export const Search:React.FC = () => {
 
     const sortRef = React.useRef<HTMLImageElement>(null);
@@ -28,8 +32,10 @@ export const Search:React.FC = () => {
     const inputIconRef = React.useRef<HTMLImageElement>(null);
     const dispatch = useAppDispatch();
     const { view } = useAppSelector((state: RootState) => state.card);
-    const { status} = useAppSelector((state: RootState) => state.books);
+    const { status,books} = useAppSelector((state: RootState) => state.books);
     const { sort } = useAppSelector((state: RootState) => state.sort);
+
+    const { search, filterBooks } = useAppSelector((state: RootState) => state.filter);
 
 
     const getView = () => {
@@ -96,6 +102,31 @@ export const Search:React.FC = () => {
         };
       },[])
 
+    //   const [searchValue, setSearchValue] = React.useState<string>('');
+
+    //   const [filterList, setFilterList] = React.useState<[] | Book[]>(books);
+
+    //   console.log(filterList)
+    //   console.log(books)
+
+
+      const changeSearchValue = (e : React.ChangeEvent<HTMLInputElement>) => {
+    // setSearchValue(e.target.value);
+    // console.log(searchValue);
+
+    // const newBooks =  filterBooks.filter((book) => book.title.toLowerCase().includes(searchValue.toLocaleLowerCase())
+    //    )
+
+    //    dispatch(setSearch(e.target.value))
+    //    dispatch(setFilter(books))
+
+
+  }
+
+
+
+
+
 
 return(
     <section className={ status === 'success' ? styles.main_search : styles.hide}>
@@ -110,11 +141,22 @@ return(
             onClick={hideAndShowInputSearch} role='presentation'>
                 <img ref={inputIconRef} src={IconSearch} alt='search' className={styles.icon_search} onClick={hideAndShowInputSearch} role='presentation'/>
             </section>
+
+
+
+
+
             <input data-test-id='input-search' ref={inputRef} className={ isVisibleInput ? styles.input_visible : styles.input}
                 name='text'
                 type='text'
+                value={search}
+                onChange={(e) => dispatch(setSearch(e.target.value))}
                 placeholder='Поиск книги или автора'
             />
+
+
+
+
 
 {!isVisibleInput && <section  className={styles.section_icon_select} >
                 <img ref = {sortRef} src={IconSelect} alt='select' className={styles.icon_select}

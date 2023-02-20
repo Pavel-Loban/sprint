@@ -8,6 +8,7 @@ import { Contract } from './pages/contract';
 import { MainPage } from './pages/main';
 import { Rules } from './pages/rules';
 import { store } from './store';
+import { Layout } from './components/layout/layout';
 
 import './index.scss';
 
@@ -17,14 +18,16 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
 
   <React.StrictMode>
-  <Provider store={store}>
+    <Provider store={store}>
       <HashRouter basename="/">
         <Routes>
-          <Route path='/' element={<Navigate to='books/all' />} />
-          <Route path='/books/all/:id' element={<BookPage />} />
-          <Route path='/books/:subLink' element={<MainPage />} />
-          <Route path='/rules' element={<Rules />} />
-          <Route path='/contract' element={<Contract />} />
+          <Route path='/' element={<Layout />} >
+            <Route path='/' element={<Navigate to='books/all' />} />
+            <Route path='/books/all/:id' element={<BookPage />} />
+            <Route path='/books/:subLink' element={<MainPage />} />
+            <Route path='/rules' element={<Rules />} />
+            <Route path='/contract' element={<Contract />} />
+          </Route>
         </Routes>
       </HashRouter>
     </Provider>

@@ -5,13 +5,15 @@ import { useParams } from 'react-router-dom';
 import Star from '../../assets/image/icon_star.svg';
 import StarEmpty from '../../assets/image/icon_star_empty.svg';
 import { ReactComponent as Preloader } from '../../assets/image/preloader.svg';
+import { Alert } from '../../components/alert/alert';
+import { BreadCrumbs } from '../../components/bread-crumbs/bread-crumbs';
 import { Button } from '../../components/button';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
-import { Message } from '../../components/message-after-loading/message';
 import { Review } from '../../components/review';
 import { Sections } from '../../components/sections';
 import { Sswiper } from '../../components/swiper';
+import { TableBook } from '../../components/table/table-book';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { fetchBook } from '../../store/book-slice';
@@ -25,7 +27,7 @@ import styles from './book-page.module.scss';
 export const BookPage: React.FC = () => {
 
     const dispatch = useAppDispatch();
-    const { books } = useAppSelector((state: RootState) => state.books);
+
     const { menuIsOpen } = useAppSelector((state: RootState) => state.burger);
 
     const { book, statusPageBook } = useAppSelector((state: RootState) => state.book);
@@ -34,7 +36,6 @@ export const BookPage: React.FC = () => {
 
 
 
-    const { loading, statusCategories } = useAppSelector((state: RootState) => state.books)
 
     const URLbook = `https://strapi.cleverland.by/api/books/${id}`
 
@@ -45,7 +46,7 @@ export const BookPage: React.FC = () => {
         dispatch(fetchBook(URLbook))
     }, [URLbook, dispatch])
 
-    console.log(book)
+
 
     React.useEffect(() => {
 
@@ -69,8 +70,7 @@ export const BookPage: React.FC = () => {
     return (
 
         <React.Fragment>
-            {statusPageBook === 'loading' ? <div className={styles.wrapper_preloader} data-test-id='loader'
-            > <Preloader className={styles.preloader} width={68.7} height={68.7} /></div> : null}
+
 
 {!book && <div className={styles.title_error}>
                 <div>
@@ -82,18 +82,14 @@ export const BookPage: React.FC = () => {
 
 
             <section className={styles.book_page}>
-                <Header />
-                {statusPageBook === 'error' ? <div className={styles.message}><Message /></div>  : ''}
+
+                {statusPageBook === 'error' ? <div className={styles.message}><Alert/></div>  : ''}
 
 
 
 
                 <section className={styles.content}>
-                    <div
-                        onClick={e => e.stopPropagation()} role='presentation'
-                        className={menuIsOpen ? styles.burger_menu_active : styles.burger_menu}>
-                        <Sections dataId1='burger-showcase' dataId2='burger-books' isDesktop={false} />
-                    </div>
+
 
 
                     <section className={styles.content}>
@@ -109,9 +105,8 @@ export const BookPage: React.FC = () => {
                                     <Sswiper img={book.images} bookImages={book.images} />
                                 </div>
                                 <section className={styles.book_info}>
-                                    <h3>{book.title}</h3>
-                                    <p className={styles.book_author}>{book.authors}, {book.issueYear}</p>
 
+    <BreadCrumbs title={book.title} author={book.authors} year={book.issueYear}  />
                                     <div className={styles.wrapper_button_book}>
                                         <Button buttonText={book.delivery === null && book.booking === null ? 'ЗАБРОНИРОВАТЬ' : (book.booking === null ? 'ЗАБРОНИРОВАНО' : `ЗАНЯТА ДО ${new Date(book.booking.dateOrder).getDate() >= 10 ? new Date(book.booking.dateOrder).getDate() : `0${new Date(book.booking.dateOrder).getDate()}`}.${new Date(book.booking.dateOrder).getMonth() + 1 >= 10 ? new Date(book.booking.dateOrder).getMonth() + 1 : `0${new Date(book.booking.dateOrder).getMonth() + 1}`}
                             `)} delivery={book.delivery} booking={book.booking} order={book.booking?.order} />
@@ -145,47 +140,8 @@ export const BookPage: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <section className={styles.book_detail_wrapper}>
-                                <h3>Подробная информация</h3>
-                                <div className={styles.book_tables}>
-                                    <table className={styles.book_tables_left}>
-                                        <tbody>
-                                            <tr >
-                                                <td className={styles.tables_title}>Издательство</td><td >{book.publish}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className={styles.tables_title}>Год издания</td><td >{book.issueYear}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className={styles.tables_title}>Страниц</td><td >{book.pages} </td>
-                                            </tr>
-                                            <tr>
-                                                <td className={styles.tables_title}>Переплёт</td><td >{book.cover}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className={styles.tables_title}>Формат</td><td >{book.format}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <table className={styles.book_tables_rigth}>
-                                        <tbody>
-                                            <tr>
-                                                <td className={styles.tables_title}>Жанр</td><td>{book.categories}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className={styles.tables_title}>Вес</td><td>{book.weight} г</td>
-                                            </tr>
-                                            <tr>
-                                                <td className={styles.tables_title}>ISBN</td><td>{book.ISBN}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className={styles.tables_title}> Изготовитель</td><td>{book.producer}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <TableBook/>
 
-                            </section>
                             {book.comments &&
                                 book.comments.map((comment) => (
                                     <Review key={comment.id} rating={book.rating} delivery={book.delivery} booking={book.booking} createdAt={comment.createdAt} id={comment.id} commentRating={comment.rating} text={comment.text} user={comment.user} comments={book.comments} />
@@ -197,7 +153,7 @@ export const BookPage: React.FC = () => {
                 </section>
 
 
-                <Footer />
+
             </section>
         </React.Fragment>
 

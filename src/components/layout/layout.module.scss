@@ -1,4 +1,4 @@
-/* .wrapper_preloader{
+.wrapper_preloader{
     position: absolute;
     width: 100%;
     height: 100vh;
@@ -9,10 +9,16 @@
     backdrop-filter: blur(10px);
     z-index: 15;
 
-} */
+}
 
 
-
+.main_page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 1110px;
+    margin: 0 auto;
 
 
     .content {
@@ -36,85 +42,41 @@
       }
 
 
-
-      /* .menu2 {
-          @extend %box_burger;
-          left: 0;
-          top: 90px;
-          height: 85vh;
-          overflow-y: scroll;
-      } */
-
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            flex: 0 1 100%;
-
-            @media (max-width: 420px) {
-                & {
-                    margin-top: -30px;
-                }
-            }
-
-            .wrapper {
-                display: flex;
-                justify-content: space-between;
-                margin-top: 70px;
-                flex-wrap: wrap;
-                margin: 70px -5px 0 -5px;
-
-                @media (max-width: 768px) {
-                    & {
-                        margin: 24px -5px 0 -5px;
-                    }
-                }
+      %box_burger {
+        position: absolute;
+        z-index: 10;
+        top: 90px;
+        background: #F9F9FA;
+        width: 502px;
+        box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
+        border-radius: 10px;
+        padding: 32px 32px 32px 32px;
+        transition: left 0.3s ease 0s;
 
 
-                @media (max-width: 426px) {
-                    & {
-                        justify-content: center;
-                    }
-                }
-            }
-
-            .wrapper_list {
-                display: flex;
-                flex-direction: column;
-                margin: 70px -5px 0 -5px;
-
-                @media (max-width: 768px) {
-                    & {
-                        margin: 24px -5px 0 -5px;
-                    }
-                }
-            }
-
-        }
 
     }
 
 
 
 
+      .menu2 {
+          @extend %box_burger;
+          left: 0;
+          top: 90px;
+          height: 85vh;
+          overflow-y: scroll;
+      }
 
 
-/* %box_burger {
-    position: absolute;
-    z-index: 10;
-    top: 90px;
-    background: #F9F9FA;
-    width: 502px;
-    box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
-    border-radius: 10px;
-    padding: 32px 32px 32px 32px;
-    transition: left 0.3s ease 0s;
-    height: 100%;
 
 
-} */
+    }
 
-/*
+}
+
+
+
 .burger_menu_active {
     @extend %box_burger;
     left: 10px;
@@ -180,4 +142,4 @@
 }
 
 
- */
+

@@ -13,6 +13,7 @@ export const fetchBook = createAsyncThunk(
   );
 
 export enum StatusPageBook {
+  NOTHING = 'nothing',
     LOADING = 'loading',
     SUCCESS = 'success',
     ERROR = 'error',
@@ -73,7 +74,7 @@ interface Comments {
 
   const initialState: BookPageState = {
     book: null  ,
-    statusPageBook: StatusPageBook.LOADING,
+    statusPageBook: StatusPageBook.NOTHING,
   };
 
 

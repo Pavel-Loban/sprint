@@ -1,16 +1,4 @@
-.wrapper_preloader {
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(54, 54, 54, 0.3);
-    backdrop-filter: blur(10px);
-    z-index: 15;
-    .preloader {
-    }
-  }
+
 
 .contract_page {
     min-height: 100vh;
@@ -21,7 +9,6 @@
 
     .content {
         flex: 1 1 auto;
-        margin-top: 30px;
         display: flex;
         flex-direction: row;
 
@@ -103,84 +90,3 @@
     }
 }
 
-
-
-%box_burger {
-    position: absolute;
-    z-index: 10;
-    top: 90px;
-    background: #F9F9FA;
-    width: 502px;
-    box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
-    border-radius: 10px;
-    padding: 32px 32px 52px 32px;
-    transition: left 0.3s ease 0s;
-    height: 100%;
-
-
-}
-
-
-.burger_menu_active {
-    @extend %box_burger;
-    left: 10px;
-    height: 85%;
-    overflow-y: scroll;
-
-
-    @media (min-width: 769px) {
-         & {
-             left: -130%;
-         }
-     }
-
-    @media (max-width: 530px) {
-        & {
-            position: absolute;
-            width: 312px;
-            padding: 32px 0px 52px 16px;
-            left: 10px;
-
-        }
-    }
-
-    @media (max-width: 500px) {
-        & {
-            top: 76px;
-        }
-    }
-}
-
-.burger_menu {
-    left: -130%;
-
-
-    @media (min-width: 769px) {
-        & {
-            display: none;
-        }
-    }
-
-    @media (max-width: 768px) {
-        & {
-            position: absolute;
-        }
-    }
-
-
-    @media (max-width: 530px) {
-        & {
-            position: absolute;
-            width: 312px;
-            padding: 32px 0px 52px 16px;
-            height: 100%;
-        }
-    }
-
-    @media (max-width: 500px) {
-        & {
-            top: 76px;
-        }
-    }
-
-}

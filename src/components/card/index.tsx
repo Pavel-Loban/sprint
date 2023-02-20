@@ -12,6 +12,28 @@ import { Button } from '../button';
 import styles from './card.module.scss';
 
 
+// const HightLight = (filter:string, str:string) => {
+
+
+
+//     if(!filter) return str;
+//     const regexp = new RegExp(filter, 'ig');
+//     const matchValues = str.match(regexp);
+
+//     if(matchValues){
+//         return str.split(regexp).map((s,index, array) => {
+//             if(index < array.length - 1) {
+//                 const c = matchValues.shift();
+
+//                 return <React.Fragment>{s}<span style={{color: 'red'}} >{c}</span></React.Fragment>
+//             }
+
+//             return s;
+//         })
+//     }
+
+//     return null;
+//   }
 
 
 export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, booking, delivery, rating, histories }) => {
@@ -32,6 +54,13 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
         push(`/books/all/${idx}`);
         dispatch(setLoading('loading'))
     }
+
+
+    const { search, filterBooks } = useAppSelector((state: RootState) => state.filter);
+
+    // const light = React.useCallback((str:string) => (
+    // <HightLight str={str} filter={search}/>
+    // ),[search])
 
     return (
 

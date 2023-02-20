@@ -58,7 +58,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
 
     }
 
-    const baseUrl = 'https://strapi.cleverland.by/api/books';
+
 
     const getAllBook = (path: string) => {
         const baseUrl = 'https://strapi.cleverland.by/api/books';
@@ -99,7 +99,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
     }
 
 
-    const URLCategories = 'https://strapi.cleverland.by/api/categories';
+
 
     React.useEffect(() => {
 
@@ -114,11 +114,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
     },[status, statusCategories])
 
 
-    React.useEffect(() => {
 
-        dispatch(fetchCategories(URLCategories))
-        dispatch(fetchBooks(baseUrl))
-    }, [dispatch])
 
 
 
