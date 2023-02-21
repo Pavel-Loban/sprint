@@ -1,0 +1,32 @@
+.wrapper_alert {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 130px;
+  white-space: pre-line;
+
+  .message_alert {
+    text-align: center;
+    color: #a7a7a7;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 40px;
+
+    br{
+        display: none;
+    }
+
+    @media (max-width: 500px) {
+      & {
+        font-size: 18px;
+        line-height: 28px;
+        margin-top: -53px;
+
+        br{
+            display: block;
+        }
+      }
+    }
+  }
+}

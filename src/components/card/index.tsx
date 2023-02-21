@@ -11,37 +11,50 @@ import { Button } from '../button';
 
 import styles from './card.module.scss';
 
-
-// const HightLight = (filter:string, str:string) => {
-
-
-
-//     if(!filter) return str;
-//     const regexp = new RegExp(filter, 'ig');
-//     const matchValues = str.match(regexp);
-
-//     if(matchValues){
-//         return str.split(regexp).map((s,index, array) => {
-//             if(index < array.length - 1) {
-//                 const c = matchValues.shift();
-
-//                 return <React.Fragment>{s}<span style={{color: 'red'}} >{c}</span></React.Fragment>
-//             }
-
-//             return s;
-//         })
-//     }
-
-//     return null;
-//   }
+interface Props {
+    filter:string,
+    str:string,
+}
 
 
-export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, booking, delivery, rating, histories }) => {
+const HightLigh: React.FC<Props> = ({filter, str}) => {
+
+    if(!filter) return  <span>{str}</span> ;
+    const regexp = new RegExp(filter, 'ig');
+    const matchValues = str.match(regexp);
+
+    if(matchValues){
+
+
+        return (
+
+        <React.Fragment>
+        {str.split(regexp).map((foundText,index, array) => {
+            if(index < array.length - 1) {
+                const enteredText = matchValues.shift();
+
+                return <React.Fragment key={Math.random() * new Date().getMilliseconds()} >{foundText}<span style={{color: 'rgba(255, 82, 83, 1)'}} data-test-id='highlight-matches'>{enteredText}</span></React.Fragment>
+            }
+
+            return foundText ;
+        })}
+         </React.Fragment>
+        )
+    }
+
+    return null;
+  }
+
+
+export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, booking, delivery, rating, categories, histories }) => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
     const { view } = useAppSelector((state: RootState) => state.card);
+    const { book } = useAppSelector((state: RootState) => state.book);
 
+
+    // console.log(book)
     const date = new Date()
 
     const newDate: string = booking?.dateOrder === undefined ? '' : booking?.dateOrder;
@@ -50,17 +63,28 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
 
     const monthOrder = new Date(newDate).getMonth() + 1 >= 10 ? new Date(newDate).getMonth() + 1 : `0${(new Date(newDate).getMonth() + 1)}`;
 
-    const getBook = (idx: number) => {
-        push(`/books/all/${idx}`);
+    const { search, filterBooks } = useAppSelector((state: RootState) => state.filter);
+
+    const {booksCategories} = useAppSelector((state: RootState) => state.books);
+
+    // получить категорию книг в path
+    const getBook = (idx: number, category:string[]) => {
+        const path = booksCategories.filter((item) =>  category.includes(item.name)
+
+        )
+
+        push(`/books/${path[0].path}/${idx}`);
         dispatch(setLoading('loading'))
     }
 
 
-    const { search, filterBooks } = useAppSelector((state: RootState) => state.filter);
 
-    // const light = React.useCallback((str:string) => (
-    // <HightLight str={str} filter={search}/>
-    // ),[search])
+
+    const light = React.useCallback((str:string) => (
+
+        <HightLigh str={str} filter={search}/>
+
+    ),[search])
 
     return (
 
@@ -68,7 +92,9 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
 
             {view ? <section className={styles.book_card}>
                 <img data-test-id='card' src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image}
-                    onClick={() => getBook(id)} onKeyDown={() => getBook(id)} role='presentation'
+                    onClick={() => getBook(id, categories)}
+                    // onKeyDown={() => getBook(id)}
+                    role='presentation'
                 />
                 <div className={styles.book_grade}>
 
@@ -82,7 +108,9 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
                 </div>
                 <div className={styles.book_footer}>
                     <div className={styles.book_title}>
-                        <h3 onClick={() => getBook(id)} role='presentation'>{title}</h3>
+                        <h3 onClick={() => getBook(id,categories)} role='presentation'>
+                           {light( title)}
+                            </h3>
                     </div>
                     <div className={styles.book_info}>
                         {authors}, {issueYear}
@@ -95,10 +123,10 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
                 <section className={styles.book_card_list}>
                     <div className={styles.book_card_list_wrapper}>
                         <img data-test-id='card' src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image_list}
-                            onClick={() => getBook(id)} onKeyDown={() => getBook(id)} role='presentation'
+                            onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'
                         />
                         <div className={styles.book_card_info} >
-                            <h3 onClick={() => getBook(id)} onKeyDown={() => getBook(id)} role='presentation'>{title}</h3>
+                            <h3 onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'>{title}</h3>
                             <div className={styles.book_info}>
                                 {authors}, {issueYear}
                             </div>

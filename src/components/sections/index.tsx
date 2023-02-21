@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import {fetchBooks, fetchCategories} from '../../store/books-slice';
 import { setCategoriesBooks, setMenuIsOpen } from '../../store/burger-slice';
+import { setFilter} from '../../store/filter-books-slice';
 
 import styles from './sections.module.scss';
 
@@ -50,13 +51,34 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
     const dispatch = useAppDispatch();
     const { categoriesBooksShowOrHide } = useAppSelector((state: RootState) => state.burger);
     const {books, status, booksCategories, statusCategories} = useAppSelector((state: RootState) => state.books);
-    const getBook = (path: string) => {
+
+    const { filterBooks } = useAppSelector((state: RootState) => state.filter);
+
+
+    const getBook = (path: string, name: string) => {
         push(`/books/${path}`);
 
+        // dispatch(setFilter(books))
         dispatch(setMenuIsOpen(false));
         dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
 
+
+        const filterCategories = books.filter((book) =>
+        book.categories.includes(name))
+
+        // console.log(name)
+        //  console.log(filterCategories)
+        //  dispatch(setFilter(books))
+        dispatch(setFilter(filterCategories))
+
     }
+
+
+        // console.log(booksCategories)
+
+    React.useEffect(() => {
+
+    },[filterBooks])
 
 
 
@@ -100,7 +122,6 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
 
 
 
-
     React.useEffect(() => {
 
 
@@ -115,7 +136,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
 
 
 
-
+// console.log(booksCategories)
 
 
 
@@ -160,10 +181,10 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
 
                                 {booksCategories.map((item) => (
 
-                                    <p key={item.path} className={location.pathname.includes(item.path) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.path)} role='presentation'
+                                    <p key={item.id} className={location.pathname.includes(`/${item.path}`) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.path,item.name)} role='presentation'
                                         style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
                                     >{item.name}
-                                    <span>{books.filter((book)  => book.categories[0] === item.name).length }</span>
+                                    <span>{books.filter((book)  => book.categories.includes(item.name)).length }</span>
                                     </p>
                             ))}
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { AlertSearch } from '../../components/alert-search-books/alert-search';
 
 import { Card } from '../../components/card';
 import { Search } from '../../components/search/search';
@@ -55,37 +56,25 @@ React.useEffect(() => {
 
 const { search, filterBooks } = useAppSelector((state: RootState) => state.filter);
 
-const filterBooksArray =  filterBooks.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
+// const filterBooksArray =  filterBooks.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
 
-    console.log(search)
-    console.log(filterBooksArray)
+// const filterBooksArray =  books.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
+
+    // console.log(search)
+    // console.log(filterBooksArray)
 
   React.useEffect(() => {
-
     dispatch(setFilter(books));
+    if(search){
+        const filterBooksArray =  books.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
 
-  },[books, filterBooks, search, dispatch])
+        dispatch(setFilter(filterBooksArray));
+    }
+    // dispatch(setFilter(books));
+    // dispatch(setFilter(filterBooksArray));
+  },[books,  search, dispatch])
 
-//   const HightLight = (filter:string,str:string) => {
 
-//     if(!filter) return str;
-//     const regexp = new RegExp(filter, 'ig');
-//     const matchValues = str.match(regexp);
-
-//     if(matchValues){
-//         return str.split(regexp).map((s,index, array) => {
-//             if(index < array.length - 1) {
-//                 const c = matchValues.shift();
-
-//                 return <React.Fragment>{s}<span style={{color: 'red'}} >{c}</span></React.Fragment>
-//             }
-
-//             return s;
-//         })
-//     }
-
-//     return null;
-//   }
 
 return(
 
@@ -101,10 +90,16 @@ return(
         <div className={styles.container}>
         <Search  />
         <section className={view ?  styles.wrapper : styles.wrapper_list}>
-            {
-            filterBooksArray.map((book) => (
+            { filterBooks.length === 0 && search !== '' ?
+
+
+            <AlertSearch  />
+            :
+            filterBooks.map((book) => (
                 <Card  key={book.id} id={book.id} image={book.image} title={book.title} authors={book.authors} issueYear={book.issueYear}  booking={book.booking} delivery={book.delivery} categories={book.categories} histories={book.histories} rating={book.rating} />
-            ))}
+            ))
+
+        }
         </section>
         </div>
 

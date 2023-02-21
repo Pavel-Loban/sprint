@@ -51,11 +51,11 @@
             flex-direction: column;
             flex: 0 1 100%;
 
-            @media (max-width: 420px) {
+            /* @media (max-width: 420px) {
                 & {
-                    margin-top: -30px;
+                    margin-top: 30px;
                 }
-            }
+            } */
 
             .wrapper {
                 display: flex;
