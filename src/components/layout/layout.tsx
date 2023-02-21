@@ -32,7 +32,7 @@ export const Layout = () => {
           <div
           onClick={e => e.stopPropagation() } role='presentation'
           className={ menuIsOpen ? styles.burger_menu_active :styles.burger_menu}>
-          <Sections dataId1='burger-showcase' dataId2='burger-books' isDesktop={false}/>
+          <Sections dataId1='burger-showcase' dataId2='burger-books' dataIdCategory='burger' isDesktop={false}/>
           </div>
 
 

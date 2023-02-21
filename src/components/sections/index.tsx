@@ -33,6 +33,7 @@ interface Text {
 interface Props {
     dataId1: string,
     dataId2: string,
+    dataIdCategory:string,
     isDesktop?: boolean,
 }
 
@@ -42,7 +43,7 @@ interface Categories {
     name: string,
 }
 
-export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
+export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdCategory }) => {
 
     const box = React.useRef<HTMLUListElement>(null);
     const push = useNavigate();
@@ -159,7 +160,9 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
                                 location.pathname === item.link
 
                                 ? styles.subTitle_active : styles.subTitle} >
-                        {item.title !== 'Витрина книг' ? <p
+                        {item.title !== 'Витрина книг'
+                        ?
+                        <p
                             data-test-id={!isDesktop ? item.testIdBoorger : item.testId}
                             onClick={() => getActiveTextLink(item.id, item.link)} role='presentation'>{item.title}
                         </p>
@@ -183,8 +186,17 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop }) => {
 
                                     <p key={item.id} className={location.pathname.includes(`/${item.path}`) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.path,item.name)} role='presentation'
                                         style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+                                        data-test-id={isDesktop ? `navigation-${item.path}`
+                                    : `burger-${item.path}`}
                                     >{item.name}
-                                    <span>{books.filter((book)  => book.categories.includes(item.name)).length }</span>
+                                    <span
+                                    data-test-id= {isDesktop
+                                        ?
+                                         `navigation-book-count-for-${item.path}`
+                                        :
+                                        `burger-book-count-for-${item.path}`
+                                    }
+                                    >{books.filter((book)  => book.categories.includes(item.name)).length }</span>
                                     </p>
                             ))}
 

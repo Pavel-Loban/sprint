@@ -1,10 +1,13 @@
+
 import React from 'react';
 import cnBind from 'classnames/bind';
 
 import { ReactComponent as CloseSearch } from '../../assets/image/close-search.svg';
 import { ReactComponent as List } from '../../assets/image/list2.svg';
 import IconSearch from '../../assets/image/search.svg';
-import IconSelect from '../../assets/image/select.svg';
+// import IconSelect from '../../assets/image/select.svg';
+import { ReactComponent as IconSelectDown} from '../../assets/image/select.svg';
+import { ReactComponent as IconSelectUp} from '../../assets/image/selectUp.svg';
 import { ReactComponent as Tile } from '../../assets/image/tile2.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
@@ -52,13 +55,14 @@ export const Search:React.FC = () => {
 
     const [isVisiblePopup,setIsVisiblePopup] = React.useState(false);
     const [isVisibleInput,setIsVisibleInput] = React.useState(false);
+
     const list = [
         {name:'По рейтингу' },
         {name:'По популярности '},
         ];
 
     const getPopupVisible = () => {
-        setIsVisiblePopup(true);
+        setIsVisiblePopup(!isVisiblePopup);
     }
 
     const getPopupHide = (key:string,list:Lists) => {
@@ -77,7 +81,7 @@ export const Search:React.FC = () => {
         setIsVisibleInput(false);
     }
 
-
+console.log(filterBooks)
 
     React.useEffect(() => {
         if(isVisibleInput){
@@ -85,22 +89,61 @@ export const Search:React.FC = () => {
         }
     },[isVisibleInput])
 
-
     React.useEffect(() => {
-        const onClickOutsideSort = (e: MouseEvent) => {
-        const ee = e;
+        if(isVisiblePopup){
 
-            if(ee.target !== sortRef.current &&  ee.target !== sortRefPopup.current){
-                setIsVisiblePopup(false);
+        //     filterBooks.forEach((item) => {
+        //     if(item.rating === null) {
+        //         (...item, item.rating = 0)
+
+        //         console.log(item.rating)
+        //     }
+        // })
+            filterBooks.sort((a,b) => {
+
+
+                if(a.rating===b.rating){
+                    return 0;
+                }
+                if(a.rating === null ){
+                   return  1
+                }
+                if(b.rating === null ){
+                    return  -1
+                 }
+
+                return a.rating < b.rating ? 1 : -1
+                // return null
             }
+        )
         }
+        // else{
+        //     filterBooks.sort((a,b) =>
+        //     {if(!b.rating || !a.rating ){
+        //        return  -1;
+        //     }
 
-        document.body.addEventListener('click',onClickOutsideSort)
+        //     return a.rating < b.rating ? 1 : -1
+        // }
+        // )
+        // }
+    },[isVisiblePopup,filterBooks])
 
-        return () => {
-          document.body.removeEventListener('click',onClickOutsideSort);
-        };
-      },[])
+    // React.useEffect(() => {
+    //     const onClickOutsideSort = (e: MouseEvent) => {
+    //     const ee = e;
+
+    //         if(ee.target !== sortRef.current &&  ee.target !== sortRefPopup.current){
+    //             setIsVisiblePopup(false);
+    //         }
+    //     }
+
+    //     document.body.addEventListener('click',onClickOutsideSort)
+
+    //     return () => {
+    //       document.body.removeEventListener('click',onClickOutsideSort);
+    //     };
+    //   },[])
 
     //   const [searchValue, setSearchValue] = React.useState<string>('');
 
@@ -158,14 +201,34 @@ return(
 
 
 
-{!isVisibleInput && <section  className={styles.section_icon_select} >
-                <img ref = {sortRef} src={IconSelect} alt='select' className={styles.icon_select}
+{!isVisibleInput && <section  className={styles.section_icon_select}
+data-test-id='sort-rating-button'
+onClick={getPopupVisible} role='presentation'>
+                {/* <img ref = {sortRef} src={IconSelect} alt='select' className={styles.icon_select}
                 onClick={getPopupVisible} role='presentation'
-                />
+                /> */}
+                {isVisiblePopup
+                ?
+                <React.Fragment>
+                <IconSelectUp className={styles.icon_select}
+                onClick={getPopupVisible} role='presentation'/>
                 <span ref = {sortRefPopup}
                 onClick={getPopupVisible} role='presentation'
                 >{sort.name}</span>
-                { isVisiblePopup && (
+                </React.Fragment>
+
+                :
+                <React.Fragment>
+                <IconSelectDown className={styles.icon_select}
+                onClick={getPopupVisible} role='presentation'/>
+                <span ref = {sortRefPopup}
+                onClick={getPopupVisible} role='presentation'
+                >{sort.name}</span>
+                </React.Fragment>
+
+            }
+
+                {/* { isVisiblePopup && (
             <div className={styles.sort__popup}>
          <ul >
           {list.map((obj)=> <li  key={obj.name}
@@ -175,7 +238,7 @@ return(
             </li>)}
          </ul>
        </div>
-)}
+)} */}
             </section>
 }
         </section>

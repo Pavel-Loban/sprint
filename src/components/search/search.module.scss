@@ -155,12 +155,16 @@
             }
 
             .icon_select {
-                height: 32px;
-                padding: 8px 8px 8px 16px;
+                height: 25px;
+                width: 25px;
+                margin: 0px 11px 0px 16px;
 
                 @media (max-width: 580px) {
                     & {
-                        padding: 8px;
+                        height: 18px;
+                width: 18px;
+                        /* padding: 8px; */
+                        margin: 0;
                     }
                 }
             }

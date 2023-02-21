@@ -1,4 +1,5 @@
 import React from 'react';
+import { AlertBooksNone } from '../../components/alert-books-none/alert-books-none';
 import { AlertSearch } from '../../components/alert-search-books/alert-search';
 
 import { Card } from '../../components/card';
@@ -84,21 +85,37 @@ return(
 
 
             <div className={styles.menu}>
-            <Sections dataId1='navigation-showcase' dataId2='navigation-books' isDesktop={true}/>
+            <Sections dataId1='navigation-showcase' dataId2='navigation-books' dataIdCategory='navigation' isDesktop={true}/>
             </div>
 
         <div className={styles.container}>
         <Search  />
+
         <section className={view ?  styles.wrapper : styles.wrapper_list}>
-            { filterBooks.length === 0 && search !== '' ?
 
 
+        {/* { filterBooks.length === 0 && search !== '' && <AlertSearch  />}
+
+        {books.length && filterBooks.length === 0 && search === '' &&<AlertBooksNone/>}
+
+        {filterBooks.length && search === '' && filterBooks.map((book) => (
+                <Card  key={book.id} id={book.id} image={book.image} title={book.title} authors={book.authors} issueYear={book.issueYear}  booking={book.booking} delivery={book.delivery} categories={book.categories} histories={book.histories} rating={book.rating} />
+            ))} */}
+
+            { filterBooks.length === 0 && search !== ''
+             ?
             <AlertSearch  />
             :
-            filterBooks.map((book) => (
+            (
+                books.length && filterBooks.length === 0 && search === ''
+
+                ?
+                <AlertBooksNone/>
+                :
+                filterBooks.map((book) => (
                 <Card  key={book.id} id={book.id} image={book.image} title={book.title} authors={book.authors} issueYear={book.issueYear}  booking={book.booking} delivery={book.delivery} categories={book.categories} histories={book.histories} rating={book.rating} />
             ))
-
+            )
         }
         </section>
         </div>
