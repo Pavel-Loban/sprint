@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import {fetchBooks, fetchCategories} from '../../store/books-slice';
 import { setCategoriesBooks, setMenuIsOpen } from '../../store/burger-slice';
-import { setFilter} from '../../store/filter-books-slice';
+import { setCategory} from '../../store/filter-books-slice';
 
 import styles from './sections.module.scss';
 
@@ -53,37 +53,35 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
     const { categoriesBooksShowOrHide } = useAppSelector((state: RootState) => state.burger);
     const {books, status, booksCategories, statusCategories} = useAppSelector((state: RootState) => state.books);
 
-    const { filterBooks } = useAppSelector((state: RootState) => state.filter);
+    // const { filterBooks } = useAppSelector((state: RootState) => state.filter);
 
 
     const getBook = (path: string, name: string) => {
         push(`/books/${path}`);
-
-        // dispatch(setFilter(books))
+        // console.log('name', name)
         dispatch(setMenuIsOpen(false));
         dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
+        dispatch(setCategory(name))
 
-
-        const filterCategories = books.filter((book) =>
-        book.categories.includes(name))
+        // const filterCategories = books.filter((book) =>
+        // book.categories.includes(name))
 
         // console.log(name)
         //  console.log(filterCategories)
         //  dispatch(setFilter(books))
-        dispatch(setFilter(filterCategories))
+        // dispatch(setFilter(filterCategories))
 
     }
 
 
         // console.log(booksCategories)
 
-    React.useEffect(() => {
 
-    },[filterBooks])
 
 
 
     const getAllBook = (path: string) => {
+        dispatch(setCategory(''));
         const baseUrl = 'https://strapi.cleverland.by/api/books';
 
         push(`/books/${path}`);
@@ -177,10 +175,12 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
                         {item.title === 'Витрина книг' ?
                         <div className={status === 'success' ?  styles.divFirst : styles.hide }>
-                        <p data-test-id={dataId2}
-                                         className={location.pathname.includes('all') ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getAllBook('all')} role='presentation'
-                                        style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
-                                    >Все книги </p>
+                    {statusCategories === 'success' &&
+                    <p data-test-id={dataId2}
+                    className={location.pathname.includes('all') ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getAllBook('all')} role='presentation'
+                   style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+               >Все книги </p>
+                    }
 
                                 {booksCategories.map((item) => (
 

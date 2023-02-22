@@ -1,14 +1,13 @@
 import React from 'react';
+
 import { AlertBooksNone } from '../../components/alert-books-none/alert-books-none';
 import { AlertSearch } from '../../components/alert-search-books/alert-search';
-
 import { Card } from '../../components/card';
 import { Search } from '../../components/search/search';
 import { Sections } from '../../components/sections';
 import { useAppDispatch,useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import {Book, fetchBooks, fetchCategories} from '../../store/books-slice';
-import { setFilter} from '../../store/filter-books-slice';
 
 import styles from './main-page.module.scss';
 
@@ -55,25 +54,86 @@ React.useEffect(() => {
 }, [dispatch])
 
 
-const { search, filterBooks } = useAppSelector((state: RootState) => state.filter);
+const { search,  category, isDescSort } = useAppSelector((state: RootState) => state.filter);
 
-// const filterBooksArray =  filterBooks.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
 
-// const filterBooksArray =  books.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
+const  [booksCopy,setBooksCopy] = React.useState<Book[]>(books);
 
-    // console.log(search)
-    // console.log(filterBooksArray)
+console.log('booksCopy', booksCopy)
 
   React.useEffect(() => {
-    dispatch(setFilter(books));
-    if(search){
+
+    // setBooksCopy(books)
+
+    if(search && !category){
+        // setBooksCopy(books)
+
         const filterBooksArray =  books.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
 
-        dispatch(setFilter(filterBooksArray));
+        console.log('filterBooksArray', filterBooksArray)
+        setBooksCopy(() => filterBooksArray)
+
     }
-    // dispatch(setFilter(books));
-    // dispatch(setFilter(filterBooksArray));
-  },[books,  search, dispatch])
+
+    if(category){
+        // setBooksCopy(books)
+        const filterCategories = books.filter((book) =>
+         book.categories.includes(category))
+
+        console.log('filterCategories',filterCategories)
+         setBooksCopy(() => filterCategories)
+         if(search){
+            const filterBooksArray =  filterCategories.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
+            console.log('filterBooksArray', filterBooksArray)
+        setBooksCopy(() => filterBooksArray)
+         }
+    }
+
+    if(isDescSort){
+        // setBooksCopy(books)
+        const descBooks = [...books]
+
+        descBooks.sort((a,b) => {
+
+
+            if(a.rating === b.rating){
+                return 0;
+            }
+            if(a.rating === null ){
+               return  1
+            }
+            if(b.rating === null ){
+                return  -1
+             }
+
+            return a.rating < b.rating ? 1 : -1
+        }
+            )
+            setBooksCopy(() => descBooks)
+    }
+
+    if(!isDescSort){
+        const ascBooks = [...books]
+
+        ascBooks.sort((a,b) => {
+
+            if(a.rating === b.rating){
+                return 0;
+            }
+            if(a.rating === null ){
+               return  -1
+            }
+            if(b.rating === null ){
+                return  1
+             }
+
+            return a.rating > b.rating ? 1 : -1
+        }
+            )
+            setBooksCopy(() => ascBooks)
+    }
+
+  },[books,  search, category, isDescSort])
 
 
 
@@ -94,25 +154,17 @@ return(
         <section className={view ?  styles.wrapper : styles.wrapper_list}>
 
 
-        {/* { filterBooks.length === 0 && search !== '' && <AlertSearch  />}
-
-        {books.length && filterBooks.length === 0 && search === '' &&<AlertBooksNone/>}
-
-        {filterBooks.length && search === '' && filterBooks.map((book) => (
-                <Card  key={book.id} id={book.id} image={book.image} title={book.title} authors={book.authors} issueYear={book.issueYear}  booking={book.booking} delivery={book.delivery} categories={book.categories} histories={book.histories} rating={book.rating} />
-            ))} */}
-
-            { filterBooks.length === 0 && search !== ''
+            { booksCopy.length === 0 && search !== ''
              ?
             <AlertSearch  />
             :
             (
-                books.length && filterBooks.length === 0 && search === ''
+                books.length && booksCopy.length === 0 && search === ''
 
                 ?
                 <AlertBooksNone/>
                 :
-                filterBooks.map((book) => (
+                booksCopy.map((book) => (
                 <Card  key={book.id} id={book.id} image={book.image} title={book.title} authors={book.authors} issueYear={book.issueYear}  booking={book.booking} delivery={book.delivery} categories={book.categories} histories={book.histories} rating={book.rating} />
             ))
             )

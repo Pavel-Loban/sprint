@@ -5,33 +5,48 @@ import { Book } from './books-slice';
 
 
 interface FilterState {
-    filterBooks: Book[];
+    // filterBooks: Book[];
     search: string,
+    category: string,
+    isDescSort: boolean,
   }
 
   const initialState: FilterState = {
-    filterBooks: [],
+    // filterBooks: [],
     search: '',
+    category:'',
+    isDescSort: true,
   };
 
   const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
-      setFilter(state, action: PayloadAction<Book[]>) {
-        const newState = state;
+      // setFilter(state, action: PayloadAction<Book[]>) {
+      //   const newState = state;
 
-        newState.filterBooks = action.payload;
-      },
+      //   newState.filterBooks = action.payload;
+      // },
       setSearch(state, action: PayloadAction<string>) {
         const newState = state;
 
         newState.search = action.payload;
       },
 
+      setCategory(state, action: PayloadAction<string>) {
+        const newState = state;
+
+        newState.category = action.payload;
+      },
+      setIsDescSort(state, action: PayloadAction<boolean>) {
+        const newState = state;
+
+        newState.isDescSort = action.payload;
+      },
+
     },
 });
 
-export const { setFilter, setSearch } = filterSlice.actions;
+export const { setSearch, setCategory, setIsDescSort } = filterSlice.actions;
 
 export default filterSlice.reducer;

@@ -63,7 +63,7 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
 
     const monthOrder = new Date(newDate).getMonth() + 1 >= 10 ? new Date(newDate).getMonth() + 1 : `0${(new Date(newDate).getMonth() + 1)}`;
 
-    const { search, filterBooks } = useAppSelector((state: RootState) => state.filter);
+    const { search} = useAppSelector((state: RootState) => state.filter);
 
     const {booksCategories} = useAppSelector((state: RootState) => state.books);
 
@@ -93,7 +93,7 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
             {view ? <section className={styles.book_card}>
                 <img data-test-id='card' src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image}
                     onClick={() => getBook(id, categories)}
-                    // onKeyDown={() => getBook(id)}
+
                     role='presentation'
                 />
                 <div className={styles.book_grade}>

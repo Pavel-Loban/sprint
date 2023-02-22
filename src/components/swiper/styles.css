@@ -129,7 +129,8 @@
 }
 
   .swiper-wrapper {
-    height: auto;
+    /* height: auto; */
+    height: 20%;
 
   }
 

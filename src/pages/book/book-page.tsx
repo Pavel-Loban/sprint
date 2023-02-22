@@ -34,7 +34,7 @@ export const BookPage: React.FC = () => {
     const date = new Date()
     const { id } = useParams();
 
-
+console.log(book)
 
 
     const URLbook = `https://strapi.cleverland.by/api/books/${id}`
@@ -83,7 +83,7 @@ export const BookPage: React.FC = () => {
 
             <section className={styles.book_page}>
 
-                {statusPageBook === 'error' ? <div className={styles.message}><Alert/></div>  : ''}
+                {/* {statusPageBook === 'error' ? <div className={styles.message}><Alert/></div>  : ''} */}
 
 
 

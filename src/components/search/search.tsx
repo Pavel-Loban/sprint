@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { Book,setBooks } from '../../store/books-slice';
 import { setView,setViewList } from '../../store/card-slice';
-import {setSearch } from '../../store/filter-books-slice';
+import {setSearch, setIsDescSort } from '../../store/filter-books-slice';
 import { setSort } from '../../store/sort-slice';
 
 import styles from './search.module.scss';
@@ -38,7 +38,7 @@ export const Search:React.FC = () => {
     const { status,books} = useAppSelector((state: RootState) => state.books);
     const { sort } = useAppSelector((state: RootState) => state.sort);
 
-    const { search, filterBooks } = useAppSelector((state: RootState) => state.filter);
+    const { search,isDescSort } = useAppSelector((state: RootState) => state.filter);
 
 
     const getView = () => {
@@ -53,25 +53,14 @@ export const Search:React.FC = () => {
     },[view])
 
 
-    const [isVisiblePopup,setIsVisiblePopup] = React.useState(false);
     const [isVisibleInput,setIsVisibleInput] = React.useState(false);
 
-    const list = [
-        {name:'По рейтингу' },
-        {name:'По популярности '},
-        ];
 
-    const getPopupVisible = () => {
-        setIsVisiblePopup(!isVisiblePopup);
+    const getSortBooks = () => {
+        dispatch(setIsDescSort(!isDescSort));
     }
 
-    const getPopupHide = (key:string,list:Lists) => {
-        setIsVisiblePopup(false);
 
-        if(key===list.name){
-            dispatch(setSort(list.name));
-        }
-    }
 
     const hideAndShowInputSearch = () => {
         setIsVisibleInput(true)
@@ -81,93 +70,13 @@ export const Search:React.FC = () => {
         setIsVisibleInput(false);
     }
 
-console.log(filterBooks)
+
 
     React.useEffect(() => {
         if(isVisibleInput){
             inputRef.current?.focus()
         }
     },[isVisibleInput])
-
-    React.useEffect(() => {
-        if(isVisiblePopup){
-
-        //     filterBooks.forEach((item) => {
-        //     if(item.rating === null) {
-        //         (...item, item.rating = 0)
-
-        //         console.log(item.rating)
-        //     }
-        // })
-            filterBooks.sort((a,b) => {
-
-
-                if(a.rating===b.rating){
-                    return 0;
-                }
-                if(a.rating === null ){
-                   return  1
-                }
-                if(b.rating === null ){
-                    return  -1
-                 }
-
-                return a.rating < b.rating ? 1 : -1
-                // return null
-            }
-        )
-        }
-        // else{
-        //     filterBooks.sort((a,b) =>
-        //     {if(!b.rating || !a.rating ){
-        //        return  -1;
-        //     }
-
-        //     return a.rating < b.rating ? 1 : -1
-        // }
-        // )
-        // }
-    },[isVisiblePopup,filterBooks])
-
-    // React.useEffect(() => {
-    //     const onClickOutsideSort = (e: MouseEvent) => {
-    //     const ee = e;
-
-    //         if(ee.target !== sortRef.current &&  ee.target !== sortRefPopup.current){
-    //             setIsVisiblePopup(false);
-    //         }
-    //     }
-
-    //     document.body.addEventListener('click',onClickOutsideSort)
-
-    //     return () => {
-    //       document.body.removeEventListener('click',onClickOutsideSort);
-    //     };
-    //   },[])
-
-    //   const [searchValue, setSearchValue] = React.useState<string>('');
-
-    //   const [filterList, setFilterList] = React.useState<[] | Book[]>(books);
-
-    //   console.log(filterList)
-    //   console.log(books)
-
-
-      const changeSearchValue = (e : React.ChangeEvent<HTMLInputElement>) => {
-    // setSearchValue(e.target.value);
-    // console.log(searchValue);
-
-    // const newBooks =  filterBooks.filter((book) => book.title.toLowerCase().includes(searchValue.toLocaleLowerCase())
-    //    )
-
-    //    dispatch(setSearch(e.target.value))
-    //    dispatch(setFilter(books))
-
-
-  }
-
-
-
 
 
 
@@ -203,42 +112,30 @@ return(
 
 {!isVisibleInput && <section  className={styles.section_icon_select}
 data-test-id='sort-rating-button'
-onClick={getPopupVisible} role='presentation'>
-                {/* <img ref = {sortRef} src={IconSelect} alt='select' className={styles.icon_select}
-                onClick={getPopupVisible} role='presentation'
-                /> */}
-                {isVisiblePopup
+onClick={getSortBooks} role='presentation'>
+
+                {isDescSort
                 ?
                 <React.Fragment>
                 <IconSelectUp className={styles.icon_select}
-                onClick={getPopupVisible} role='presentation'/>
+                onClick={getSortBooks} role='presentation'/>
                 <span ref = {sortRefPopup}
-                onClick={getPopupVisible} role='presentation'
+                onClick={getSortBooks} role='presentation'
                 >{sort.name}</span>
                 </React.Fragment>
 
                 :
                 <React.Fragment>
                 <IconSelectDown className={styles.icon_select}
-                onClick={getPopupVisible} role='presentation'/>
+                onClick={getSortBooks} role='presentation'/>
                 <span ref = {sortRefPopup}
-                onClick={getPopupVisible} role='presentation'
+                onClick={getSortBooks} role='presentation'
                 >{sort.name}</span>
                 </React.Fragment>
 
             }
 
-                {/* { isVisiblePopup && (
-            <div className={styles.sort__popup}>
-         <ul >
-          {list.map((obj)=> <li  key={obj.name}
-            onClick={() => getPopupHide(obj.name, obj)} role='presentation'
-          >
-            {obj.name}
-            </li>)}
-         </ul>
-       </div>
-)} */}
+
             </section>
 }
         </section>
