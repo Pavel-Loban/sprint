@@ -9,6 +9,7 @@ interface FilterState {
     search: string,
     category: string,
     isDescSort: boolean,
+    pathToReturnBack: string,
   }
 
   const initialState: FilterState = {
@@ -16,6 +17,7 @@ interface FilterState {
     search: '',
     category:'',
     isDescSort: true,
+    pathToReturnBack: '',
   };
 
   const filterSlice = createSlice({
@@ -43,10 +45,15 @@ interface FilterState {
 
         newState.isDescSort = action.payload;
       },
+      setPathToReturnBack(state, action: PayloadAction<string>) {
+        const newState = state;
+
+        newState.pathToReturnBack = action.payload;
+      },
 
     },
 });
 
-export const { setSearch, setCategory, setIsDescSort } = filterSlice.actions;
+export const { setSearch, setCategory, setIsDescSort, setPathToReturnBack } = filterSlice.actions;
 
 export default filterSlice.reducer;

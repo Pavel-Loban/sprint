@@ -67,31 +67,37 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
 
     const {booksCategories} = useAppSelector((state: RootState) => state.books);
 
+    const { pathToReturnBack } = useAppSelector((state: RootState) => state.filter);
+
     // получить категорию книг в path
     const getBook = (idx: number, category:string[]) => {
-        const path = booksCategories.filter((item) =>  category.includes(item.name)
+        const path = booksCategories.filter((item) =>
+        // category.includes(item.name)
+        `/${item.path}`=== pathToReturnBack
 
         )
-
+        console.log('pathhh', path)
         push(`/books/${path[0].path}/${idx}`);
         dispatch(setLoading('loading'))
     }
 
 
+// console.log(authors,authors.join(' '))
 
-
-    const light = React.useCallback((str:string) => (
+    const lightTitle = React.useCallback((str:string) => (
 
         <HightLigh str={str} filter={search}/>
 
     ),[search])
 
+
+
     return (
 
         <section  >
 
-            {view ? <section className={styles.book_card}>
-                <img data-test-id='card' src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image}
+            {view ? <section className={styles.book_card} data-test-id='card'>
+                <img  src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image}
                     onClick={() => getBook(id, categories)}
 
                     role='presentation'
@@ -109,20 +115,24 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
                 <div className={styles.book_footer}>
                     <div className={styles.book_title}>
                         <h3 onClick={() => getBook(id,categories)} role='presentation'>
-                           {light( title)}
+                           {lightTitle( title)}
+                           {/* {title} */}
                             </h3>
                     </div>
-                    <div className={styles.book_info}>
-                        {authors}, {issueYear}
+                    <div >
+                        <span className={styles.book_info}>
+                            {/* {lightTitle(authors.join(', '))} */}
+                            {authors.join(', ')}
+                        ,{issueYear}</span>
                     </div>
                     <div className={styles.button_wrapper_tile}>
                         <Button buttonText={delivery === null && booking === null ? 'ЗАБРОНИРОВАТЬ' : (booking !== null ? `ЗАНЯТА ДО ${dayOrder}.${monthOrder}` : 'ЗАБРОНИРОВАНО')} delivery={delivery} booking={booking} order={booking?.order} />
                     </div>
                 </div>
             </section> :
-                <section className={styles.book_card_list}>
+                <section className={styles.book_card_list} data-test-id='card'>
                     <div className={styles.book_card_list_wrapper}>
-                        <img data-test-id='card' src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image_list}
+                        <img  src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image_list}
                             onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'
                         />
                         <div className={styles.book_card_info} >

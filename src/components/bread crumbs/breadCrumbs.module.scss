@@ -1,0 +1,19 @@
+.wrapper {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 20px 0;
+    background: #f9f9fa;
+    display: flex;
+    flex-direction: row;
+
+    .categories{
+        cursor: pointer;
+        & span{
+            margin-right: 12px;
+        }
+    }
+    .title{
+        margin-left: 12px;
+    }
+  }

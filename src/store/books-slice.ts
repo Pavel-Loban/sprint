@@ -7,8 +7,6 @@ export const fetchCategories = createAsyncThunk(
   async (urlCategories: string) => {
     const data = await axios.get(urlCategories);
 
-
-
     return data.data;
   }
 );

@@ -53,7 +53,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
     const { categoriesBooksShowOrHide } = useAppSelector((state: RootState) => state.burger);
     const {books, status, booksCategories, statusCategories} = useAppSelector((state: RootState) => state.books);
 
-    // const { filterBooks } = useAppSelector((state: RootState) => state.filter);
+
 
 
     const getBook = (path: string, name: string) => {
@@ -63,18 +63,12 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
         dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
         dispatch(setCategory(name))
 
-        // const filterCategories = books.filter((book) =>
-        // book.categories.includes(name))
 
-        // console.log(name)
-        //  console.log(filterCategories)
-        //  dispatch(setFilter(books))
-        // dispatch(setFilter(filterCategories))
 
     }
 
 
-        // console.log(booksCategories)
+
 
 
 
@@ -135,7 +129,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
 
 
-// console.log(booksCategories)
+
 
 
 
@@ -179,27 +173,34 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
                     <p data-test-id={dataId2}
                     className={location.pathname.includes('all') ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getAllBook('all')} role='presentation'
                    style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
-               >Все книги </p>
+               >Все книги</p>
                     }
 
                                 {booksCategories.map((item) => (
 
-                                    <p key={item.id} className={location.pathname.includes(`/${item.path}`) ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getBook(item.path,item.name)} role='presentation'
-                                        style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+                                    <div key={item.id}
+                                    style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+
+                                    className={location.pathname.includes(`/${item.path}`) ? styles.sectionsBooksActive : styles.sectionsBooks}
+                                    >
+                                    <p
+                                    onClick={() => getBook(item.path,item.name)} role='presentation'
+                                        // style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
                                         data-test-id={isDesktop ? `navigation-${item.path}`
                                     : `burger-${item.path}`}
                                     >{item.name}
+                                    </p>
                                     <span
-                                    data-test-id= {isDesktop
+                                    // style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+                                    data-test-id={isDesktop
                                         ?
                                          `navigation-book-count-for-${item.path}`
                                         :
                                         `burger-book-count-for-${item.path}`
                                     }
                                     >{books.filter((book)  => book.categories.includes(item.name)).length }</span>
-                                    </p>
+                                    </div>
                             ))}
-
                         </div>
                         :
                         ''

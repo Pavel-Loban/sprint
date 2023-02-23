@@ -8,7 +8,7 @@ export const AlertBooksNone:React.FC = () =>  (
     <section className={styles.wrapper_alert} >
         <p className={styles.message_alert} data-test-id='empty-category'
 >
-        В этой категории книг еще нет
+        В этой категории книг ещё нет
         </p>
         </section>
   )

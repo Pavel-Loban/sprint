@@ -6,7 +6,8 @@ import Star from '../../assets/image/icon_star.svg';
 import StarEmpty from '../../assets/image/icon_star_empty.svg';
 import { ReactComponent as Preloader } from '../../assets/image/preloader.svg';
 import { Alert } from '../../components/alert/alert';
-import { BreadCrumbs } from '../../components/bread-crumbs/bread-crumbs';
+
+import { BooksInfoHeader} from '../../components/books-info-header/books-info-header';
 import { Button } from '../../components/button';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
@@ -19,6 +20,7 @@ import { RootState } from '../../store';
 import { fetchBook } from '../../store/book-slice';
 
 import styles from './book-page.module.scss';
+import { BreadCrumbs } from '../../components/bread crumbs/bread-crumbs';
 
 
 
@@ -97,16 +99,17 @@ console.log(book)
 
                         {!!book && <React.Fragment>
 
-                            <p className={styles.title}>
+                            {/* <p className={styles.title}>
                                 {book.categories} / {book.title}
-                            </p>
+                            </p> */}
+                            <BreadCrumbs categories={book.categories} title={book.title} />
                             <section className={styles.book_wrapper}>
                                 <div className={styles.swiper}>
                                     <Sswiper img={book.images} bookImages={book.images} />
                                 </div>
                                 <section className={styles.book_info}>
 
-    <BreadCrumbs title={book.title} author={book.authors} year={book.issueYear}  />
+    <BooksInfoHeader title={book.title} author={book.authors} year={book.issueYear}  />
                                     <div className={styles.wrapper_button_book}>
                                         <Button buttonText={book.delivery === null && book.booking === null ? 'ЗАБРОНИРОВАТЬ' : (book.booking === null ? 'ЗАБРОНИРОВАНО' : `ЗАНЯТА ДО ${new Date(book.booking.dateOrder).getDate() >= 10 ? new Date(book.booking.dateOrder).getDate() : `0${new Date(book.booking.dateOrder).getDate()}`}.${new Date(book.booking.dateOrder).getMonth() + 1 >= 10 ? new Date(book.booking.dateOrder).getMonth() + 1 : `0${new Date(book.booking.dateOrder).getMonth() + 1}`}
                             `)} delivery={book.delivery} booking={book.booking} order={book.booking?.order} />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 
 import { AlertBooksNone } from '../../components/alert-books-none/alert-books-none';
 import { AlertSearch } from '../../components/alert-search-books/alert-search';
@@ -8,6 +9,7 @@ import { Sections } from '../../components/sections';
 import { useAppDispatch,useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import {Book, fetchBooks, fetchCategories} from '../../store/books-slice';
+import {setPathToReturnBack} from '../../store/filter-books-slice';
 
 import styles from './main-page.module.scss';
 
@@ -16,11 +18,15 @@ import styles from './main-page.module.scss';
 
 export const MainPage:React.FC = () => {
 
+    const location = useLocation();
+
 
     const { view} = useAppSelector((state: RootState) => state.card);
 
-    const { books, status} = useAppSelector((state: RootState) => state.books);
+    const { books, status, booksCategories} = useAppSelector((state: RootState) => state.books);
     const dispatch = useAppDispatch();
+
+    const { search,  category, isDescSort, pathToReturnBack } = useAppSelector((state: RootState) => state.filter);
 
 
 const baseUrl = 'https://strapi.cleverland.by/api/books';
@@ -31,6 +37,13 @@ const getScroll = () => {
         behavior: 'smooth',
     })
 }
+
+React.useEffect(() => {
+    const topicalPath = location.pathname.replace('/books','')
+
+    dispatch(setPathToReturnBack(topicalPath));
+    console.log(topicalPath)
+},[location, dispatch])
 
 React.useEffect(() => {
     getScroll();
@@ -48,49 +61,28 @@ React.useEffect(() => {
 
 
 React.useEffect(() => {
-
      dispatch(fetchBooks(baseUrl));
-     dispatch(fetchCategories(URLCategories))
+
+    dispatch(fetchCategories(URLCategories))
+
 }, [dispatch])
 
 
-const { search,  category, isDescSort } = useAppSelector((state: RootState) => state.filter);
+
 
 
 const  [booksCopy,setBooksCopy] = React.useState<Book[]>(books);
 
-console.log('booksCopy', booksCopy)
+
+
 
   React.useEffect(() => {
 
-    // setBooksCopy(books)
 
-    if(search && !category){
-        // setBooksCopy(books)
 
-        const filterBooksArray =  books.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
+    setBooksCopy(books)
 
-        console.log('filterBooksArray', filterBooksArray)
-        setBooksCopy(() => filterBooksArray)
-
-    }
-
-    if(category){
-        // setBooksCopy(books)
-        const filterCategories = books.filter((book) =>
-         book.categories.includes(category))
-
-        console.log('filterCategories',filterCategories)
-         setBooksCopy(() => filterCategories)
-         if(search){
-            const filterBooksArray =  filterCategories.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
-            console.log('filterBooksArray', filterBooksArray)
-        setBooksCopy(() => filterBooksArray)
-         }
-    }
-
-    if(isDescSort){
-        // setBooksCopy(books)
+    if(isDescSort ){
         const descBooks = [...books]
 
         descBooks.sort((a,b) => {
@@ -112,7 +104,7 @@ console.log('booksCopy', booksCopy)
             setBooksCopy(() => descBooks)
     }
 
-    if(!isDescSort){
+    if(!isDescSort ){
         const ascBooks = [...books]
 
         ascBooks.sort((a,b) => {
@@ -133,7 +125,79 @@ console.log('booksCopy', booksCopy)
             setBooksCopy(() => ascBooks)
     }
 
-  },[books,  search, category, isDescSort])
+
+
+    if(search && !category){
+
+    const filterBooksArray =  books.filter((book) =>
+    book.title.toLowerCase().includes(search.toLowerCase())
+
+    );
+
+        setBooksCopy(filterBooksArray)
+
+    }
+
+    if(category){
+
+        const filterCategories = books.filter((book) =>
+         book.categories.includes(category))
+
+         if(isDescSort ){
+
+
+            filterCategories.sort((a,b) => {
+
+
+                if(a.rating === b.rating){
+                    return 0;
+                }
+                if(a.rating === null ){
+                   return  1
+                }
+                if(b.rating === null ){
+                    return  -1
+                 }
+
+                return a.rating < b.rating ? 1 : -1
+            }
+                )
+                setBooksCopy(() => filterCategories)
+        }
+
+        if(!isDescSort ){
+
+
+            filterCategories.sort((a,b) => {
+
+                if(a.rating === b.rating){
+                    return 0;
+                }
+                if(a.rating === null ){
+                   return  -1
+                }
+                if(b.rating === null ){
+                    return  1
+                 }
+
+                return a.rating > b.rating ? 1 : -1
+            }
+                )
+                setBooksCopy(() => filterCategories)
+        }
+
+
+         setBooksCopy(() => filterCategories)
+         if(search){
+            const filterBooksArray =  filterCategories.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
+
+        setBooksCopy(() => filterBooksArray)
+         }
+    }
+
+
+
+  },[books, search, category, isDescSort])
 
 
 

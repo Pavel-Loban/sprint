@@ -63,7 +63,7 @@ data-test-id='slide-big'
       >
         {img.map((imag:ImageUrl) =>
         (
-          <SwiperSlide key={Math.random() * date.getMilliseconds()}>
+          <SwiperSlide key={imag.url}>
           <img src={`https://strapi.cleverland.by${imag.url}`} alt='book' />
         </SwiperSlide>
         ))}

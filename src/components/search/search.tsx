@@ -89,6 +89,7 @@ return(
  className={styles.close_search} onClick={closeInputSearch} role='presentation' >
             <CloseSearch />
             </div>}
+
             <section data-test-id='button-search-open' ref={inputBlockRef} className={isVisibleInput ? styles.hide :  styles.section_icon_search}
             onClick={hideAndShowInputSearch} role='presentation'>
                 <img ref={inputIconRef} src={IconSearch} alt='search' className={styles.icon_search} onClick={hideAndShowInputSearch} role='presentation'/>
@@ -103,7 +104,7 @@ return(
                 type='text'
                 value={search}
                 onChange={(e) => dispatch(setSearch(e.target.value))}
-                placeholder='Поиск книги или автора'
+                placeholder='Поиск книги или автора…'
             />
 
 
