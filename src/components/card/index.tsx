@@ -76,6 +76,15 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
         `/${item.path}`=== pathToReturnBack
 
         )
+
+        if(path.length === 0){
+            path.push({
+                name: 'Все книги',
+                path: 'all',
+                id: 33,
+            })
+        }
+
         console.log('pathhh', path)
         push(`/books/${path[0].path}/${idx}`);
         dispatch(setLoading('loading'))

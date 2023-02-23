@@ -23,7 +23,7 @@ export const MainPage:React.FC = () => {
 
     const { view} = useAppSelector((state: RootState) => state.card);
 
-    const { books, status, booksCategories} = useAppSelector((state: RootState) => state.books);
+    const { books, status, booksCategories, statusCategories} = useAppSelector((state: RootState) => state.books);
     const dispatch = useAppDispatch();
 
     const { search,  category, isDescSort, pathToReturnBack } = useAppSelector((state: RootState) => state.filter);
@@ -42,7 +42,7 @@ React.useEffect(() => {
     const topicalPath = location.pathname.replace('/books','')
 
     dispatch(setPathToReturnBack(topicalPath));
-    console.log(topicalPath)
+    // console.log(topicalPath)
 },[location, dispatch])
 
 React.useEffect(() => {
@@ -58,12 +58,15 @@ React.useEffect(() => {
 },[status])
 
 
-
+console.log(statusCategories)
 
 React.useEffect(() => {
      dispatch(fetchBooks(baseUrl));
 
-    dispatch(fetchCategories(URLCategories))
+    //  if(statusCategories !== 'success'){
+    //     dispatch(fetchCategories(URLCategories))
+    //  }
+     dispatch(fetchCategories(URLCategories))
 
 }, [dispatch])
 

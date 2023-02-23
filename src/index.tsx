@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
 
-  <React.StrictMode>
+
     <Provider store={store}>
       <HashRouter basename="/">
         <Routes>
@@ -31,7 +31,7 @@ root.render(
         </Routes>
       </HashRouter>
     </Provider>
-  </React.StrictMode>
+
 
 
 );

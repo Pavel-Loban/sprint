@@ -60,7 +60,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
         push(`/books/${path}`);
         // console.log('name', name)
         dispatch(setMenuIsOpen(false));
-        dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
+        // dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
         dispatch(setCategory(name))
 
 
@@ -81,7 +81,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
         push(`/books/${path}`);
 
         dispatch(setMenuIsOpen(false));
-        dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
+        // dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
 
         dispatch(fetchBooks(baseUrl))
 

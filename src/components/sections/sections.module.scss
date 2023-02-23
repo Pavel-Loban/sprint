@@ -140,13 +140,19 @@
         margin: 16px 5px 16px 20px;
         letter-spacing: 0.1px;
         color: #363636;
-        display: flex;
+        /* display: flex; */
+
+        & p{
+            display: contents;
+            float: left;
+        }
 
         & span {
             color: #A7A7A7;
             margin-left: 5px;
-            display: flex;
-            align-items: flex-end;
+            overflow: hidden;
+            /* display: flex; */
+            /* align-items: flex-end; */
         }
 
         &:hover {
@@ -168,9 +174,15 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        display: flex;
+        /* display: flex; */
 
+
+        & p{
+            display: contents;
+            float: left;
+        }
         & span{
+            overflow: hidden;
             margin-left: 5px;
         }
     }
