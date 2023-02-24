@@ -5,9 +5,9 @@ import { ReactComponent as IconArrow } from '../../assets/image/icon-list-sectio
 import { links } from '../../data';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import {fetchBooks, fetchCategories} from '../../store/books-slice';
+import { fetchBooks, fetchCategories } from '../../store/books-slice';
 import { setCategoriesBooks, setMenuIsOpen } from '../../store/burger-slice';
-import { setCategory} from '../../store/filter-books-slice';
+import { setCategory } from '../../store/filter-books-slice';
 
 import styles from './sections.module.scss';
 
@@ -33,7 +33,7 @@ interface Text {
 interface Props {
     dataId1: string,
     dataId2: string,
-    dataIdCategory:string,
+    dataIdCategory: string,
     isDesktop?: boolean,
 }
 
@@ -51,7 +51,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
     const dispatch = useAppDispatch();
     const { categoriesBooksShowOrHide } = useAppSelector((state: RootState) => state.burger);
-    const {books, status, booksCategories, statusCategories} = useAppSelector((state: RootState) => state.books);
+    const { books, status, booksCategories, statusCategories } = useAppSelector((state: RootState) => state.books);
 
 
 
@@ -118,14 +118,14 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
     React.useEffect(() => {
 
 
-        if(status === 'loading'){
+        if (status === 'loading') {
 
             document.body.classList.add('preloader_true');
-        }else{
+        } else {
             document.body.classList.remove('preloader_true');
         }
 
-    },[status, statusCategories])
+    }, [status, statusCategories])
 
 
 
@@ -153,11 +153,11 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
                                 ? styles.subTitle_active : styles.subTitle} >
                         {item.title !== 'Витрина книг'
-                        ?
-                        <p
-                            data-test-id={!isDesktop ? item.testIdBoorger : item.testId}
-                            onClick={() => getActiveTextLink(item.id, item.link)} role='presentation'>{item.title}
-                        </p>
+                            ?
+                            <p
+                                data-test-id={!isDesktop ? item.testIdBoorger : item.testId}
+                                onClick={() => getActiveTextLink(item.id, item.link)} role='presentation'>{item.title}
+                            </p>
                             :
                             <p
                                 data-test-id={dataId1}
@@ -168,43 +168,43 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
 
                         {item.title === 'Витрина книг' ?
-                        <div className={status === 'success' ?  styles.divFirst : styles.hide }>
-                    {statusCategories === 'success' &&
-                    <p data-test-id={dataId2}
-                    className={location.pathname.includes('all') ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getAllBook('all')} role='presentation'
-                   style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
-               >Все книги</p>
-                    }
+                            <div className={status === 'success' ? styles.divFirst : styles.hide}>
+                                {statusCategories === 'success' &&
+                                    <p data-test-id={dataId2}
+                                        className={location.pathname.includes('all') ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getAllBook('all')} role='presentation'
+                                        style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+                                    >Все книги</p>
+                                }
 
                                 {booksCategories.map((item) => (
 
                                     <div key={item.id}
-                                    style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+                                        style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
 
-                                    className={location.pathname.includes(`/${item.path}`) ? styles.sectionsBooksActive : styles.sectionsBooks}
+                                        className={location.pathname.includes(`/${item.path}`) ? styles.sectionsBooksActive : styles.sectionsBooks}
                                     >
-                                    <p
-                                    onClick={() => getBook(item.path,item.name)} role='presentation'
-                                        // style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
-                                        data-test-id={isDesktop ? `navigation-${item.path}`
-                                    : `burger-${item.path}`}
-                                    >{item.name}
-                                    </p>
-                                    <span
-                                    // style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
-                                    data-test-id={isDesktop
-                                        ?
-                                         `navigation-book-count-for-${item.path}`
-                                        :
-                                        `burger-book-count-for-${item.path}`
-                                    }
-                                    >{books.filter((book)  => book.categories.includes(item.name)).length }</span>
+                                        <p
+                                            onClick={() => getBook(item.path, item.name)} role='presentation'
+                                            // style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+                                            data-test-id={isDesktop ? `navigation-${item.path}`
+                                                : `burger-${item.path}`}
+                                        >{item.name}
+                                        </p>
+                                        <span
+                                            // style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+                                            data-test-id={isDesktop
+                                                ?
+                                                `navigation-book-count-for-${item.path}`
+                                                :
+                                                `burger-book-count-for-${item.path}`
+                                            }
+                                        >{books.filter((book) => book.categories.includes(item.name)).length}</span>
                                     </div>
-                            ))}
-                        </div>
-                        :
-                        ''
-                    }
+                                ))}
+                            </div>
+                            :
+                            ''
+                        }
 
 
                     </li>

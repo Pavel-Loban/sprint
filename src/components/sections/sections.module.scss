@@ -143,16 +143,14 @@
         /* display: flex; */
 
         & p{
-            display: contents;
+            /* display: contents; */
             float: left;
         }
 
         & span {
             color: #A7A7A7;
             margin-left: 5px;
-            overflow: hidden;
-            /* display: flex; */
-            /* align-items: flex-end; */
+            /* overflow: hidden; */
         }
 
         &:hover {
@@ -178,11 +176,11 @@
 
 
         & p{
-            display: contents;
+            /* display: contents; */
             float: left;
         }
         & span{
-            overflow: hidden;
+            /* overflow: hidden; */
             margin-left: 5px;
         }
     }

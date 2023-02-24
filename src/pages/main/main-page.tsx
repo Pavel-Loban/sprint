@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 import { AlertBooksNone } from '../../components/alert-books-none/alert-books-none';
 import { AlertSearch } from '../../components/alert-search-books/alert-search';
@@ -18,6 +19,7 @@ import styles from './main-page.module.scss';
 
 export const MainPage:React.FC = () => {
 
+    const { subLink } = useParams();
     const location = useLocation();
 
 
@@ -26,7 +28,7 @@ export const MainPage:React.FC = () => {
     const { books, status, booksCategories, statusCategories} = useAppSelector((state: RootState) => state.books);
     const dispatch = useAppDispatch();
 
-    const { search,  category, isDescSort, pathToReturnBack } = useAppSelector((state: RootState) => state.filter);
+    const { search,  isDescSort, pathToReturnBack } = useAppSelector((state: RootState) => state.filter);
 
 
 const baseUrl = 'https://strapi.cleverland.by/api/books';
@@ -63,12 +65,12 @@ console.log(statusCategories)
 React.useEffect(() => {
      dispatch(fetchBooks(baseUrl));
 
-    //  if(statusCategories !== 'success'){
-    //     dispatch(fetchCategories(URLCategories))
-    //  }
-     dispatch(fetchCategories(URLCategories))
+     if(booksCategories.length === 0){
+        dispatch(fetchCategories(URLCategories))
+     }
+    //  dispatch(fetchCategories(URLCategories))
 
-}, [dispatch])
+}, [dispatch, booksCategories.length])
 
 
 
@@ -79,130 +81,167 @@ const  [booksCopy,setBooksCopy] = React.useState<Book[]>(books);
 
 
 
-  React.useEffect(() => {
+//   React.useEffect(() => {
 
 
 
-    setBooksCopy(books)
+//     setBooksCopy(books)
 
-    if(isDescSort ){
-        const descBooks = [...books]
+//     if(isDescSort ){
+//         const descBooks = [...books]
 
-        descBooks.sort((a,b) => {
+//         descBooks.sort((a,b) => {
 
 
-            if(a.rating === b.rating){
-                return 0;
-            }
-            if(a.rating === null ){
-               return  1
-            }
-            if(b.rating === null ){
-                return  -1
-             }
+//             if(a.rating === b.rating){
+//                 return 0;
+//             }
+//             if(a.rating === null ){
+//                return  1
+//             }
+//             if(b.rating === null ){
+//                 return  -1
+//              }
 
-            return a.rating < b.rating ? 1 : -1
+//             return a.rating < b.rating ? 1 : -1
+//         }
+//             )
+//             setBooksCopy(() => descBooks)
+//     }
+
+//     if(!isDescSort ){
+//         const ascBooks = [...books]
+
+//         ascBooks.sort((a,b) => {
+
+//             if(a.rating === b.rating){
+//                 return 0;
+//             }
+//             if(a.rating === null ){
+//                return  -1
+//             }
+//             if(b.rating === null ){
+//                 return  1
+//              }
+
+//             return a.rating > b.rating ? 1 : -1
+//         }
+//             )
+//             setBooksCopy(() => ascBooks)
+//     }
+
+
+
+//     if(search && !category){
+
+//     const filterBooksArray =  books.filter((book) =>
+//     book.title.toLowerCase().includes(search.toLowerCase())
+
+//     );
+
+//         setBooksCopy(filterBooksArray)
+
+//     }
+
+//     if(category){
+
+//         const filterCategories = books.filter((book) =>
+//          book.categories.includes(category))
+
+//          if(isDescSort ){
+
+
+//             filterCategories.sort((a,b) => {
+
+
+//                 if(a.rating === b.rating){
+//                     return 0;
+//                 }
+//                 if(a.rating === null ){
+//                    return  1
+//                 }
+//                 if(b.rating === null ){
+//                     return  -1
+//                  }
+
+//                 return a.rating < b.rating ? 1 : -1
+//             }
+//                 )
+//                 setBooksCopy(() => filterCategories)
+//         }
+
+//         if(!isDescSort ){
+
+
+//             filterCategories.sort((a,b) => {
+
+//                 if(a.rating === b.rating){
+//                     return 0;
+//                 }
+//                 if(a.rating === null ){
+//                    return  -1
+//                 }
+//                 if(b.rating === null ){
+//                     return  1
+//                  }
+
+//                 return a.rating > b.rating ? 1 : -1
+//             }
+//                 )
+//                 setBooksCopy(() => filterCategories)
+//         }
+
+
+//          setBooksCopy(() => filterCategories)
+//          if(search){
+//             const filterBooksArray =  filterCategories.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
+
+//         setBooksCopy(() => filterBooksArray)
+//          }
+//     }
+
+
+
+//   },[books, search, category, isDescSort])
+
+const category = booksCategories.find((bookCategory) => bookCategory.path === subLink)?.name ?? undefined;
+const booksByCategory = category ? books.filter((book) => book.categories.includes(category)) : books;
+const booksBySearchTerm = search ? booksByCategory.filter((book) => book.title.toLowerCase().includes(search.toLowerCase())) : booksByCategory;
+const finalBooksList = [...booksBySearchTerm] ?? [];
+
+if (isDescSort) {
+    finalBooksList.sort((a,b) => {
+
+        if(a.rating === b.rating){
+            return 0;
         }
-            )
-            setBooksCopy(() => descBooks)
-    }
 
-    if(!isDescSort ){
-        const ascBooks = [...books]
-
-        ascBooks.sort((a,b) => {
-
-            if(a.rating === b.rating){
-                return 0;
-            }
-            if(a.rating === null ){
-               return  -1
-            }
-            if(b.rating === null ){
-                return  1
-             }
-
-            return a.rating > b.rating ? 1 : -1
-        }
-            )
-            setBooksCopy(() => ascBooks)
-    }
-
-
-
-    if(search && !category){
-
-    const filterBooksArray =  books.filter((book) =>
-    book.title.toLowerCase().includes(search.toLowerCase())
-
-    );
-
-        setBooksCopy(filterBooksArray)
-
-    }
-
-    if(category){
-
-        const filterCategories = books.filter((book) =>
-         book.categories.includes(category))
-
-         if(isDescSort ){
-
-
-            filterCategories.sort((a,b) => {
-
-
-                if(a.rating === b.rating){
-                    return 0;
-                }
-                if(a.rating === null ){
-                   return  1
-                }
-                if(b.rating === null ){
-                    return  -1
-                 }
-
-                return a.rating < b.rating ? 1 : -1
-            }
-                )
-                setBooksCopy(() => filterCategories)
+        if(a.rating === null ){
+            return  1
         }
 
-        if(!isDescSort ){
-
-
-            filterCategories.sort((a,b) => {
-
-                if(a.rating === b.rating){
-                    return 0;
-                }
-                if(a.rating === null ){
-                   return  -1
-                }
-                if(b.rating === null ){
-                    return  1
-                 }
-
-                return a.rating > b.rating ? 1 : -1
-            }
-                )
-                setBooksCopy(() => filterCategories)
+        if(b.rating === null ){
+            return  -1
         }
 
+        return a.rating < b.rating ? 1 : -1
+    })
+} else {
+    finalBooksList.sort((a,b) => {
 
-         setBooksCopy(() => filterCategories)
-         if(search){
-            const filterBooksArray =  filterCategories.filter((book) => book.title.toLowerCase().includes(search.toLowerCase()))
-
-        setBooksCopy(() => filterBooksArray)
+        if(a.rating === b.rating){
+            return 0;
+        }
+        if(a.rating === null ){
+           return  -1
+        }
+        if(b.rating === null ){
+            return  1
          }
-    }
 
-
-
-  },[books, search, category, isDescSort])
-
-
+        return a.rating > b.rating ? 1 : -1
+    })
+}
 
 return(
 

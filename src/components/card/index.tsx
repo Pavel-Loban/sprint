@@ -105,11 +105,16 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
 
         <section  >
 
-            {view ? <section className={styles.book_card} data-test-id='card'>
-                <img  src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image}
-                    onClick={() => getBook(id, categories)}
+            {view ? <section className={styles.book_card} data-test-id='card'
+
+            onClick={() => getBook(id, categories)}
 
                     role='presentation'
+            >
+                <img  src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image}
+                    // onClick={() => getBook(id, categories)}
+
+                    // role='presentation'
                 />
                 <div className={styles.book_grade}>
 
@@ -123,7 +128,9 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
                 </div>
                 <div className={styles.book_footer}>
                     <div className={styles.book_title}>
-                        <h3 onClick={() => getBook(id,categories)} role='presentation'>
+                        <h3
+                        //  onClick={() => getBook(id,categories)} role='presentation'
+                         >
                            {lightTitle( title)}
                            {/* {title} */}
                             </h3>
@@ -134,18 +141,27 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
                             {authors.join(', ')}
                         ,{issueYear}</span>
                     </div>
-                    <div className={styles.button_wrapper_tile}>
+                    <div className={styles.button_wrapper_tile}
+                    onClick={e => e.stopPropagation() } role='presentation'
+                    >
                         <Button buttonText={delivery === null && booking === null ? 'ЗАБРОНИРОВАТЬ' : (booking !== null ? `ЗАНЯТА ДО ${dayOrder}.${monthOrder}` : 'ЗАБРОНИРОВАНО')} delivery={delivery} booking={booking} order={booking?.order} />
                     </div>
                 </div>
             </section> :
                 <section className={styles.book_card_list} data-test-id='card'>
-                    <div className={styles.book_card_list_wrapper}>
+                    <div className={styles.book_card_list_wrapper}
+                    onClick={e => e.stopPropagation() } role='presentation'
+
+                    >
                         <img  src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image_list}
-                            onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'
+                            // onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'
                         />
                         <div className={styles.book_card_info} >
-                            <h3 onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'>{title}</h3>
+                            <h3
+                            // onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'
+                            >
+                                {title}
+                            </h3>
                             <div className={styles.book_info}>
                                 {authors}, {issueYear}
                             </div>
