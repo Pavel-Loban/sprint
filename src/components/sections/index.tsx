@@ -5,7 +5,6 @@ import { ReactComponent as IconArrow } from '../../assets/image/icon-list-sectio
 import { links } from '../../data';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { fetchBooks, fetchCategories } from '../../store/books-slice';
 import { setCategoriesBooks, setMenuIsOpen } from '../../store/burger-slice';
 import { setCategory } from '../../store/filter-books-slice';
 
@@ -58,9 +57,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
     const getBook = (path: string, name: string) => {
         push(`/books/${path}`);
-        // console.log('name', name)
         dispatch(setMenuIsOpen(false));
-        // dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
         dispatch(setCategory(name))
 
 
@@ -76,14 +73,12 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
     const getAllBook = (path: string) => {
         dispatch(setCategory(''));
-        const baseUrl = 'https://strapi.cleverland.by/api/books';
 
         push(`/books/${path}`);
 
         dispatch(setMenuIsOpen(false));
-        // dispatch(setCategoriesBooks(!categoriesBooksShowOrHide));
 
-        dispatch(fetchBooks(baseUrl))
+
 
 
     }
@@ -168,7 +163,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
 
                         {item.title === 'Витрина книг' ?
-                            <div className={status === 'success' ? styles.divFirst : styles.hide}>
+                            <div className={status === 'error' ? styles.hide : styles.divFirst}>
                                 {statusCategories === 'success' &&
                                     <p data-test-id={dataId2}
                                         className={location.pathname.includes('all') ? styles.sectionsBooksActive : styles.sectionsBooks} onClick={() => getAllBook('all')} role='presentation'
@@ -179,20 +174,20 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
                                 {booksCategories.map((item) => (
 
                                     <div key={item.id}
-                                        style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+                                        style={{ display: categoriesBooksShowOrHide ? 'none' : 'flex' }}
 
                                         className={location.pathname.includes(`/${item.path}`) ? styles.sectionsBooksActive : styles.sectionsBooks}
                                     >
                                         <p
                                             onClick={() => getBook(item.path, item.name)} role='presentation'
-                                            // style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
+
                                             data-test-id={isDesktop ? `navigation-${item.path}`
                                                 : `burger-${item.path}`}
                                         >{item.name}
                                         </p>
                                         <span
-                                            // style={{ display: categoriesBooksShowOrHide ? 'none' : 'block' }}
-                                            data-test-id={isDesktop
+
+                                        data-test-id={isDesktop
                                                 ?
                                                 `navigation-book-count-for-${item.path}`
                                                 :

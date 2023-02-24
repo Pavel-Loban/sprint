@@ -14,14 +14,14 @@ import styles from './layout.module.scss';
 export const Layout = () => {
 
   const { menuIsOpen} = useAppSelector((state: RootState) => state.burger);
-  const {status, statusCategories} = useAppSelector((state: RootState) => state.books);
+  const {status, statusCategories, booksCategories} = useAppSelector((state: RootState) => state.books);
 
   const {statusPageBook } = useAppSelector((state: RootState) => state.book);
 
 
   return (
   <React.Fragment >
-  {status === 'loading' || statusPageBook ===   'loading' ||  statusCategories === 'loading' ? <div className={styles.wrapper_preloader} data-test-id='loader'
+  {(status === 'loading' || statusPageBook ===   'loading' ||  statusCategories === 'loading')  ? <div className={styles.wrapper_preloader} data-test-id='loader'
 > <Preloader className={styles.preloader} width={68.7} height={68.7} /></div>  : null}
 
   <section className={styles.main_page}>

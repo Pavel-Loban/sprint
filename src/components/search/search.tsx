@@ -5,7 +5,6 @@ import cnBind from 'classnames/bind';
 import { ReactComponent as CloseSearch } from '../../assets/image/close-search.svg';
 import { ReactComponent as List } from '../../assets/image/list2.svg';
 import IconSearch from '../../assets/image/search.svg';
-// import IconSelect from '../../assets/image/select.svg';
 import { ReactComponent as IconSelectDown} from '../../assets/image/select.svg';
 import { ReactComponent as IconSelectUp} from '../../assets/image/selectUp.svg';
 import { ReactComponent as Tile } from '../../assets/image/tile2.svg';
@@ -13,8 +12,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { Book,setBooks } from '../../store/books-slice';
 import { setView,setViewList } from '../../store/card-slice';
-import {setSearch, setIsDescSort } from '../../store/filter-books-slice';
-import { setSort } from '../../store/sort-slice';
+import {setIsDescSort,setSearch } from '../../store/filter-books-slice';
 
 import styles from './search.module.scss';
 

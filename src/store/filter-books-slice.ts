@@ -5,7 +5,6 @@ import { Book } from './books-slice';
 
 
 interface FilterState {
-    // filterBooks: Book[];
     search: string,
     category: string,
     isDescSort: boolean,
@@ -13,7 +12,6 @@ interface FilterState {
   }
 
   const initialState: FilterState = {
-    // filterBooks: [],
     search: '',
     category:'',
     isDescSort: true,
@@ -24,11 +22,6 @@ interface FilterState {
     name: 'filter',
     initialState,
     reducers: {
-      // setFilter(state, action: PayloadAction<Book[]>) {
-      //   const newState = state;
-
-      //   newState.filterBooks = action.payload;
-      // },
       setSearch(state, action: PayloadAction<string>) {
         const newState = state;
 

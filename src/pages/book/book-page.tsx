@@ -36,7 +36,6 @@ export const BookPage: React.FC = () => {
     const date = new Date()
     const { id } = useParams();
 
-console.log(book)
 
 
     const URLbook = `https://strapi.cleverland.by/api/books/${id}`
@@ -72,7 +71,10 @@ console.log(book)
     return (
 
         <React.Fragment>
-
+            {/* {(statusPageBook ===   'loading' )  ?
+            <div className={styles.wrapper_preloader} data-test-id='loader'
+> <Preloader className={styles.preloader} width={68.7} height={68.7} /></div>
+ : null} */}
 
 {!book && <div className={styles.title_error}>
                 <div>
@@ -85,9 +87,6 @@ console.log(book)
 
             <section className={styles.book_page}>
 
-                {/* {statusPageBook === 'error' ? <div className={styles.message}><Alert/></div>  : ''} */}
-
-
 
 
                 <section className={styles.content}>
@@ -99,10 +98,8 @@ console.log(book)
 
                         {!!book && <React.Fragment>
 
-                            {/* <p className={styles.title}>
-                                {book.categories} / {book.title}
-                            </p> */}
-                            <BreadCrumbs categories={book.categories} title={book.title} />
+
+                            <BreadCrumbs  title={book.title} />
                             <section className={styles.book_wrapper}>
                                 <div className={styles.swiper}>
                                     <Sswiper img={book.images} bookImages={book.images} />

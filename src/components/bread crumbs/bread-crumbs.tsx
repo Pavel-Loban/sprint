@@ -1,28 +1,41 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
+import {fetchBooks} from '../../store/books-slice';
 
 import styles from './breadCrumbs.module.scss';
 
 interface Props {
   title: string,
-  categories: string[],
+
 }
 
-export const BreadCrumbs: React.FC<Props> = ({title, categories}) => {
+export const BreadCrumbs: React.FC<Props> = ({title}) => {
 
   const push = useNavigate();
+  const dispatch = useAppDispatch();
   const { pathToReturnBack } = useAppSelector((state: RootState) => state.filter);
   const { booksCategories} = useAppSelector((state: RootState) => state.books);
+  const baseUrl = 'https://strapi.cleverland.by/api/books';
 
-  const backToPreviousPage = () => {
+
+
+
+
+
+
+  const backToPreviousPage =  () => {
+
     push(`/books${pathToReturnBack}`)
+  //  dispatch(fetchBooks(baseUrl));
+
   }
 
-  console.log(pathToReturnBack)
-  console.log(booksCategories)
+
+
+
 
   const headerCategory = booksCategories.filter((item) =>
   `/${item.path}`=== pathToReturnBack

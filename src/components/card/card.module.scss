@@ -1,3 +1,5 @@
+
+
 .book_card {
     display: flex;
     flex-direction: column;
@@ -19,7 +21,14 @@
     @media (max-width: 426px) {
         & {
             flex: 1 0 100%;
-            max-width: 288px;
+            min-width: 288px;
+        }
+    }
+
+    @media (max-width: 320px) {
+        & {
+            flex: 1 0 100%;
+            min-width: auto;
         }
     }
 

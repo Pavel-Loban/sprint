@@ -54,7 +54,7 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
     const { book } = useAppSelector((state: RootState) => state.book);
 
 
-    // console.log(book)
+
     const date = new Date()
 
     const newDate: string = booking?.dateOrder === undefined ? '' : booking?.dateOrder;
@@ -69,10 +69,9 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
 
     const { pathToReturnBack } = useAppSelector((state: RootState) => state.filter);
 
-    // получить категорию книг в path
+
     const getBook = (idx: number, category:string[]) => {
         const path = booksCategories.filter((item) =>
-        // category.includes(item.name)
         `/${item.path}`=== pathToReturnBack
 
         )
@@ -85,13 +84,13 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
             })
         }
 
-        console.log('pathhh', path)
+
         push(`/books/${path[0].path}/${idx}`);
         dispatch(setLoading('loading'))
     }
 
 
-// console.log(authors,authors.join(' '))
+
 
     const lightTitle = React.useCallback((str:string) => (
 
@@ -103,18 +102,16 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
 
     return (
 
-        <section  >
+        <section className={styles.book_wrapper}>
 
-            {view ? <section className={styles.book_card} data-test-id='card'
+            {view ? <section className={styles.book_card}   data-test-id='card'
 
             onClick={() => getBook(id, categories)}
 
                     role='presentation'
             >
                 <img  src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image}
-                    // onClick={() => getBook(id, categories)}
 
-                    // role='presentation'
                 />
                 <div className={styles.book_grade}>
 
@@ -129,39 +126,38 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
                 <div className={styles.book_footer}>
                     <div className={styles.book_title}>
                         <h3
-                        //  onClick={() => getBook(id,categories)} role='presentation'
-                         >
+                        >
                            {lightTitle( title)}
-                           {/* {title} */}
+
                             </h3>
                     </div>
                     <div >
                         <span className={styles.book_info}>
-                            {/* {lightTitle(authors.join(', '))} */}
+
                             {authors.join(', ')}
                         ,{issueYear}</span>
                     </div>
                     <div className={styles.button_wrapper_tile}
-                    onClick={e => e.stopPropagation() } role='presentation'
-                    >
-                        <Button buttonText={delivery === null && booking === null ? 'ЗАБРОНИРОВАТЬ' : (booking !== null ? `ЗАНЯТА ДО ${dayOrder}.${monthOrder}` : 'ЗАБРОНИРОВАНО')} delivery={delivery} booking={booking} order={booking?.order} />
+
+                    onClick={e => e.stopPropagation() } role='presentation'>
+
+
+                        <Button  buttonText={delivery === null && booking === null ? 'ЗАБРОНИРОВАТЬ' : (booking !== null ? `ЗАНЯТА ДО ${dayOrder}.${monthOrder}` : 'ЗАБРОНИРОВАНО')} delivery={delivery} booking={booking} order={booking?.order} />
                     </div>
                 </div>
             </section> :
-                <section className={styles.book_card_list} data-test-id='card'>
-                    <div className={styles.book_card_list_wrapper}
-                    onClick={e => e.stopPropagation() } role='presentation'
+                <section className={styles.book_card_list} data-test-id='card'
 
-                    >
+                onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'
+
+                >
+                    <div className={styles.book_card_list_wrapper}>
                         <img  src={image ? `https://strapi.cleverland.by${image.url}` : BookImageAnather} alt='book' className={styles.book_image_list}
-                            // onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'
+
                         />
                         <div className={styles.book_card_info} >
                             <h3
-                            // onClick={() => getBook(id,categories)} onKeyDown={() => getBook(id,categories)} role='presentation'
-                            >
-                                {title}
-                            </h3>
+                            >{title}</h3>
                             <div className={styles.book_info}>
                                 {authors}, {issueYear}
                             </div>
@@ -175,7 +171,8 @@ export const Card: React.FC<Book> = ({ image, id, title, authors, issueYear, boo
                     [...new Array(5 - Math.floor(rating))].map((item) => <img src={StarEmpty} alt='starEmpty' key={Math.random() * date.getMilliseconds()} />)
                     }
                           </div>
-                                <div className={styles.button_wrapper}>
+                                <div className={styles.button_wrapper}
+                                onClick={e => e.stopPropagation() } role='presentation'>
                                 <Button buttonText={delivery === null && booking === null ? 'ЗАБРОНИРОВАТЬ' : (booking !== null ? `ЗАНЯТА ДО ${dayOrder}.${monthOrder}` : 'ЗАБРОНИРОВАНО')} delivery={delivery} booking={booking} order={booking?.order} />
                                 </div>
 

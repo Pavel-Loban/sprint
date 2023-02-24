@@ -93,44 +93,6 @@
 
     }
 
-    /* .sectionsBooks {
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-        cursor: pointer;
-        margin: 16px 5px 16px 20px;
-        letter-spacing: 0.1px;
-        color: #363636;
-
-        & span {
-            color: #A7A7A7;
-            margin-left: 5px;
-        }
-
-        &:hover {
-            background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-    }
-
-    .sectionsBooksActive {
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-        cursor: pointer;
-        margin: 16px 5px 16px 20px;
-        letter-spacing: 0.1px;
-        background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-
-        & span{
-            margin-left: 5px;
-        }
-    } */
 
     .sectionsBooks {
         font-size: 16px;
@@ -140,17 +102,20 @@
         margin: 16px 5px 16px 20px;
         letter-spacing: 0.1px;
         color: #363636;
-        /* display: flex; */
+
 
         & p{
-            /* display: contents; */
-            float: left;
         }
 
         & span {
             color: #A7A7A7;
             margin-left: 5px;
-            /* overflow: hidden; */
+            flex: 0 1 50%;
+            justify-content: flex-start;
+    display: flex;
+    align-items: end;
+
+
         }
 
         &:hover {
@@ -172,16 +137,17 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        /* display: flex; */
 
 
         & p{
-            /* display: contents; */
-            float: left;
         }
         & span{
-            /* overflow: hidden; */
+            color: #A7A7A7;
             margin-left: 5px;
+            justify-content: flex-start;
+    display: flex;
+    align-items: end;
+            flex: 0 1 50%;
         }
     }
 
