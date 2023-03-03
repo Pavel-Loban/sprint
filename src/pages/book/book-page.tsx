@@ -71,10 +71,6 @@ export const BookPage: React.FC = () => {
     return (
 
         <React.Fragment>
-            {/* {(statusPageBook ===   'loading' )  ?
-            <div className={styles.wrapper_preloader} data-test-id='loader'
-> <Preloader className={styles.preloader} width={68.7} height={68.7} /></div>
- : null} */}
 
 {!book && <div className={styles.title_error}>
                 <div>
@@ -143,7 +139,7 @@ export const BookPage: React.FC = () => {
                             <TableBook/>
 
                             {book.comments &&
-                                book.comments.map((comment) => (
+                                book.comments.map((comment)  => (
                                     <Review key={comment.id} rating={book.rating} delivery={book.delivery} booking={book.booking} createdAt={comment.createdAt} id={comment.id} commentRating={comment.rating} text={comment.text} user={comment.user} comments={book.comments} />
                                 ))
                             }

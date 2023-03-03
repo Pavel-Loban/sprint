@@ -21,15 +21,6 @@ export const fetchBooks = createAsyncThunk(
   }
 );
 
-// export const fetchBooksUpdate = createAsyncThunk(
-//   'books/fetchBooksUpdateStatus',
-
-//   async (baseUrl: string) => {
-//     const data = await axios.get(baseUrl);
-//     console.log(data.data)
-//     return data.data;
-//   }
-// );
 
 export enum Status {
   NOTHING = 'nothing',
@@ -83,22 +74,18 @@ interface BooksCategories {
 
 interface BooksState {
   books: Book[];
-  // booksUpdate: Book[];
   status: Status;
   loading: string;
   statusCategories: StatusCategories;
   booksCategories: BooksCategories[],
-  // updateBook: boolean,
 }
 
 const initialState: BooksState = {
   books: [],
-  // booksUpdate:[],
   status: Status.NOTHING,
   statusCategories: StatusCategories.NOTHING,
   loading: '',
   booksCategories: [],
-  // updateBook: false,
 };
 
 const booksSlice = createSlice({
@@ -116,11 +103,7 @@ const booksSlice = createSlice({
 
       newState.books = action.payload;
     },
-    // setUpdateBooks(state, action: PayloadAction<boolean>) {
-    //   const newState = state;
 
-    //   newState.updateBook = action.payload;
-    // },
 
   },
 
@@ -129,7 +112,6 @@ const booksSlice = createSlice({
       const newState = state;
 
       newState.status = Status.LOADING;
-      newState.books = [];
     });
 
     builder.addCase(fetchBooks.fulfilled, (state, action: PayloadAction<Book[]>) => {
@@ -147,28 +129,7 @@ const booksSlice = createSlice({
     });
 
 
-    //
-    // builder.addCase(fetchBooksUpdate.pending, (state) => {
-    //   const newState = state;
 
-    //   // newState.status = Status.LOADING;
-    //   newState.booksUpdate = [];
-    // });
-
-    // builder.addCase(fetchBooksUpdate.fulfilled, (state, action: PayloadAction<Book[]>) => {
-    //   const newState = state;
-
-    //   newState.booksUpdate = action.payload;
-    //   // newState.status = Status.SUCCESS;
-    // });
-
-    // builder.addCase(fetchBooksUpdate.rejected, (state) => {
-    //   const newState = state;
-
-    //   // newState.status = Status.ERROR;
-    //   newState.booksUpdate = [];
-    // });
-    //
 
 
     builder.addCase(fetchCategories.pending, (state) => {

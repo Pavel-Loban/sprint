@@ -117,43 +117,39 @@ if (isDescSort) {
     })
 }
 
+const d = false;
+
 return(
 
 
+    <section className={styles.content}>
+    <div className={styles.menu}>
+    <Sections dataId1='navigation-showcase' dataId2='navigation-books' dataIdCategory='navigation' isDesktop={true}/>
+    </div>
 
-        <section className={styles.content}>
+<div className={styles.container}>
+<Search  />
 
+<section className={view ?  styles.wrapper : styles.wrapper_list}>
+    { finalBooksList.length === 0 && search !== ''
+     ?
+    <AlertSearch  />
+    :
+    (
+        books.length && finalBooksList.length === 0 && search === ''
 
-            <div className={styles.menu}>
-            <Sections dataId1='navigation-showcase' dataId2='navigation-books' dataIdCategory='navigation' isDesktop={true}/>
-            </div>
+        ?
+        <AlertBooksNone/>
+        :
+        finalBooksList.map((book) => (
+        <Card  key={book.id} id={book.id} image={book.image} title={book.title} authors={book.authors} issueYear={book.issueYear}  booking={book.booking} delivery={book.delivery} categories={book.categories} histories={book.histories} rating={book.rating} />
+    ))
+    )
+}
+</section>
+</div>
+</section>
 
-        <div className={styles.container}>
-        <Search  />
-
-        <section className={view ?  styles.wrapper : styles.wrapper_list}>
-
-
-            { finalBooksList.length === 0 && search !== ''
-             ?
-            <AlertSearch  />
-            :
-            (
-                books.length && finalBooksList.length === 0 && search === ''
-
-                ?
-                <AlertBooksNone/>
-                :
-                finalBooksList.map((book) => (
-                <Card  key={book.id} id={book.id} image={book.image} title={book.title} authors={book.authors} issueYear={book.issueYear}  booking={book.booking} delivery={book.delivery} categories={book.categories} histories={book.histories} rating={book.rating} />
-            ))
-            )
-        }
-        </section>
-        </div>
-
-
-    </section>
 
 
 )};

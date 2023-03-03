@@ -4,8 +4,9 @@ import bookSliceReducer from './book-slice';
 import booksSliceReducer from './books-slice';
 import burgerMenuSlice from './burger-slice';
 import cardSliceReducer from './card-slice';
-import sortSliceReducer from './sort-slice';
 import filterSliceReducer from './filter-books-slice';
+import formSliceReducer from './form-slice';
+import sortSliceReducer from './sort-slice';
 
 export const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
       books: booksSliceReducer,
       book: bookSliceReducer,
       filter: filterSliceReducer,
+      form: formSliceReducer,
     },
   });
 
