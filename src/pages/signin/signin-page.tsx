@@ -54,22 +54,23 @@ export const SigninPage = () => {
 
                 localStorage.setItem('tokenData', tokenData);
 
-                //              axios.interceptors.request.use(config => {
-
+                // axios.interceptors.request.use(config => {
 
                 //   config.headers.Authorization = `Bearer ${tokenData}`;
-
                 //   return config;
                 // });
                 dispatch(setUser(data.data.user))
                 // push('/');
             }).catch((err) => {
                 console.log(err);
-                // if(err.response.status === 400){
-                //     setErr(true);
-                // }else{
-                //     console.log('другая ошибка')
-                // }
+                if(err.response.status === 400){
+                    setErr(true);
+                }
+
+                if(err){
+                    console.log('другая ошибка')
+                }
+
 
             })
     }
