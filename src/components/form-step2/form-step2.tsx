@@ -29,10 +29,6 @@ export const Schema = Yup.object().shape({
 
 
 
-
-
-
-
 export const FormStep2: React.FC = () => {
 
     const dispatch = useAppDispatch();
@@ -48,13 +44,10 @@ export const FormStep2: React.FC = () => {
 
     const getStep3 = (lastName: string, firstName: string) =>  {
 
-            console.log('uraStep2');
             dispatch(setLastName(lastName));
             dispatch(setFirstName(firstName));
             dispatch(setStep2(false));
             dispatch(setStep3(true));
-
-
     }
 
     const getSignInPage = () => {
@@ -68,9 +61,6 @@ export const FormStep2: React.FC = () => {
 
     return (
         <section className={styles.auth_wrapper} >
-
-
-
 
 
             <Formik
@@ -122,23 +112,11 @@ export const FormStep2: React.FC = () => {
                             <footer className={styles.footer_form}>
 
 
-
-
                                     <FormButton buttonText='ПОСЛЕДНИ ШАГ' typeSubmit={true}
 
-                                    getNextStep={() =>  console.log('Step2')}
-                                    // getNextStep={() =>console.log('ggg')}
+                                    getNextStep={() => {}}
+
                                     />
-
-
-
-
-
-
-
-
-
-
 
                                 <div className={styles.footer_link_signin}>
                                     <p className={styles.description_link}>

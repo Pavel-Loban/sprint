@@ -26,6 +26,7 @@ export const Schema = Yup.object().shape({
     .matches(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/, 'Введите корректный E-mail'),
 });
 
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ3LCJpYXQiOjE2Nzc4Mzc1NjEsImV4cCI6MTY4MDQyOTU2MX0.N8Rr4KPveabOrlAadTAEsXZmyr64zGgB0k8c4mbC0sc
 
 export const FormLastStep: React.FC = () => {
 
@@ -40,12 +41,9 @@ export const FormLastStep: React.FC = () => {
     }
     const baseUrl = 'https://strapi.cleverland.by/api/auth/local/register'
 
-    // const b = async (paramEmail:string, paramPhone:string) => {
-    //     dispatch(setEmail(paramEmail));
-    //     dispatch(setPhone(paramPhone ));
-    // }
+
     const getReg = async (paramEmail:string, paramPhone:string) => {
-        // b(paramEmail,paramPhone)
+
         dispatch(setEmail(paramEmail));
         dispatch(setPhone(paramPhone ));
 
@@ -61,42 +59,29 @@ export const FormLastStep: React.FC = () => {
         console.log(user)
         await axios
                 .post(baseUrl, {
-                    user
+                    'email': paramEmail,
+                    'username': userName,
+                    'password': password,
+                    'firstName': firstName,
+                    'lastName': lastName,
+                    'phone':paramPhone,
                 }).then((data) => {
                     console.log(data)
 
-                    // const tokenData = data.data.user.token;
+                    const tokenData = data.data.jwt;
 
-                    // saveToken(tokenData);
-                    // console.log(localStorage.getItem('tokenData'))
+                    saveToken(tokenData);
                     console.log(user)
                     dispatch(setStep3(false))
                     dispatch(setErrorReg('false'));
                 }).catch((err) => {
-                    console.log(err);
+                    console.log(err.response.status);
                     dispatch(setStep3(false))
                     dispatch(setErrorReg('true'));
                 })
     }
 
-    const getRegistration = (phone: string, email: string, getReg: () => void) =>  {
-        dispatch(setPhone(phone ));
-        dispatch(setEmail(email));
-        getReg();
-        // if(!param1 && !param2 && phone && email){
-        //     console.log('uraStep3');
-        //     dispatch(setStep3(false))
-        //     dispatch(setPhone(phone ));
-        //     dispatch(setEmail(email));
-        //     dispatch(setErrorReg('false'))
-        // }
 
-        // else{
-        //     console.log('neuraStep3');
-        //     dispatch(setErrorReg('true'));
-        // }
-
-    }
 
     const getSignInPage = () => {
         push('/auth');
@@ -154,8 +139,8 @@ export const FormLastStep: React.FC = () => {
                             <footer className={styles.footer_form}>
 
                                     <FormButton buttonText='ЗАРЕГИСТРИРОВАТЬСЯ' typeSubmit={true}
-                                    getNextStep={() =>  console.log('Step3')}
-                                    // getNextStep={() =>  getRegistration(!!errors.phone, !!errors.email, values.phone, values.email, getReg)}
+                                    getNextStep={() => {}}
+
                                     />
 
 

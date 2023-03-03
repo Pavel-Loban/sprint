@@ -48,17 +48,17 @@ export const Form: React.FC = () => {
 
 
 
-    const getStep2 = (username:string,password:string) =>  {
-        console.log('ura')
-            dispatch(setUserName(username));
-            dispatch(setPassword(password))
-            dispatch(setStep1(false));
-            dispatch(setStep2(true))
-}
+    const getStep2 = (username: string, password: string) => {
 
-const getSignInPage = () => {
-    push('/auth')
-}
+        dispatch(setUserName(username));
+        dispatch(setPassword(password))
+        dispatch(setStep1(false));
+        dispatch(setStep2(true))
+    }
+
+    const getSignInPage = () => {
+        push('/auth')
+    }
 
 
 
@@ -75,7 +75,7 @@ const getSignInPage = () => {
                     password: '',
                 }}
                 validationSchema={Schema}
-                onSubmit={(values) => getStep2(values.username,values.password)}
+                onSubmit={(values) => getStep2(values.username, values.password)}
             >
                 {({
                     values,
@@ -106,19 +106,16 @@ const getSignInPage = () => {
                             />
 
 
-<Input3span step1={step1} value={values.password} touched={touched?.password} error={errors.password} handleBlur={handleBlur} handleChange={handleChange}
-visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword}/>
+                            <Input3span step1={step1} value={values.password} touched={touched?.password} error={errors.password} handleBlur={handleBlur} handleChange={handleChange}
+                                visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword} />
 
 
 
                             <footer className={styles.footer_form}>
 
-                                        <FormButton buttonText='СЛЕДУЮЩИЙ ' typeSubmit={true}
-
-getNextStep={() => console.log('Step1')}
-                                        // getNextStep={() =>  getStep2(!!errors.username, !!errors.password, values.username, values.password)}
-
-                                        />
+                                <FormButton buttonText='СЛЕДУЮЩИЙ ' typeSubmit={true}
+                                    getNextStep={() => { }}
+                                />
 
 
 
@@ -127,7 +124,7 @@ getNextStep={() => console.log('Step1')}
                                         Есть учётная запись?
                                     </p>
                                     <div className={styles.wrapper_link_to_signin}
-                                    onClick={getSignInPage} role='presentation'
+                                        onClick={getSignInPage} role='presentation'
                                     >
                                         <p className={styles.link_to_signin}>Войти</p>
                                         <ArrowRight

@@ -7,6 +7,7 @@ import cardSliceReducer from './card-slice';
 import filterSliceReducer from './filter-books-slice';
 import formSliceReducer from './form-slice';
 import sortSliceReducer from './sort-slice';
+import userSliceReducer from './user-slice';
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
       book: bookSliceReducer,
       filter: filterSliceReducer,
       form: formSliceReducer,
+      user: userSliceReducer,
     },
   });
 

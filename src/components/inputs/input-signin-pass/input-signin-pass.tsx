@@ -13,6 +13,7 @@ interface Props {
     handleChange: (e: any) => void,
     visiblePass: boolean,
     getVisibilityPassword: () => void,
+
 }
 
 export const InputSignInPass: React.FC<Props> = ({ value, touched, error, handleBlur, handleChange, visiblePass, getVisibilityPassword }) => (
@@ -29,8 +30,8 @@ export const InputSignInPass: React.FC<Props> = ({ value, touched, error, handle
 
 
         <span className={error ? styles.bottom_input_span_error : styles.bottom_input_span}>
-            {error ? <div><p>Не верный пароль или логин</p>
-            <p style={{color: 'gray', marginTop: '10px', cursor: 'pointer'}} >Восстановить?</p></div>   : 'Забыли логин или пароль?' }
+            {error ? <div style={{paddingLeft:'12px', marginTop: '-20px'}} ><p>Не верный пароль или логин</p>
+            <p style={{color: 'gray' }} >Восстановить?</p></div>   : 'Забыли логин или пароль?' }
         </span>
         {visiblePass ? <EyeOpen className={styles.icon_eye} onClick={getVisibilityPassword} /> :
             <EyeClosed className={styles.icon_eye} onClick={getVisibilityPassword} />}

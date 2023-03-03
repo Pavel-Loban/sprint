@@ -10,7 +10,7 @@
       border: 0;
       border-radius: 4px;
       padding: 18px 12px;
-
+      margin-bottom: 10px;
       &:focus {
         outline-color: #f9f9fa;
       }
@@ -51,6 +51,7 @@
       color: #a7a7a7;
       letter-spacing: 0.2px;
       padding-left: 12px;
+      cursor: pointer;
     }
 
     .bottom_input_span_error {
@@ -60,6 +61,7 @@
       color: red;
       letter-spacing: 0.2px;
       padding-left: 12px;
+      cursor: pointer;
     }
 
     .icon_eye {

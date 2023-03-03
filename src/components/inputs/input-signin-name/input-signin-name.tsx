@@ -6,11 +6,14 @@ interface Props {
     value: string,
     touched: boolean | undefined,
     error: boolean,
-    handleBlur: (e:any) => void,
-    handleChange: (e:any) => void,
+    handleBlur: (e:React.InputHTMLAttributes<HTMLInputElement>) => void,
+    handleChange: (e:React.InputHTMLAttributes<HTMLInputElement>) => void,
 }
 
-export const InputSignInName:React.FC<Props> = ({value, touched, error, handleBlur, handleChange}) => (
+
+export const InputSignInName:React.FC<Props> = ({value, touched, error, handleBlur, handleChange}) =>
+
+   (
 
     <div className={styles.top_input_wrapper}>
         <input className={
@@ -20,7 +23,7 @@ export const InputSignInName:React.FC<Props> = ({value, touched, error, handleBl
         styles.top_input
     }
             id='form-text'
-            name="username"
+            name="identifier"
             value={value}
             onBlur={handleBlur}
             onChange={handleChange}

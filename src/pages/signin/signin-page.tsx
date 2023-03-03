@@ -1,7 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { FormButton } from '../../components/form-button/form-button';
@@ -9,33 +10,25 @@ import { InputSignInName } from '../../components/inputs/input-signin-name/input
 import { InputSignInPass } from '../../components/inputs/input-signin-pass/input-signin-pass';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
+import { setUser } from '../../store/user-slice';
 
 import styles from './signin.module.scss';
 
 
 export const Schema = Yup.object().shape({
-    username: Yup.string().required('')
-        // .matches(
-        //     (/^[a-z0-9]+$/i),
-        //     '',
-        // )
-        ,
+    identifier: Yup.string().required('')
+
+    ,
     password: Yup.string()
         .required('Пароль должен быть более')
-        // .min(8, 'Пароль должен быть более 8 символов')
-        // .max(16)
-        // .matches(
-        //     /(?=.*[A-Z])\w+/,
-        //     'Пароль должен содержать как минимум одну прописную',
-        // )
-        // .matches(/\d/, 'Пароль должен содержать как минимум одну цифру'),
+
 });
 
 export const SigninPage = () => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
-    // const { errorReg } = useAppSelector((state: RootState) => state.form);
+    // const {  } = useAppSelector((state: RootState) => state.user);
 
     const [visiblePass, setVisiblePass] = React.useState<boolean>(false);
 
@@ -45,19 +38,42 @@ export const SigninPage = () => {
 
     const [err, setErr] = React.useState<boolean>(false)
 
-    const getSignIn = (param1: boolean, username:string, password:string) =>  {
-        if(!param1){
-            console.log('uraVhod')
-            // dispatch(setUserName(username));
-            // dispatch(setPassword(password))
-            // dispatch(setStep1(false));
-            // dispatch(setStep2(true))
-            setErr(false);
-        }else{
-            console.log('neuraVhod');
-            setErr(true);
-        }
+    const baseUrl = 'https://strapi.cleverland.by/api/auth/local'
+
+    const getAuth = async (param1: string, param2: string) => {
+
+
+        await axios
+            .post(baseUrl, {
+                'identifier': param1,
+                'password': param2,
+            }).then((data) => {
+                console.log(data)
+
+                const tokenData = data.data.jwt;
+
+                localStorage.setItem('tokenData', tokenData);
+
+                //              axios.interceptors.request.use(config => {
+
+
+                //   config.headers.Authorization = `Bearer ${tokenData}`;
+
+                //   return config;
+                // });
+                dispatch(setUser(data.data.user))
+                // push('/');
+            }).catch((err) => {
+                console.log(err);
+                // if(err.response.status === 400){
+                //     setErr(true);
+                // }else{
+                //     console.log('другая ошибка')
+                // }
+
+            })
     }
+
 
     const getRegistrationPage = () => {
         push('/registration')
@@ -65,7 +81,7 @@ export const SigninPage = () => {
 
     React.useEffect(() => {
 
-    },[err])
+    }, [err])
 
     return (
         <div className={styles.auth_wrapper}>
@@ -73,11 +89,11 @@ export const SigninPage = () => {
 
             <Formik
                 initialValues={{
-                    username: '',
+                    identifier: '',
                     password: '',
                 }}
                 validationSchema={Schema}
-                onSubmit={values => console.log(values)}
+                onSubmit={values => getAuth(values.identifier, values.password)}
             >
                 {({
                     values,
@@ -101,19 +117,22 @@ export const SigninPage = () => {
                             </div>
 
 
-                            <InputSignInName  value={values.username} touched={touched?.username} error={err} handleBlur={handleBlur} handleChange={handleChange}
+                            <InputSignInName value={values.identifier} touched={touched?.identifier} error={err} handleBlur={handleBlur} handleChange={handleChange}
                             />
 
 
-<InputSignInPass  value={values.password} touched={touched?.password} error={err} handleBlur={handleBlur} handleChange={handleChange}
-visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword}
+                            <InputSignInPass value={values.password} touched={touched?.password} error={err} handleBlur={handleBlur} handleChange={handleChange}
+                                visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword}
+
                             />
 
 
 
                             <footer className={styles.footer_form}>
 
-                                    <FormButton buttonText='ВХОД ' typeSubmit={true} getNextStep={() =>  getSignIn(err, values.username, values.password)} />
+                                <FormButton buttonText='ВХОД ' typeSubmit={true}
+
+                                    getNextStep={() => { }} />
 
 
                                 <div className={styles.footer_link_signin}>
@@ -121,7 +140,7 @@ visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword}
                                         Нет учётной записи?
                                     </p>
                                     <div className={styles.wrapper_link_to_signin}
-                                    onClick={getRegistrationPage} role='presentation' >
+                                        onClick={getRegistrationPage} role='presentation' >
                                         <p className={styles.link_to_signin}>РЕГИСТРАЦИЯ</p>
                                         <ArrowRight
                                             width={18} height={12} className={styles.icon_arrow} />
