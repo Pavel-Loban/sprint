@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import {instance} from '../services'
 
 export const fetchCategories = createAsyncThunk(
   'books/fetchCategories',
 
   async (urlCategories: string) => {
-    const data = await axios.get(urlCategories);
+    const data = await instance.get(urlCategories);
 
     return data.data;
   }
@@ -15,7 +16,7 @@ export const fetchBooks = createAsyncThunk(
   'books/fetchBooksStatus',
 
   async (baseUrl: string) => {
-    const data = await axios.get(baseUrl);
+    const data = await instance.get(baseUrl);
 
     return data.data;
   }

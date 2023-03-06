@@ -10,7 +10,7 @@ import { FormButton } from '../../components/form-button/form-button';
 import { InputSignInName } from '../../components/inputs/input-signin-name/input-signin-name';
 import { InputSignInPass } from '../../components/inputs/input-signin-pass/input-signin-pass';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import {instance, apiSetHeader} from '../../services'
+import {instance} from '../../services'
 import { RootState } from '../../store';
 import { setUser } from '../../store/user-slice';
 
@@ -61,6 +61,7 @@ export const SigninPage = () => {
 
         } catch (error) {
           console.log('ERROR', error);
+          push('/registration');
         }
       };
 
