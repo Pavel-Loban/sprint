@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -9,10 +10,13 @@ import { FormButton } from '../../components/form-button/form-button';
 import { InputSignInName } from '../../components/inputs/input-signin-name/input-signin-name';
 import { InputSignInPass } from '../../components/inputs/input-signin-pass/input-signin-pass';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import {instance, apiSetHeader} from '../../services'
 import { RootState } from '../../store';
 import { setUser } from '../../store/user-slice';
 
 import styles from './signin.module.scss';
+
+
 
 
 export const Schema = Yup.object().shape({
@@ -40,8 +44,29 @@ export const SigninPage = () => {
 
     const baseUrl = 'https://strapi.cleverland.by/api/auth/local'
 
-    const getAuth = async (param1: string, param2: string) => {
 
+     const authorize = async (username: string, password: string) => {
+        try {
+
+          const { data } = await instance.post('/api/auth/local', {
+            'identifier':username,
+            'password':password
+          });
+          console.log(data)
+
+          localStorage.setItem('tokenData', data.jwt);
+          dispatch(setUser(data.user))
+
+          push('/books/all');
+
+        } catch (error) {
+          console.log('ERROR', error);
+        }
+      };
+
+
+
+    const getAuth = async (param1: string, param2: string) => {
 
         await axios
             .post(baseUrl, {
@@ -54,13 +79,17 @@ export const SigninPage = () => {
 
                 localStorage.setItem('tokenData', tokenData);
 
-                // axios.interceptors.request.use(config => {
+                axios.interceptors.request.use(config => {
+                    const token = localStorage.getItem('tokenData')
 
-                //   config.headers.Authorization = `Bearer ${tokenData}`;
-                //   return config;
-                // });
+                    if (token) {
+                      config.headers.Authorization = `Bearer ${localStorage.getItem('tokenData')}`
+                    }
+
+                    return config
+                  })
                 dispatch(setUser(data.data.user))
-                // push('/');
+                push('/books/all');
             }).catch((err) => {
                 console.log(err);
                 if(err.response.status === 400){
@@ -70,8 +99,6 @@ export const SigninPage = () => {
                 if(err){
                     console.log('другая ошибка')
                 }
-
-
             })
     }
 
@@ -94,7 +121,7 @@ export const SigninPage = () => {
                     password: '',
                 }}
                 validationSchema={Schema}
-                onSubmit={values => getAuth(values.identifier, values.password)}
+                onSubmit={values => authorize(values.identifier, values.password)}
             >
                 {({
                     values,
