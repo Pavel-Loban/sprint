@@ -19,6 +19,8 @@ export const Header: React.FC = () => {
   const box = React.useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { menuIsOpen} = useAppSelector((state: RootState) => state.burger);
+  // const { user} = useAppSelector((state: RootState) => state.user);
+  // console.log(user)
 
   const getMenuBurger = () => {
     dispatch(setMenuIsOpen(!menuIsOpen));

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 import {ReactComponent as  Preloader} from '../../assets/image/preloader.svg';
 import {useAppSelector } from '../../hooks/redux-hooks';
@@ -19,7 +19,7 @@ export const Layout = () => {
 
   const {statusPageBook } = useAppSelector((state: RootState) => state.book);
 
-  const d = true;
+  const token  = localStorage.getItem('tokenData') ;
 
   return (
 
@@ -28,8 +28,8 @@ export const Layout = () => {
   {((status === 'loading' && books.length === 0 ) || statusPageBook ===   'loading' ||  statusCategories === 'loading')  ? <div className={styles.wrapper_preloader} data-test-id='loader'
 > <Preloader className={styles.preloader} width={68.7} height={68.7} /></div>  : null}
 
-{/* {d
-? */}
+{token
+?
 <section className={styles.main_page}>
 
 {status === 'error' || statusPageBook ===   'error' ||  statusCategories === 'error' ? <Alert/> : ''}
@@ -48,10 +48,10 @@ export const Layout = () => {
 <Footer/>
 </section>
 
-{/* :
+ :
 
-<AuthPage/>
-} */}
+<Navigate to='/auth' />
+}
 
 
 

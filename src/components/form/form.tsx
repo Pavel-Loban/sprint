@@ -1,12 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { setStep1, setStep2, setStep3, setUserName, setPassword } from '../../store/form-slice';
+import { setPassword,setStep1, setStep2, setStep3, setUserName } from '../../store/form-slice';
 import { FormButton } from '../form-button/form-button';
 import { Input2span } from '../inputs/input-2span/input-2span';
 import { Input3span } from '../inputs/input-3span/input-3span';
@@ -47,7 +47,6 @@ export const Form: React.FC = () => {
     }
 
 
-
     const getStep2 = (username: string, password: string) => {
 
         dispatch(setUserName(username));
@@ -65,7 +64,7 @@ export const Form: React.FC = () => {
     return (
         <section className={styles.auth_wrapper} >
 
-            <h1 className={styles.wrapper_title}>Cleverland</h1>
+
 
 
 
@@ -101,19 +100,24 @@ export const Form: React.FC = () => {
                                 <p className={styles.auth_sub_title}>{step} шаг из 3</p>
                             </div>
 
+                            <section className={styles.inputs_wrapper}>
 
                             <Input2span step1={step1} value={values.username} touched={touched?.username} error={errors.username} handleBlur={handleBlur} handleChange={handleChange}
                             />
 
 
-                            <Input3span step1={step1} value={values.password} touched={touched?.password} error={errors.password} handleBlur={handleBlur} handleChange={handleChange}
+                            <Input3span step1={step1} value={values.password} touched={touched?.password} error={errors.password}
+                            name='password' label='Пароль' handleBlur={handleBlur} handleChange={handleChange}
                                 visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword} />
+                            </section>
+
+
 
 
 
                             <footer className={styles.footer_form}>
 
-                                <FormButton buttonText='СЛЕДУЮЩИЙ ' typeSubmit={true}
+                                <FormButton buttonText='СЛЕДУЮЩИЙ ' typeSubmit={true} disabledButton={false}
                                     getNextStep={() => { }}
                                 />
 

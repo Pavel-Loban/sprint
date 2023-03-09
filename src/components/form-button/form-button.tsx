@@ -7,15 +7,11 @@ interface Props {
     buttonText: string,
     typeSubmit: boolean,
     getNextStep: () => void,
+    disabledButton: boolean,
 }
 
-export const FormButton: React.FC<Props> = ({buttonText,typeSubmit, getNextStep}) =>
-
-
-    (
-
-
-        <button type={typeSubmit ? 'submit' : 'button'} className={styles.form_button}
+export const FormButton: React.FC<Props> = ({buttonText,typeSubmit, getNextStep, disabledButton}) => (
+        <button type={typeSubmit ? 'submit' : 'button'} disabled={disabledButton} className={disabledButton ? styles.form_button_disabled : styles.form_button}
         onClick={getNextStep}
         >
             {buttonText}

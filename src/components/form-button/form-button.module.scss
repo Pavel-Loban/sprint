@@ -10,4 +10,30 @@
     color: #ffffff;
     text-transform: uppercase;
     cursor: pointer;
+
+    @media(max-width: 540px) {
+      & {
+        height: 40px;
+      }
+    }
+  }
+
+  .form_button_disabled {
+    width: 100%;
+    background: #EBEBEB;
+    border-radius: 30px;
+    height: 52px;
+    border: 0;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    color: #ffffff;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    @media(max-width: 540px) {
+      & {
+        height: 40px;
+      }
+    }
   }

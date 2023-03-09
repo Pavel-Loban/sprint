@@ -18,11 +18,11 @@ import styles from '../form/form.module.scss';
 
 export const Schema = Yup.object().shape({
     firstName: Yup.string().required('Не заполнено обязательное поле')
-    .matches(/^\S*$/, 'Не заполнено' )
-    .max(16),
+        .matches(/^\S*$/, 'Не заполнено')
+        .max(16),
     lastName: Yup.string()
         .required('Не заполнено обязательное поле')
-        .matches(/^\S*$/, 'Не заполнено' )
+        .matches(/^\S*$/, 'Не заполнено')
         .max(25),
 
 });
@@ -42,12 +42,12 @@ export const FormStep2: React.FC = () => {
 
 
 
-    const getStep3 = (lastName: string, firstName: string) =>  {
+    const getStep3 = (lastName: string, firstName: string) => {
 
-            dispatch(setLastName(lastName));
-            dispatch(setFirstName(firstName));
-            dispatch(setStep2(false));
-            dispatch(setStep3(true));
+        dispatch(setLastName(lastName));
+        dispatch(setFirstName(firstName));
+        dispatch(setStep2(false));
+        dispatch(setStep3(true));
     }
 
     const getSignInPage = () => {
@@ -96,34 +96,34 @@ export const FormStep2: React.FC = () => {
 
 
 
-
-                            <InputNameOrLastName step1={step1} value={values.firstName} touched={touched?.firstName} error={errors.firstName} handleBlur={handleBlur} handleChange={handleChange} label='Имя' name='firstName'
-                            />
-
-
-
-<InputNameOrLastName step1={step1} value={values.lastName} touched={touched?.lastName} error={errors.lastName} handleBlur={handleBlur} handleChange={handleChange} label='Фамилия' name='lastName'
-                            />
+                            <section className={styles.inputs_wrapper}>
+                                <InputNameOrLastName step1={step1} value={values.firstName} touched={touched?.firstName} error={errors.firstName} handleBlur={handleBlur} handleChange={handleChange} label='Имя' name='firstName'
+                                />
 
 
+
+                                <InputNameOrLastName step1={step1} value={values.lastName} touched={touched?.lastName} error={errors.lastName} handleBlur={handleBlur} handleChange={handleChange} label='Фамилия' name='lastName'
+                                />
+
+                            </section>
 
 
 
                             <footer className={styles.footer_form}>
 
 
-                                    <FormButton buttonText='ПОСЛЕДНИ ШАГ' typeSubmit={true}
+                                <FormButton buttonText='ПОСЛЕДНИ ШАГ' typeSubmit={true} disabledButton={false}
 
-                                    getNextStep={() => {}}
+                                    getNextStep={() => { }}
 
-                                    />
+                                />
 
                                 <div className={styles.footer_link_signin}>
                                     <p className={styles.description_link}>
                                         Есть учётная запись?
                                     </p>
                                     <div className={styles.wrapper_link_to_signin}
-                                    onClick={getSignInPage} role='presentation'>
+                                        onClick={getSignInPage} role='presentation'>
                                         <p className={styles.link_to_signin}>Войти</p>
                                         <ArrowRight
                                             width={18} height={12} className={styles.icon_arrow} />

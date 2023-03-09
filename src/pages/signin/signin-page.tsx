@@ -1,17 +1,19 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
+import { Flow } from '../../components/flow/flow';
 import { FormButton } from '../../components/form-button/form-button';
 import { InputSignInName } from '../../components/inputs/input-signin-name/input-signin-name';
 import { InputSignInPass } from '../../components/inputs/input-signin-pass/input-signin-pass';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import {instance} from '../../services'
 import { RootState } from '../../store';
+// import { authorize } from '../../store/form-slice';
 import { setUser } from '../../store/user-slice';
 
 import styles from './signin.module.scss';
@@ -41,71 +43,68 @@ export const SigninPage = () => {
     }
 
     const [err, setErr] = React.useState<boolean>(false)
+    const [errFlow, setErrFlow] = React.useState<boolean>(false)
 
     const baseUrl = 'https://strapi.cleverland.by/api/auth/local'
 
 
-     const authorize = async (username: string, password: string) => {
+    const token = localStorage.getItem('tokenData');
+
+
+
+     const authorize = async (username: string, password: string, resetForm: () => void) => {
         try {
 
           const { data } = await instance.post('/api/auth/local', {
             'identifier':username,
             'password':password
           });
+
           console.log(data)
 
           localStorage.setItem('tokenData', data.jwt);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          const userLocalStorage= localStorage.getItem('user');
+          const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
+
+          console.log(user)
           dispatch(setUser(data.user))
 
           push('/books/all');
 
         } catch (error) {
-          console.log('ERROR', error);
-          push('/registration');
+            const err = error as AxiosError
+
+          console.log('ERROR', err);
+          if(err.response?.status === 400){
+            setErr(true);
+        }
+
+        if(err.response?.status !== 400){
+            console.log('другая ошибка')
+            setErrFlow(true);
+            resetForm()
+        }
         }
       };
 
 
+    const getRegistrationPage = () => {
+        if(!token){
+            push('/registration')
+        }
 
-    const getAuth = async (param1: string, param2: string) => {
-
-        await axios
-            .post(baseUrl, {
-                'identifier': param1,
-                'password': param2,
-            }).then((data) => {
-                console.log(data)
-
-                const tokenData = data.data.jwt;
-
-                localStorage.setItem('tokenData', tokenData);
-
-                axios.interceptors.request.use(config => {
-                    const token = localStorage.getItem('tokenData')
-
-                    if (token) {
-                      config.headers.Authorization = `Bearer ${localStorage.getItem('tokenData')}`
-                    }
-
-                    return config
-                  })
-                dispatch(setUser(data.data.user))
-                push('/books/all');
-            }).catch((err) => {
-                console.log(err);
-                if(err.response.status === 400){
-                    setErr(true);
-                }
-
-                if(err){
-                    console.log('другая ошибка')
-                }
-            })
     }
 
+    const getSignInForm = (res: () => void) => {
+        setErrFlow(false);
+        res();
+    }
 
-    const getRegistrationPage = () => {
-        push('/registration')
+    const getForgotPassPage = () => {
+        if(!token){
+            push('/forgot-pass')
+        }
     }
 
     React.useEffect(() => {
@@ -113,8 +112,9 @@ export const SigninPage = () => {
     }, [err])
 
     return (
-        <div className={styles.auth_wrapper}>
-            <h1 className={styles.wrapper_title}>Cleverland</h1>
+    token ? <Navigate to='/'/>
+     :  <div className={styles.auth_wrapper}>
+
 
             <Formik
                 initialValues={{
@@ -122,7 +122,7 @@ export const SigninPage = () => {
                     password: '',
                 }}
                 validationSchema={Schema}
-                onSubmit={values => authorize(values.identifier, values.password)}
+                onSubmit={(values,{resetForm}) => authorize(values.identifier, values.password, resetForm)}
             >
                 {({
                     values,
@@ -133,33 +133,38 @@ export const SigninPage = () => {
                     dirty,
                     touched,
                     isValid,
+                    resetForm,
                 }) => {
                     const d = new Date();
 
 
                     return (
-                        <form className={styles.auth_form}
+                    errFlow
+                    ?
+                     <Flow title='Вход не выполнен' getPage={() =>  getSignInForm(resetForm)} buttonText='ПОВТОРИТЬ' flowText='Что-то пошло не так. Попробуйте еще раз' />
+                    :
+                    <form className={styles.auth_form}
                             onSubmit={handleSubmit}
                         >
                             <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Вход в личный кабинет</h3>
                             </div>
 
-
+                            <section className={styles.inputs_wrapper}>
                             <InputSignInName value={values.identifier} touched={touched?.identifier} error={err} handleBlur={handleBlur} handleChange={handleChange}
                             />
 
 
                             <InputSignInPass value={values.password} touched={touched?.password} error={err} handleBlur={handleBlur} handleChange={handleChange}
                                 visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword}
-
+                                getForgotPassPage={getForgotPassPage}
                             />
-
+                            </section>
 
 
                             <footer className={styles.footer_form}>
 
-                                <FormButton buttonText='ВХОД ' typeSubmit={true}
+                                <FormButton buttonText='ВХОД ' typeSubmit={true} disabledButton={false}
 
                                     getNextStep={() => { }} />
 
@@ -180,9 +185,12 @@ export const SigninPage = () => {
 
                         </form>
 
+
+
                     );
                 }}
             </Formik>
+
 
         </div>
     )

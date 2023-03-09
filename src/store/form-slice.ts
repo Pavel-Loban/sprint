@@ -1,16 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import axios, { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+import {instance} from '../services';
+
+import { setUser } from './user-slice';
+import { AppDispatch } from '.';
+
+// const push = useNavigate();
+const baseUrl = 'https://strapi.cleverland.by/api/auth/local/register';
+
+
 
 interface Form {
   step1: boolean;
   step2: boolean;
   step3: boolean;
-  userName: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-  email: string,
-  phone: string,
-  errorReg: string,
+  userName: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  errorReg: string;
+  serverResponse: string;
+  errFlow: boolean,
+  errAuth: boolean,
 }
 const initialState: Form = {
   step1: true,
@@ -23,6 +38,9 @@ const initialState: Form = {
   email: '',
   phone: '',
   errorReg: '',
+  serverResponse: '',
+  errFlow: false,
+  errAuth: false,
 };
 
 const formSlice = createSlice({
@@ -79,9 +97,112 @@ const formSlice = createSlice({
 
       newState.errorReg = action.payload;
     },
+    setServerResponse(state, action: PayloadAction<string>) {
+      const newState = state;
+
+      newState.serverResponse = action.payload;
+    },
+    setErrFlow(state, action: PayloadAction<boolean>) {
+      const newState = state;
+
+      newState.errFlow = action.payload;
+    },
+    setErrAuth(state, action: PayloadAction<boolean>) {
+      const newState = state;
+
+      newState.errAuth = action.payload;
+    },
   },
 });
 
-export const { setStep1, setStep2, setStep3, setUserName, setPassword, setFirstName, setLastName, setEmail, setPhone, setErrorReg } = formSlice.actions;
+
+
+
+export const {
+  setStep1,
+  setStep2,
+  setStep3,
+  setUserName,
+  setPassword,
+  setFirstName,
+  setLastName,
+  setEmail,
+  setPhone,
+  setErrorReg,
+  setServerResponse,
+  setErrFlow,
+  setErrAuth
+} = formSlice.actions;
 
 export default formSlice.reducer;
+
+
+export const getReg = (param1: string, param2: string,param3: string, param4: string,param5: string, param6: string,) => async (dispatch: AppDispatch) => {
+  // dispatch(SetLoaderAC(false))
+  await axios
+    .post(baseUrl, {
+      email: param1,
+      username: param2,
+      password: param3,
+      firstName: param4,
+      lastName: param5,
+      phone: param6,
+    })
+    .then((data) => {
+
+      dispatch(setStep3(false))
+      dispatch(setErrorReg('false'));
+    })
+    .catch((err) => {
+      dispatch(setStep3(false))
+                    if(err.response.status === 400) {
+                        dispatch(setErrorReg('true'));
+                    }
+                    if(err.response?.status !== 400){
+                        dispatch(setErrorReg('errorNot400'));
+                    }
+    })
+    .finally(() => {
+      // dispatch(SetLoaderAC(true));
+    });
+};
+
+
+// export const authorize =  (username: string, password: string, resetForm: () => void) => async (dispatch: AppDispatch) => {
+
+//   const push = useNavigate();
+
+//   try {
+
+//     const { data } = await instance.post('/api/auth/local', {
+//       'identifier':username,
+//       'password':password
+//     });
+
+//     console.log(data)
+
+//     localStorage.setItem('tokenData', data.jwt);
+//     localStorage.setItem('user', JSON.stringify(data.user));
+//     const userLocalStorage= localStorage.getItem('user');
+//     const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
+
+//     console.log(user)
+//     dispatch(setUser(data.user))
+
+//     push('/books/all');
+
+//   } catch (error) {
+//       const err = error as AxiosError
+
+//     console.log('ERROR', err);
+//     if(err.response?.status === 400){
+//      dispatch(setErrAuth(true));
+//   }
+
+//   if(err.response?.status !== 400){
+//       console.log('другая ошибка')
+//       dispatch(setErrFlow(true));
+//       resetForm()
+//   }
+//   }
+// };

@@ -26,7 +26,7 @@ export const Schema = Yup.object().shape({
     .matches(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/, 'Введите корректный E-mail'),
 });
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ3LCJpYXQiOjE2Nzc4Mzc1NjEsImV4cCI6MTY4MDQyOTU2MX0.N8Rr4KPveabOrlAadTAEsXZmyr64zGgB0k8c4mbC0sc
+
 
 export const FormLastStep: React.FC = () => {
 
@@ -47,16 +47,6 @@ export const FormLastStep: React.FC = () => {
         dispatch(setEmail(paramEmail));
         dispatch(setPhone(paramPhone ));
 
-        const user = {
-            'email': paramEmail,
-            'username': userName,
-            'password': password,
-            'firstName': firstName,
-            'lastName': lastName,
-            'phone':paramPhone,
-        }
-
-        console.log(user)
         await axios
                 .post(baseUrl, {
                     'email': paramEmail,
@@ -68,16 +58,19 @@ export const FormLastStep: React.FC = () => {
                 }).then((data) => {
                     console.log(data)
 
-                    const tokenData = data.data.jwt;
 
-                    saveToken(tokenData);
-                    console.log(user)
                     dispatch(setStep3(false))
                     dispatch(setErrorReg('false'));
                 }).catch((err) => {
-                    console.log(err.response.status);
+                    console.log(err);
                     dispatch(setStep3(false))
-                    dispatch(setErrorReg('true'));
+                    if(err.response.status === 400) {
+                        dispatch(setErrorReg('true'));
+                    }
+                    if(err.response?.status !== 400){
+                        dispatch(setErrorReg('errorNot400'));
+                    }
+
                 })
     }
 
@@ -126,7 +119,7 @@ export const FormLastStep: React.FC = () => {
                                 <p className={styles.auth_sub_title}>3 из 3</p>
                             </div>
 
-
+                            <section className={styles.inputs_wrapper}>
                             <InputPhone step1={step1} value={values.phone} touched={touched?.phone} error={errors.phone} handleBlur={handleBlur} handleChange={handleChange} label='Номер телефона' name='phone'
                             />
 
@@ -134,11 +127,11 @@ export const FormLastStep: React.FC = () => {
 
 <InputNameOrLastName step1={step1} value={values.email} touched={touched?.email} error={errors.email} handleBlur={handleBlur} handleChange={handleChange} label='E-mail' name='email'
                             />
-
+                            </section>
 
                             <footer className={styles.footer_form}>
 
-                                    <FormButton buttonText='ЗАРЕГИСТРИРОВАТЬСЯ' typeSubmit={true}
+                                    <FormButton buttonText='ЗАРЕГИСТРИРОВАТЬСЯ' typeSubmit={true} disabledButton={false}
                                     getNextStep={() => {}}
 
                                     />
