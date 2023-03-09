@@ -13,7 +13,7 @@ import { InputSignInPass } from '../../components/inputs/input-signin-pass/input
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import {instance} from '../../services'
 import { RootState } from '../../store';
-// import { authorize } from '../../store/form-slice';
+import { authorize,setErrFlow } from '../../store/form-slice';
 import { setUser } from '../../store/user-slice';
 
 import styles from './signin.module.scss';
@@ -34,7 +34,7 @@ export const SigninPage = () => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
-    // const {  } = useAppSelector((state: RootState) => state.user);
+    const { errAuth, errFlow } = useAppSelector((state: RootState) => state.form);
 
     const [visiblePass, setVisiblePass] = React.useState<boolean>(false);
 
@@ -43,8 +43,8 @@ export const SigninPage = () => {
     }
 
     const [err, setErr] = React.useState<boolean>(false)
-    const [errFlow, setErrFlow] = React.useState<boolean>(false)
-
+    // const [errFlow, setErrFlow] = React.useState<boolean>(false)
+    console.log(errAuth,errFlow)
     const baseUrl = 'https://strapi.cleverland.by/api/auth/local'
 
 
@@ -52,41 +52,40 @@ export const SigninPage = () => {
 
 
 
-     const authorize = async (username: string, password: string, resetForm: () => void) => {
-        try {
+    //  const authorize = async (username: string, password: string, resetForm: () => void) => {
+    //     try {
 
-          const { data } = await instance.post('/api/auth/local', {
-            'identifier':username,
-            'password':password
-          });
+    //       const { data } = await instance.post('/api/auth/local', {
+    //         'identifier':username,
+    //         'password':password
+    //       });
+    //       console.log(data)
 
-          console.log(data)
+    //       localStorage.setItem('tokenData', data.jwt);
+    //       localStorage.setItem('user', JSON.stringify(data.user));
+    //       const userLocalStorage= localStorage.getItem('user');
+    //       const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
 
-          localStorage.setItem('tokenData', data.jwt);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          const userLocalStorage= localStorage.getItem('user');
-          const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
+    //       console.log(user)
+    //       dispatch(setUser(data.user))
 
-          console.log(user)
-          dispatch(setUser(data.user))
+    //       push('/books/all');
 
-          push('/books/all');
+    //     } catch (error) {
+    //         const err = error as AxiosError
 
-        } catch (error) {
-            const err = error as AxiosError
+    //       console.log('ERROR', err);
+    //       if(err.response?.status === 400){
+    //         setErr(true);
+    //     }
 
-          console.log('ERROR', err);
-          if(err.response?.status === 400){
-            setErr(true);
-        }
-
-        if(err.response?.status !== 400){
-            console.log('другая ошибка')
-            setErrFlow(true);
-            resetForm()
-        }
-        }
-      };
+    //     if(err.response?.status !== 400){
+    //         console.log('другая ошибка')
+    //         setErrFlow(true);
+    //         resetForm()
+    //     }
+    //     }
+    //   };
 
 
     const getRegistrationPage = () => {
@@ -97,7 +96,8 @@ export const SigninPage = () => {
     }
 
     const getSignInForm = (res: () => void) => {
-        setErrFlow(false);
+        // setErrFlow(false);
+        dispatch(setErrFlow(false))
         res();
     }
 
@@ -107,9 +107,9 @@ export const SigninPage = () => {
         }
     }
 
-    React.useEffect(() => {
+    // React.useEffect(() => {
 
-    }, [err])
+    // }, [err])
 
     return (
     token ? <Navigate to='/'/>
@@ -122,7 +122,7 @@ export const SigninPage = () => {
                     password: '',
                 }}
                 validationSchema={Schema}
-                onSubmit={(values,{resetForm}) => authorize(values.identifier, values.password, resetForm)}
+                onSubmit={(values,{resetForm}) => {authorize(values.identifier, values.password, resetForm)}}
             >
                 {({
                     values,
@@ -151,7 +151,7 @@ export const SigninPage = () => {
                             </div>
 
                             <section className={styles.inputs_wrapper}>
-                            <InputSignInName value={values.identifier} touched={touched?.identifier} error={err} handleBlur={handleBlur} handleChange={handleChange}
+                            <InputSignInName value={values.identifier} touched={touched?.identifier} error={errAuth} handleBlur={handleBlur} handleChange={handleChange}
                             />
 
 

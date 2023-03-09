@@ -168,41 +168,41 @@ export const getReg = (param1: string, param2: string,param3: string, param4: st
 };
 
 
-// export const authorize =  (username: string, password: string, resetForm: () => void) => async (dispatch: AppDispatch) => {
+export const authorize =  (username: string, password: string, resetForm: () => void) => async (dispatch: AppDispatch) => {
+  console.log('hghfh')
+  const push = useNavigate();
 
-//   const push = useNavigate();
+  try {
 
-//   try {
+    const { data } = await instance.post('/api/auth/local', {
+      'identifier':username,
+      'password':password
+    });
 
-//     const { data } = await instance.post('/api/auth/local', {
-//       'identifier':username,
-//       'password':password
-//     });
+    console.log(data)
 
-//     console.log(data)
+    localStorage.setItem('tokenData', data.jwt);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    const userLocalStorage= localStorage.getItem('user');
+    const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
 
-//     localStorage.setItem('tokenData', data.jwt);
-//     localStorage.setItem('user', JSON.stringify(data.user));
-//     const userLocalStorage= localStorage.getItem('user');
-//     const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
+    console.log(user)
+    dispatch(setUser(data.user))
 
-//     console.log(user)
-//     dispatch(setUser(data.user))
+    push('/books/all');
 
-//     push('/books/all');
+  } catch (error) {
+      const err = error as AxiosError
 
-//   } catch (error) {
-//       const err = error as AxiosError
+    console.log('ERROR', err);
+    if(err.response?.status === 400){
+     dispatch(setErrAuth(true));
+  }
 
-//     console.log('ERROR', err);
-//     if(err.response?.status === 400){
-//      dispatch(setErrAuth(true));
-//   }
-
-//   if(err.response?.status !== 400){
-//       console.log('другая ошибка')
-//       dispatch(setErrFlow(true));
-//       resetForm()
-//   }
-//   }
-// };
+  if(err.response?.status !== 400){
+      console.log('другая ошибка')
+      dispatch(setErrFlow(true));
+      resetForm()
+  }
+  }
+};
