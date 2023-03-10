@@ -8,17 +8,18 @@ import styles from './input-signin-pass.module.scss';
 interface Props {
     value: string,
     touched: boolean | undefined,
-    error: boolean,
+    error: string | undefined,
     handleBlur: (e: any) => void,
     handleChange: (e: any) => void,
     visiblePass: boolean,
     getVisibilityPassword: () => void,
     getForgotPassPage: () => void,
+    errAxios:boolean,
 }
 
 
 
-export const InputSignInPass: React.FC<Props> = ({ value, touched, error, handleBlur, handleChange, visiblePass, getVisibilityPassword, getForgotPassPage }) => (
+export const InputSignInPass: React.FC<Props> = ({ value, touched, error, handleBlur, handleChange, visiblePass, getVisibilityPassword, getForgotPassPage, errAxios }) => (
 
     <div className={styles.bottom_input_wrapper}>
         <input type={visiblePass ? 'text' : 'password'} className={error ? styles.bottom_input_error : styles.bottom_input}
@@ -31,12 +32,17 @@ export const InputSignInPass: React.FC<Props> = ({ value, touched, error, handle
         <label className={value ? styles.bottom_label_value : styles.bottom_label} htmlFor="bottom-text">Пароль</label>
 
 
-        <span className={error ? styles.bottom_input_span_error : styles.bottom_input_span}>
-            {error ? <div style={{paddingLeft:'12px', marginTop: '-20px'}} ><p>Не верный пароль или логин</p>
-            <p style={{color: 'gray' }} onClick={getForgotPassPage} role='presentation'>Восстановить?</p></div>   : <span onClick={getForgotPassPage} role='presentation' >Забыли логин или пароль?</span> }
+        <span className={error ? styles.bottom_input_span_error : styles.bottom_input_span} >
+            {error ? <span style={{paddingLeft:'12px', marginTop: '-20px'}} ><span data-test-id='hint'>{value === '' ? error : ''}</span>
+
+            {/* {errAxios && <span style={{paddingLeft:'12px', marginTop: '-20px'}} ><span data-test-id='hint'>{value === '' ? error : ''}
+            Неверный логин или пароль! */}
+
+
+            <p style={{color: 'gray', marginLeft: '12px' }} onClick={getForgotPassPage} role='presentation'>Восстановить?</p></span>   : <span onClick={getForgotPassPage} role='presentation' data-test-id='hint'>Забыли логин или пароль?</span> }
         </span>
-        {visiblePass ? <EyeOpen className={styles.icon_eye} onClick={getVisibilityPassword} /> :
-            <EyeClosed className={styles.icon_eye} onClick={getVisibilityPassword} />}
+        <EyeOpen className={visiblePass ? styles.icon_eye : styles.hide} onClick={getVisibilityPassword}  data-test-id='eye-opened'/>
+            <EyeClosed className={visiblePass ? styles.hide : styles.icon_eye} onClick={getVisibilityPassword} data-test-id='eye-closed' />
 
     </div>
 )

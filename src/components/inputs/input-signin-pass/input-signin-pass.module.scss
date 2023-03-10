@@ -24,7 +24,7 @@
       border: 0;
       border-radius: 4px;
       padding: 18px 12px;
-      border-bottom: 1px solid red;
+      border-bottom: 1px solid rgb(244, 44, 79);
       margin-bottom: 10px;
       &:focus {
         outline-color: #f9f9fa;
@@ -75,7 +75,7 @@
       font-weight: 500;
       font-size: 12px;
       line-height: 16px;
-      color: red;
+      color: rgb(244, 44, 79);
       letter-spacing: 0.2px;
       padding-left: 12px;
       cursor: pointer;
@@ -87,4 +87,8 @@
       right: 20px;
       cursor: pointer;
     }
+  }
+
+  .hide{
+    display: none;
   }

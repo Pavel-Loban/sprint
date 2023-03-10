@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
   const box = React.useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { menuIsOpen} = useAppSelector((state: RootState) => state.burger);
-  // const { user} = useAppSelector((state: RootState) => state.user);
+  const { user} = useAppSelector((state: RootState) => state.user);
   // console.log(user)
 
   const getMenuBurger = () => {
@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
         <div data-test-id='button-burger' ref={box} className={menuIsOpen ? `${styles.icon_burger} ${styles.icon_burger_active}`: styles.icon_burger} onClick={ getMenuBurger} role='presentation'><span onClick={(e) => getMenuBurgerSpan(e)} role='presentation'/></div>
         <h1 className={styles.title_text}>Библиотека</h1>
         <header className={styles.title_user}>
-          <h3 className={styles.user_name}>Привет, Иван!</h3>
+          <h3 className={styles.user_name}>Привет, {user?.username}!</h3>
           <img src={Avatar} alt='avatar' className={styles.user_avatar} />
         </header>
       </section>

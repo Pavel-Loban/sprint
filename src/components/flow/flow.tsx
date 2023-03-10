@@ -20,7 +20,7 @@ export const Flow:React.FC<Props> = ({title, getPage, buttonText, flowText}) => 
 
     return (
 
-    <div className={styles.auth_form}>
+    <div className={styles.auth_form} data-test-id='status-block'>
         <p className={styles.auth_title}>{title}</p>
         <p className={styles.sub_title}>{flowText}</p>
     {buttonText !== '' && <FormButton buttonText={buttonText} typeSubmit={false} disabledButton={false}  getNextStep={getPage} />}

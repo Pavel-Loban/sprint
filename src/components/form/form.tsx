@@ -94,6 +94,7 @@ export const Form: React.FC = () => {
                     return (
                         <form className={styles.auth_form}
                             onSubmit={handleSubmit}
+                            data-test-id='register-form'
                         >
                             <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Регистрация</h3>

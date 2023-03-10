@@ -108,6 +108,7 @@ interface Props{
                       return (
                           <form className={styles.auth_form}
                               onSubmit={handleSubmit}
+                              data-test-id='reset-password-form'
                           >
                               <div className={styles.form_header}>
                                   <h3 className={styles.auth_title}>Восстановление пароля</h3>

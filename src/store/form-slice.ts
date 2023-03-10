@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk,createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,6 +26,7 @@ interface Form {
   serverResponse: string;
   errFlow: boolean,
   errAuth: boolean,
+  authLoader: boolean,
 }
 const initialState: Form = {
   step1: true,
@@ -41,6 +42,7 @@ const initialState: Form = {
   serverResponse: '',
   errFlow: false,
   errAuth: false,
+  authLoader: false,
 };
 
 const formSlice = createSlice({
@@ -112,6 +114,11 @@ const formSlice = createSlice({
 
       newState.errAuth = action.payload;
     },
+    setAuthLoader(state, action: PayloadAction<boolean>) {
+      const newState = state;
+
+      newState.authLoader = action.payload;
+    },
   },
 });
 
@@ -131,7 +138,8 @@ export const {
   setErrorReg,
   setServerResponse,
   setErrFlow,
-  setErrAuth
+  setErrAuth,
+  setAuthLoader
 } = formSlice.actions;
 
 export default formSlice.reducer;

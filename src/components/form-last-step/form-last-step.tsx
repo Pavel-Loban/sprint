@@ -36,9 +36,7 @@ export const FormLastStep: React.FC = () => {
     const { step1,  step3, password, userName, lastName, firstName, email, phone } = useAppSelector((state: RootState) => state.form);
 
 
-    const saveToken = (token:string) => {
-        localStorage.setItem('tokenData', token);
-    }
+
     const baseUrl = 'https://strapi.cleverland.by/api/auth/local/register'
 
 
@@ -56,9 +54,7 @@ export const FormLastStep: React.FC = () => {
                     'lastName': lastName,
                     'phone':paramPhone,
                 }).then((data) => {
-                    console.log(data)
-
-
+                    // console.log(data)
                     dispatch(setStep3(false))
                     dispatch(setErrorReg('false'));
                 }).catch((err) => {

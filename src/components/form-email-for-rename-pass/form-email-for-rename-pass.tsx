@@ -82,6 +82,7 @@ export const Schema = Yup.object().shape({
                      return (
                     <form className={styles.auth_form}
                              onSubmit={handleSubmit}
+                             data-test-id='send-email-form'
                          >
                             <div className={styles.nav_to_registration}>
                             <ArrowRight

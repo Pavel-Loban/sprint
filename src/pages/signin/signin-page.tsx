@@ -13,7 +13,7 @@ import { InputSignInPass } from '../../components/inputs/input-signin-pass/input
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import {instance} from '../../services'
 import { RootState } from '../../store';
-import { authorize,setErrFlow } from '../../store/form-slice';
+import { authorize,setErrFlow, setAuthLoader } from '../../store/form-slice';
 import { setUser } from '../../store/user-slice';
 
 import styles from './signin.module.scss';
@@ -22,11 +22,11 @@ import styles from './signin.module.scss';
 
 
 export const Schema = Yup.object().shape({
-    identifier: Yup.string().required('')
-
+    identifier: Yup.string().required('Поле не может быть пустым')
+    // .matches(/^\S*$/, 'Поле не может быть пустым')
     ,
     password: Yup.string()
-        .required('Пароль должен быть более')
+        .required('Поле не может быть пустым')
 
 });
 
@@ -34,7 +34,7 @@ export const SigninPage = () => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
-    const { errAuth, errFlow } = useAppSelector((state: RootState) => state.form);
+    // const { errAuth, errFlow } = useAppSelector((state: RootState) => state.form);
 
     const [visiblePass, setVisiblePass] = React.useState<boolean>(false);
 
@@ -43,8 +43,8 @@ export const SigninPage = () => {
     }
 
     const [err, setErr] = React.useState<boolean>(false)
-    // const [errFlow, setErrFlow] = React.useState<boolean>(false)
-    console.log(errAuth,errFlow)
+    const [errFlow, setErrFlow] = React.useState<boolean>(false)
+    // console.log(errAuth,errFlow)
     const baseUrl = 'https://strapi.cleverland.by/api/auth/local'
 
 
@@ -52,40 +52,43 @@ export const SigninPage = () => {
 
 
 
-    //  const authorize = async (username: string, password: string, resetForm: () => void) => {
-    //     try {
+     const authorize = async (username: string, password: string, resetForm: () => void) => {
+        try {
+            dispatch(setAuthLoader(true))
+          const { data } = await instance.post('/api/auth/local', {
+            'identifier':username,
+            'password':password
+          });
+          console.log(data)
 
-    //       const { data } = await instance.post('/api/auth/local', {
-    //         'identifier':username,
-    //         'password':password
-    //       });
-    //       console.log(data)
+          localStorage.setItem('tokenData', data.jwt);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          const userLocalStorage= localStorage.getItem('user');
+          const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
 
-    //       localStorage.setItem('tokenData', data.jwt);
-    //       localStorage.setItem('user', JSON.stringify(data.user));
-    //       const userLocalStorage= localStorage.getItem('user');
-    //       const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
+          console.log(user)
+          dispatch(setUser(data.user))
 
-    //       console.log(user)
-    //       dispatch(setUser(data.user))
+          push('/books/all');
+          dispatch(setAuthLoader(false))
 
-    //       push('/books/all');
+        } catch (error) {
+            const err = error as AxiosError
 
-    //     } catch (error) {
-    //         const err = error as AxiosError
+          console.log('ERROR', err);
+          if(err.response?.status === 400){
+            setErr(true);
+            dispatch(setAuthLoader(false))
+        }
 
-    //       console.log('ERROR', err);
-    //       if(err.response?.status === 400){
-    //         setErr(true);
-    //     }
-
-    //     if(err.response?.status !== 400){
-    //         console.log('другая ошибка')
-    //         setErrFlow(true);
-    //         resetForm()
-    //     }
-    //     }
-    //   };
+        if(err.response?.status !== 400){
+            console.log('другая ошибка')
+            setErrFlow(true);
+            resetForm()
+            dispatch(setAuthLoader(false))
+        }
+        }
+      };
 
 
     const getRegistrationPage = () => {
@@ -96,8 +99,8 @@ export const SigninPage = () => {
     }
 
     const getSignInForm = (res: () => void) => {
-        // setErrFlow(false);
-        dispatch(setErrFlow(false))
+        setErrFlow(false);
+        // dispatch(setErrFlow(false))
         res();
     }
 
@@ -107,9 +110,9 @@ export const SigninPage = () => {
         }
     }
 
-    // React.useEffect(() => {
+    React.useEffect(() => {
 
-    // }, [err])
+    }, [err])
 
     return (
     token ? <Navigate to='/'/>
@@ -145,17 +148,18 @@ export const SigninPage = () => {
                     :
                     <form className={styles.auth_form}
                             onSubmit={handleSubmit}
+                            data-test-id='auth-form'
                         >
                             <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Вход в личный кабинет</h3>
                             </div>
 
                             <section className={styles.inputs_wrapper}>
-                            <InputSignInName value={values.identifier} touched={touched?.identifier} error={errAuth} handleBlur={handleBlur} handleChange={handleChange}
+                            <InputSignInName value={values.identifier} touched={touched?.identifier} error={errors.identifier} handleBlur={handleBlur} handleChange={handleChange}
                             />
 
 
-                            <InputSignInPass value={values.password} touched={touched?.password} error={err} handleBlur={handleBlur} handleChange={handleChange}
+                            <InputSignInPass value={values.password} touched={touched?.password} error={errors.password} handleBlur={handleBlur} handleChange={handleChange}
                                 visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword}
                                 getForgotPassPage={getForgotPassPage}
                             />

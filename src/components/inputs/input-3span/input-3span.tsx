@@ -41,9 +41,9 @@ export const Input3span:React.FC<Props> = ({step1,value, touched, error, handleB
                                     {touched && !value.match(/\d/) ? <span style={{ color: 'red' }}> цифрой </span> : ' цифрой '}
                                 </span>}
                             {name === 'changepassword' && <span className={ error ? styles.bottom_input_span_error : styles.bottom_input_span}>{error}</span>}
-                            {name !== 'changepassword' && <ValidPasswordOk className={error || !value ? styles.hide :  styles.icon_check}/>}
-                                {visiblePass ? <EyeOpen className={styles.icon_eye} onClick={getVisibilityPassword} /> :
-                                    <EyeClosed className={styles.icon_eye} onClick={getVisibilityPassword} />}
+                            {name !== 'changepassword' && <ValidPasswordOk className={error || !value ? styles.hide :  styles.icon_check} data-test-id='checkmark'/>}
+                                {visiblePass ? <EyeOpen className={styles.icon_eye} onClick={getVisibilityPassword} data-test-id='eye-opened'/> :
+                                    <EyeClosed className={styles.icon_eye} onClick={getVisibilityPassword} data-test-id='eye-closed'/>}
 
                             </div>
 )
