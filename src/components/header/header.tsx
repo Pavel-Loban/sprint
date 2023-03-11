@@ -35,7 +35,9 @@ export const Header: React.FC = () => {
 
 
   React.useEffect(() => {
+    document.body.scrollIntoView()
     if (menuIsOpen) {
+
       document.body.classList.add('menu_burger_open');
     }else{
       document.body.classList.remove('menu_burger_open');

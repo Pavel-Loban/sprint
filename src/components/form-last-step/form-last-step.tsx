@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { setEmail, setErrorReg,setPhone,setStep1, setStep2, setStep3 } from '../../store/form-slice';
+import { setAuthLoader,setEmail, setErrorReg,setIdFormStep1,setIdFormStep3, setPhone,setStep1, setStep2, setStep3} from '../../store/form-slice';
 import { FormButton } from '../form-button/form-button';
 import { InputNameOrLastName } from '../inputs/input-name-or-last-name/input';
 import { InputPhone } from '../inputs/input-phone/input-phone';
@@ -17,13 +17,13 @@ import styles from '../form/form.module.scss';
 
 
 export const Schema = Yup.object().shape({
-   phone: Yup.string().required('В формате +375 (xx) xxx-xx-xx')
+   phone: Yup.string().required('Поле не может быть пустым')
     .matches(/(?:\+375)\s?\(?29|25|33|44\)?\s?\d\d(?:\d[-\s]\d\d[-\s]\d\d|[-\s]\d\d[-\s]\d\d\d|\d{5})/, 'В формате +375 (xx) xxx-xx-xx')
     .matches(/^([^\\s*]+)/g,'poiuyt')
     .matches(/(.*\d.*){12}/, 'В формате +375 (xx) xxx-xx-xx')
     ,
-    email: Yup.string().email().required('Введите корректный E-mail')
-    .matches(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/, 'Введите корректный E-mail'),
+    email: Yup.string().required('Поле не может быть пустым')
+    .matches(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/, 'Введите корректный e-mail'),
 });
 
 
@@ -33,7 +33,7 @@ export const FormLastStep: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
-    const { step1,  step3, password, userName, lastName, firstName, email, phone } = useAppSelector((state: RootState) => state.form);
+    const { step1,  step3, password, userName, lastName, firstName, email, phone, idFormStep3 } = useAppSelector((state: RootState) => state.form);
 
 
 
@@ -44,7 +44,7 @@ export const FormLastStep: React.FC = () => {
 
         dispatch(setEmail(paramEmail));
         dispatch(setPhone(paramPhone ));
-
+        dispatch(setAuthLoader(true));
         await axios
                 .post(baseUrl, {
                     'email': paramEmail,
@@ -55,11 +55,15 @@ export const FormLastStep: React.FC = () => {
                     'phone':paramPhone,
                 }).then((data) => {
                     // console.log(data)
-                    dispatch(setStep3(false))
+                    dispatch(setStep3(false));
                     dispatch(setErrorReg('false'));
+                    dispatch(setIdFormStep3(''));
+                    dispatch(setIdFormStep1('register-form'))
+                    dispatch(setAuthLoader(false));
                 }).catch((err) => {
+                    dispatch(setAuthLoader(false));
                     console.log(err);
-                    dispatch(setStep3(false))
+                    dispatch(setStep3(false));
                     if(err.response.status === 400) {
                         dispatch(setErrorReg('true'));
                     }
@@ -109,6 +113,7 @@ export const FormLastStep: React.FC = () => {
                     return (
                         <form className={styles.auth_form}
                             onSubmit={handleSubmit}
+                            data-test-id={idFormStep3}
                         >
                             <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Регистрация</h3>
@@ -121,13 +126,13 @@ export const FormLastStep: React.FC = () => {
 
 
 
-<InputNameOrLastName step1={step1} value={values.email} touched={touched?.email} error={errors.email} handleBlur={handleBlur} handleChange={handleChange} label='E-mail' name='email'
+<InputNameOrLastName step1={step1} value={values.email} touched={touched?.email} error={errors.email} handleBlur={handleBlur} handleChange={handleChange} label='E-mail' name='email' axiosEmailError=''
                             />
                             </section>
 
                             <footer className={styles.footer_form}>
 
-                                    <FormButton buttonText='ЗАРЕГИСТРИРОВАТЬСЯ' typeSubmit={true} disabledButton={false}
+                                    <FormButton buttonText='ЗАРЕГИСТРИРОВАТЬСЯ' typeSubmit={true} disabledButton={errors.phone || errors.email ? true : false }
                                     getNextStep={() => {}}
 
                                     />

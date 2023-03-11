@@ -54,10 +54,10 @@ console.log(step2)
 }
 
 
-{errorReg === 'false' && <Flow title='РЕГИСТРАЦИЯ УСПЕШНА' getPage={getSignInPage} buttonText='ВХОД' flowText='Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль' /> }
+{errorReg === 'false' && <Flow title='Регистрация успешна' getPage={getSignInPage} buttonText='ВХОД' flowText='Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль' /> }
 {errorReg === 'true' && <Flow title='ДАННЫЕ НЕ СОХРАНИЛИСЬ' getPage={getRegistrationPage} buttonText='НАЗАД К РЕГИСТРАЦИИ' flowText='Такой логин или e-mail уже записан в системе. Попробуйте зарегистрироваться по другому логину или e-mail' /> }
 
-{errorReg === 'errorNot400' && <Flow title='ДАННЫЕ НЕ СОХРАНИЛИСЬ' getPage={getRegistrationPage} buttonText='ПОВТОРИТЬ' flowText='Что-то пошло не так и ваша регистрация не завершилась. Попробуйте еще раз' /> }
+{errorReg === 'errorNot400' && <Flow title='ДАННЫЕ НЕ СОХРАНИЛИСЬ' getPage={getRegistrationPage} buttonText='ПОВТОРИТЬ' flowText='Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз' /> }
 
         </section>
     )

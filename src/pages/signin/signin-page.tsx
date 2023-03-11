@@ -13,7 +13,7 @@ import { InputSignInPass } from '../../components/inputs/input-signin-pass/input
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import {instance} from '../../services'
 import { RootState } from '../../store';
-import { authorize,setErrFlow, setAuthLoader } from '../../store/form-slice';
+import { authorize,setAuthLoader,setErrFlow } from '../../store/form-slice';
 import { setUser } from '../../store/user-slice';
 
 import styles from './signin.module.scss';
@@ -59,6 +59,7 @@ export const SigninPage = () => {
             'identifier':username,
             'password':password
           });
+
           console.log(data)
 
           localStorage.setItem('tokenData', data.jwt);
@@ -146,20 +147,26 @@ export const SigninPage = () => {
                     ?
                      <Flow title='Вход не выполнен' getPage={() =>  getSignInForm(resetForm)} buttonText='ПОВТОРИТЬ' flowText='Что-то пошло не так. Попробуйте еще раз' />
                     :
-                    <form className={styles.auth_form}
+                    <section className={styles.auth_form}>
+                     <div className={styles.form_header}>
+                                <h3 className={styles.auth_title}>Вход в личный кабинет</h3>
+                            </div>
+                    <form className={styles.form}
                             onSubmit={handleSubmit}
                             data-test-id='auth-form'
                         >
-                            <div className={styles.form_header}>
+                            {/* <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Вход в личный кабинет</h3>
-                            </div>
+                            </div> */}
 
                             <section className={styles.inputs_wrapper}>
                             <InputSignInName value={values.identifier} touched={touched?.identifier} error={errors.identifier} handleBlur={handleBlur} handleChange={handleChange}
                             />
 
 
-                            <InputSignInPass value={values.password} touched={touched?.password} error={errors.password} handleBlur={handleBlur} handleChange={handleChange}
+                            <InputSignInPass value={values.password} touched={touched?.password} error={errors.password}
+                            errAxios={err}
+                             handleBlur={handleBlur} handleChange={handleChange}
                                 visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword}
                                 getForgotPassPage={getForgotPassPage}
                             />
@@ -188,7 +195,7 @@ export const SigninPage = () => {
                             </footer>
 
                         </form>
-
+                        </section>
 
 
                     );

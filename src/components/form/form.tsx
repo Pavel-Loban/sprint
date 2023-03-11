@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { setPassword,setStep1, setStep2, setStep3, setUserName } from '../../store/form-slice';
+import { setPassword,setStep1, setStep2, setStep3, setUserName, setIdFormStep1, setIdFormStep2 } from '../../store/form-slice';
 import { FormButton } from '../form-button/form-button';
 import { Input2span } from '../inputs/input-2span/input-2span';
 import { Input3span } from '../inputs/input-3span/input-3span';
@@ -16,13 +16,14 @@ import styles from './form.module.scss'
 
 
 export const Schema = Yup.object().shape({
-    username: Yup.string().required('')
+    username: Yup.string().required('Поле не может быть пустым')
         .matches(
             (/^[a-z0-9]+$/i),
-            '',
+            'Поле не может быть пустым',
+
         ),
     password: Yup.string()
-        .required('')
+        .required('Поле не может быть пустым')
         .min(8, 'Пароль должен быть более 8 символов')
         .max(16)
         .matches(
@@ -37,7 +38,7 @@ export const Form: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
-    const { step1, step2, step3 } = useAppSelector((state: RootState) => state.form);
+    const { step1, step2, step3, idFormStep1 } = useAppSelector((state: RootState) => state.form);
     const [visiblePass, setVisiblePass] = React.useState<boolean>(false);
     const [step, setStep] = React.useState<string>('1');
 
@@ -50,9 +51,11 @@ export const Form: React.FC = () => {
     const getStep2 = (username: string, password: string) => {
 
         dispatch(setUserName(username));
-        dispatch(setPassword(password))
+        dispatch(setPassword(password));
         dispatch(setStep1(false));
-        dispatch(setStep2(true))
+        dispatch(setStep2(true));
+        dispatch(setIdFormStep1(''));
+        dispatch(setIdFormStep2('register-form'))
     }
 
     const getSignInPage = () => {
@@ -63,10 +66,6 @@ export const Form: React.FC = () => {
 
     return (
         <section className={styles.auth_wrapper} >
-
-
-
-
 
             <Formik
                 initialValues={{
@@ -94,7 +93,7 @@ export const Form: React.FC = () => {
                     return (
                         <form className={styles.auth_form}
                             onSubmit={handleSubmit}
-                            data-test-id='register-form'
+                            data-test-id={idFormStep1}
                         >
                             <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Регистрация</h3>
@@ -103,7 +102,7 @@ export const Form: React.FC = () => {
 
                             <section className={styles.inputs_wrapper}>
 
-                            <Input2span step1={step1} value={values.username} touched={touched?.username} error={errors.username} handleBlur={handleBlur} handleChange={handleChange}
+                            <Input2span step1={step1} value={values.username} touched={touched?.username} error={errors.username} handleBlur={handleBlur} handleChange={handleChange} dirty={dirty}
                             />
 
 
@@ -118,7 +117,7 @@ export const Form: React.FC = () => {
 
                             <footer className={styles.footer_form}>
 
-                                <FormButton buttonText='СЛЕДУЮЩИЙ ' typeSubmit={true} disabledButton={false}
+                                <FormButton buttonText='СЛЕДУЮЩИЙ ШАГ' typeSubmit={true} disabledButton={errors.password || errors.username ? true : false}
                                     getNextStep={() => { }}
                                 />
 

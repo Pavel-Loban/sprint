@@ -251,4 +251,22 @@ export const links = [
     testIdBoorger: 'burger-contract',
     sectionsBooks: [],
   },
+  {
+    title: 'Профиль',
+    active: false,
+    link: '#',
+    id: 4,
+    testId: '',
+    testIdBoorger: '',
+    sectionsBooks: [],
+  },
+  {
+    title: 'Выход',
+    active: false,
+    link: '#',
+    id: 5,
+    testId: 'exit',
+    testIdBoorger: 'exit-button',
+    sectionsBooks: [],
+  },
 ];

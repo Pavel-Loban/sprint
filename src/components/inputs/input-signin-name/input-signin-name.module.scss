@@ -48,6 +48,12 @@
       color: #a7a7a7;
     }
 
+    .top_input_error:focus + .top_label {
+      top: 0;
+      font-size: 12px;
+      color: #a7a7a7;
+    }
+
     .top_label_value {
       font-weight: 400;
       font-size: 12px;

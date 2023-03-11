@@ -11,9 +11,10 @@ interface Props {
     handleBlur: (e:any) => void,
     handleChange: (e:any) => void,
     name:string,
+    axiosEmailError: string,
 }
 
-export const InputNameOrLastName:React.FC<Props> = ({step1,value, touched, error, handleBlur, handleChange, label, name}) => (
+export const InputNameOrLastName:React.FC<Props> = ({step1,axiosEmailError,value, touched, error, handleBlur, handleChange, label, name}) => (
 
     <div className={styles.top_input_wrapper}>
         <input className={styles.top_input}
@@ -25,11 +26,15 @@ export const InputNameOrLastName:React.FC<Props> = ({step1,value, touched, error
         />
         <label className={value ? styles.top_label_value : styles.top_label} htmlFor={name}>{label}</label>
        {touched && error &&
-       <span className={ styles.top_input_span_error} >
+       <span className={ styles.top_input_span_error}  data-test-id='hint'>
        {error}
-   </span>
+   </span>}
 
-       }
+   <span className={axiosEmailError ? styles.top_input_span_error : styles.hide }  data-test-id='hint'>
+   error
+</span>
+
+
     </div>
 )
 

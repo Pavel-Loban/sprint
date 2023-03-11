@@ -6,7 +6,7 @@
 
   import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
   import { RootState } from '../../store';
-  import { setServerResponse} from '../../store/form-slice';
+  import { setAuthLoader,setServerResponse} from '../../store/form-slice';
   import { setUser } from '../../store/user-slice';
   import { FormButton } from '../form-button/form-button';
   import { Input3span } from '../inputs/input-3span/input-3span';
@@ -27,7 +27,7 @@ interface Props{
               'Пароль должен содержать как минимум одну прописную',
           )
           .matches(/\d/, 'Пароль должен содержать как минимум одну цифру'),
-          changepassword: Yup.string()
+          passwordConfirmation: Yup.string()
     .required('Пароли должны совпадать')
     .oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
   });
@@ -57,6 +57,7 @@ interface Props{
 
     const getRenamePass = async (paramPassword:string, paramChangePass:string) => {
 
+        dispatch(setAuthLoader(true));
         await axios
                 .post(baseUrl, {
 
@@ -66,9 +67,11 @@ interface Props{
                 }).then((data) => {
 
           dispatch(setServerResponse('ok'))
+          dispatch(setAuthLoader(false));
                 }).catch((err) => {
                     // console.log(err);
                     dispatch(setServerResponse('error'))
+                    dispatch(setAuthLoader(false));
                 })
     }
 
@@ -85,10 +88,10 @@ interface Props{
               <Formik
                   initialValues={{
                       password: '',
-                      changepassword: '',
+                      passwordConfirmation: '',
                   }}
                   validationSchema={Schema}
-                  onSubmit={(values) => getRenamePass(values.password, values.changepassword)}
+                  onSubmit={(values) => getRenamePass(values.password, values.passwordConfirmation)}
               >
                   {({
                       values,
@@ -120,15 +123,15 @@ interface Props{
                                   visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword} />
 
 
-                              <Input3span step1={step1} value={values.changepassword} touched={touched?.changepassword}
-                              name='changepassword' label='Повторите пароль'  error={errors.changepassword} handleBlur={handleBlur} handleChange={handleChange}
+                              <Input3span step1={step1} value={values.passwordConfirmation} touched={touched?.passwordConfirmation}
+                              name='passwordConfirmation' label='Повторите пароль'  error={errors.passwordConfirmation} handleBlur={handleBlur} handleChange={handleChange}
                                   visiblePass={visibleChangePass} getVisibilityPassword={getVisibilityChangePassword} />
 
 
 
                               <footer className={styles.footer_form}>
 
-                                  <FormButton buttonText='СОХРАНИТЬ ИЗМЕНЕНИЯ ' typeSubmit={true} disabledButton ={!!errors.changepassword}
+                                  <FormButton buttonText='СОХРАНИТЬ ИЗМЕНЕНИЯ ' typeSubmit={true} disabledButton ={!!errors.passwordConfirmation}
                                       getNextStep={() => { }}
                                   />
 

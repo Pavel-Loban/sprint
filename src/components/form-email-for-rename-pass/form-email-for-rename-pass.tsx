@@ -5,11 +5,14 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { RootState } from '../../store';
+import { setAuthLoader} from '../../store/form-slice';
+import { Flow } from '../flow/flow';
 import { FormButton } from '../form-button/form-button';
 import { InputNameOrLastName } from '../inputs/input-name-or-last-name/input';
 
 import styles from './form-email-for-rename-pass.module.scss';
-import { Flow } from '../flow/flow';
 
 
 
@@ -23,19 +26,27 @@ export const Schema = Yup.object().shape({
  export const FormEmailForRenamePass: React.FC = () => {
 
     const push = useNavigate();
-
+    const dispatch = useAppDispatch();
     const [postEmailOk, setPostEmailOk] = React.useState<boolean>(false);
+    const [axiosEmailError, setAxiosEmailError] = React.useState<string>('')
 
      const baseUrl = 'https://strapi.cleverland.by/api/auth/forgot-password'
 
      const getForgot = async (paramEmail:string) => {
 
+        dispatch(setAuthLoader(true));
          await axios
                  .post(baseUrl, {
                      'email': paramEmail,
                  }).then((data) => {
-                    setPostEmailOk(true)
-                 }).catch((err) => {
+                    console.log(data)
+                    setPostEmailOk(true);
+                    dispatch(setAuthLoader(false));
+                 }).catch((error) => {
+                    const err = error as AxiosError
+                    console.log(err)
+                    setAxiosEmailError(err.message)
+                    dispatch(setAuthLoader(false));
                  })
      }
 
@@ -55,6 +66,9 @@ export const Schema = Yup.object().shape({
         }
     }
 
+    React.useEffect(() => {
+
+    },[axiosEmailError])
 
      return (
          <React.Fragment >
@@ -98,6 +112,7 @@ export const Schema = Yup.object().shape({
 
                              <section className={styles.inputs_wrapper}>
  <InputNameOrLastName step1={false} value={values.email} touched={touched?.email} error={errors.email} handleBlur={handleBlur} handleChange={handleChange} label='E-mail' name='email'
+ axiosEmailError={axiosEmailError}
                              />
 <span className={styles.input_email_span}>На это email будет отправлено письмо с инструкциями по восстановлению пароля</span>
 </section>

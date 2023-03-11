@@ -27,6 +27,9 @@ interface Form {
   errFlow: boolean,
   errAuth: boolean,
   authLoader: boolean,
+  idFormStep1: string,
+  idFormStep2: string,
+  idFormStep3: string,
 }
 const initialState: Form = {
   step1: true,
@@ -43,6 +46,9 @@ const initialState: Form = {
   errFlow: false,
   errAuth: false,
   authLoader: false,
+  idFormStep1: 'register-form',
+  idFormStep2: '',
+  idFormStep3: '',
 };
 
 const formSlice = createSlice({
@@ -119,6 +125,22 @@ const formSlice = createSlice({
 
       newState.authLoader = action.payload;
     },
+    setIdFormStep1(state, action: PayloadAction<string>) {
+      const newState = state;
+
+      newState.idFormStep1 = action.payload;
+    },
+    setIdFormStep2(state, action: PayloadAction<string>) {
+      const newState = state;
+
+      newState.idFormStep2 = action.payload;
+    },
+    setIdFormStep3(state, action: PayloadAction<string>) {
+      const newState = state;
+
+      newState.idFormStep3 = action.payload;
+    },
+
   },
 });
 
@@ -139,7 +161,10 @@ export const {
   setServerResponse,
   setErrFlow,
   setErrAuth,
-  setAuthLoader
+  setAuthLoader,
+  setIdFormStep1,
+  setIdFormStep2,
+  setIdFormStep3
 } = formSlice.actions;
 
 export default formSlice.reducer;

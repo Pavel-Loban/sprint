@@ -30,8 +30,8 @@ export const InputSignInName:React.FC<Props> = ({value, touched, error, handleBl
         />
         <label className={value ? styles.top_label_value : styles.top_label} htmlFor="form-text">Логин</label>
 
-{touched && error && <span className={styles.top_input_span_error} data-test-id='hint'>{error}</span>}
 
+        {touched && error && <span className={styles.top_input_span_error} data-test-id='hint'>{error}</span>}
         {/* <span className={touched && error ? styles.top_input_span_error : styles.top_input_span}> Используйте для логина
             {touched && !value?.match(/[a-zA-Z]/) ? <span style={{ color: 'red' }} > латинский алфавит</span> : ' латинский алфавит'} и  {touched && !value?.match(/[0-9]/) ? <span style={{ color: 'red' }} > цифры</span> : 'цифры'}
         </span> */}

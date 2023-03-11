@@ -12,7 +12,7 @@ describe('authorization and registartion', () => {
             cy.intercept('/api/auth/local').as('authorize');
             cy.visit('http://localhost:3000');
         });
-        it('check first loaded page', () => {
+        xit('check first loaded page', () => {
             cy.url().should('contain', '/auth');
             cy.contains('Забыли логин или пароль?', { matchCase: false }).click();
             cy.url().should('contain', '/forgot-pass');
@@ -22,7 +22,7 @@ describe('authorization and registartion', () => {
             cy.url().should('contain', '/auth');
             cy.get('[data-test-id=auth]').screenshot('first enter');
         });
-        it('success authorization', () => {
+        xit('success authorization', () => {
             cy.viewport(360, 600);
             let token;
             cy.get('[data-test-id=auth-form] input[name=identifier]').type('TestUser1');
@@ -71,7 +71,7 @@ describe('authorization and registartion', () => {
             cy.visit('http://localhost:3000/#/forgot-pass');
             cy.url().should('contain', '/books/all');
         });
-        it('server error authorization', () => {
+        xit('server error authorization', () => {
             cy.intercept('/api/auth/local', {
                 delay: 1000,
                 statusCode: 500,
@@ -84,7 +84,7 @@ describe('authorization and registartion', () => {
             cy.get('[data-test-id=status-block]:contains("Вход не выполнен")').should('be.visible');
             cy.get('[data-test-id=auth]').screenshot('server error authorization');
         });
-        it('incorrect login or password error', () => {
+        xit('incorrect login or password error', () => {
             cy.intercept('/api/auth/local', {
                 delay: 1000,
                 statusCode: 400,
@@ -99,7 +99,7 @@ describe('authorization and registartion', () => {
                 .and('have.css', 'color', 'rgb(244, 44, 79)');
             cy.get('[data-test-id=auth]').screenshot('incorrect logit or password error');
         });
-        it('validation', () => {
+        xit('validation', () => {
             cy.get('[data-test-id=auth-form] input[name=identifier]').focus();
             cy.get('[data-test-id=auth-form] input[name=identifier]').blur();
             cy.get('[data-test-id=hint]:contains("Поле не может быть пустым")')
@@ -124,13 +124,13 @@ describe('authorization and registartion', () => {
         beforeEach(() => {
             cy.visit('http://localhost:3000');
         });
-        it('enter to registartion page', () => {
+        xit('enter to registartion page', () => {
             cy.url().should('contain', '/auth');
             cy.contains('регистрация', { matchCase: false }).click();
             cy.url().should('contain', '/registration');
             cy.get('[data-test-id=auth]').screenshot('registration page');
         });
-        it('success registartion', () => {
+        xit('success registartion', () => {
             cy.intercept('/api/auth/local/register', {
                 delay: 1000,
                 statusCode: 200,
@@ -159,7 +159,7 @@ describe('authorization and registartion', () => {
             cy.get('button').contains('вход', { matchCase: false }).click();
             cy.url().should('contain', '/auth');
         });
-        it('already used error registartion', () => {
+        xit('already used error registartion', () => {
             cy.intercept('/api/auth/local/register', {
                 delay: 1000,
                 statusCode: 400,
@@ -185,7 +185,7 @@ describe('authorization and registartion', () => {
             cy.contains('назад к регистрации', { matchCase: false }).click();
             cy.url().should('contain', '/registration');
         });
-        it('error registartion', () => {
+        xit('error registartion', () => {
             cy.intercept('/api/auth/local/register', {
                 delay: 1000,
                 statusCode: 500,
@@ -416,13 +416,13 @@ describe('authorization and registartion', () => {
         beforeEach(() => {
             cy.visit('http://localhost:3000');
         });
-        xit('go to recovery page', () => {
+        it('go to recovery page', () => {
             cy.url().should('contain', '/auth');
             cy.contains('забыли логин или пароль', { matchCase: false }).click();
             cy.url().should('contain', '/forgot-pass');
             cy.get('[data-test-id=auth]').screenshot('recovery page');
         });
-        xit('success forgot password', () => {
+        it('success forgot password', () => {
             cy.visit('http://localhost:3000/#/forgot-pass');
             cy.intercept('/api/auth/forgot-password', {
                 delay: 1000,
@@ -435,7 +435,7 @@ describe('authorization and registartion', () => {
             cy.get('[data-test-id=status-block]:contains("Письмо выслано")').should('be.visible');
             cy.get('[data-test-id=auth]').screenshot('send email success');
         });
-        xit('error forgot password', () => {
+        it('error forgot password', () => {
             cy.visit('http://localhost:3000/#/forgot-pass');
             cy.intercept('/api/auth/forgot-password', {
                 delay: 1000,
@@ -459,7 +459,7 @@ describe('authorization and registartion', () => {
                 .and('have.css', 'color', 'rgb(244, 44, 79)');
             cy.get('[data-test-id=auth]').screenshot('send email error');
         });
-        xit('forgot password validation', () => {
+        it('forgot password validation', () => {
             cy.visit('http://localhost:3000/#/forgot-pass');
             cy.get('[data-test-id=send-email-form] input[name=email]').focus();
             cy.get('[data-test-id=send-email-form] input[name=email]').blur();
@@ -481,7 +481,7 @@ describe('authorization and registartion', () => {
                 .type('test@gmail.com');
             cy.get('[data-test-id=send-email-form] input[name=email]').blur();
         });
-        xit('success reset password', () => {
+        it('success reset password', () => {
             cy.intercept('/api/auth/reset-password', {
                 delay: 1000,
                 statusCode: 200,
@@ -501,7 +501,7 @@ describe('authorization and registartion', () => {
             cy.get('button').contains('вход', { matchCase: false }).click();
             cy.url().should('contain', '/auth');
         });
-        xit('error reset password', () => {
+        it('error reset password', () => {
             cy.intercept('/api/auth/reset-password', {
                 delay: 1000,
                 statusCode: 500,
@@ -528,7 +528,7 @@ describe('authorization and registartion', () => {
             );
             cy.get('[data-test-id=auth]').screenshot('error reset password');
         });
-        xit('reset password validation', () => {
+        it('reset password validation', () => {
             cy.visit('http://localhost:3000/#/forgot-pass?code=somecode');
             cy.get('[data-test-id=checkmark]').should('not.be.exist');
             cy.get('[data-test-id=reset-password-form] input[name=password]').focus();

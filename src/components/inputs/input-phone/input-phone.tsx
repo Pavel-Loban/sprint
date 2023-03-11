@@ -14,11 +14,11 @@ interface Props {
     name:string,
 }
 
-const mask = '+63(9XX) XXX-XX-XX';
-const maskGenerator = {
-  rules: new Map([['X', /\d/]]),
-  generateMask: () => mask
-};
+// const mask = '+63(9XX) XXX-XX-XX';
+// const maskGenerator = {
+//   rules: new Map([['X', /\d/]]),
+//   generateMask: () => mask
+// };
 
 export const InputPhone:React.FC<Props> = ({step1,value, touched, error, handleBlur, handleChange, label, name}) => {
 
@@ -34,9 +34,9 @@ const [focus,setFocus] = React.useState<boolean>(false)
 
     <div className={styles.top_input_wrapper}>
         <MaskedInput className={styles.top_input}
-        mask={['+','3','7','5','(', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/,'-', /\d/, /\d/]}
+        mask={['+','3','7','5', ' ','(', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/,'-', /\d/, /\d/]}
         guide={true}
-        placeholderChar='*'
+        placeholderChar='x'
         showMask={value  ? true : false}
         // mask = {['+63(9XX) XXX-XX-XX']}
         // maskGenerator={maskGenerator}
@@ -49,11 +49,15 @@ const [focus,setFocus] = React.useState<boolean>(false)
         />
         <label className={value ? styles.top_label_value : styles.top_label} htmlFor={name}>{label}</label>
        {touched && error &&
-       <span className={ styles.top_input_span_error} >
+       <span className={ styles.top_input_span_error} data-test-id='hint'>
        {error}
-   </span>
+   </span>}
 
-       }
+   {!error && <span className={ styles.top_input_span_phone} data-test-id='hint'>
+   В формате +375 (xx) xxx-xx-xx
+   </span>}
+
+
     </div>
 )
     }

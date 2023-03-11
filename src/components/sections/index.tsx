@@ -123,6 +123,11 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
     }, [status, statusCategories])
 
 
+    const logout = () => {
+        localStorage.removeItem('tokenData');
+        localStorage.removeItem('user');
+        push('/auth');
+    }
 
 
 
@@ -151,7 +156,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
                             ?
                             <p
                                 data-test-id={!isDesktop ? item.testIdBoorger : item.testId}
-                                onClick={() => getActiveTextLink(item.id, item.link)} role='presentation'>{item.title}
+                                onClick={ item.title === 'Выход' ?  logout : () => getActiveTextLink(item.id, item.link)} role='presentation'>{item.title}
                             </p>
                             :
                             <p
@@ -187,7 +192,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
                                         </p>
                                         <span
 
-                                        data-test-id={isDesktop
+                                            data-test-id={isDesktop
                                                 ?
                                                 `navigation-book-count-for-${item.path}`
                                                 :
@@ -207,7 +212,15 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
 
                 ))}
+
+{/* <span className={styles.profil_exit_wrapper}/> */}
+            {/* <ul >
+                    <li className={styles.subTitle} >Профиль</li>
+                    <li className={styles.subTitle} onClick={logout} role='presentation'  data-test-id='exit-button' >Выход</li>
+                </ul> */}
+
             </ul>
+
         </section>
     )
 }
