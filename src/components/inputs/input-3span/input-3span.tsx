@@ -3,7 +3,6 @@ import React from 'react';
 import { ReactComponent as ValidPasswordOk } from '../../../assets/image/CheckOk.svg';
 import { ReactComponent as EyeOpen } from '../../../assets/image/eye-open.svg';
 import { ReactComponent as EyeClosed } from '../../../assets/image/EyeClosed.svg';
-import { LabelInput } from '../../label-input/label-input';
 
 import styles from './input-3span.module.scss';
 
@@ -12,8 +11,8 @@ interface Props {
     step1: boolean,
     touched: boolean | undefined,
     error: string | undefined,
-    handleBlur: (e: any) => void,
-    handleChange: (e: any) => void,
+    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     visiblePass: boolean,
     getVisibilityPassword: () => void,
     name: string,
@@ -30,7 +29,6 @@ export const Input3span: React.FC<Props> = ({ step1, value, touched, error, hand
             onBlur={handleBlur}
             onChange={handleChange}
         />
-        {/* <LabelInput value={value} name={name} label={label} touched={touched}/> */}
         <label className={value ? styles.bottom_label_value : styles.bottom_label} htmlFor={name}>{label}</label>
 
 

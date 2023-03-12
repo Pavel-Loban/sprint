@@ -59,6 +59,7 @@
         }
 
         .title_user {
+            position: relative;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -80,6 +81,7 @@
                 width: 58px;
                 cursor: pointer;
             }
+
         }
     }
 

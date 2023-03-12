@@ -6,8 +6,8 @@ import Star from '../../assets/image/icon_star.svg';
 import StarEmpty from '../../assets/image/icon_star_empty.svg';
 import { ReactComponent as Preloader } from '../../assets/image/preloader.svg';
 import { Alert } from '../../components/alert/alert';
-
 import { BooksInfoHeader} from '../../components/books-info-header/books-info-header';
+import { BreadCrumbs } from '../../components/bread crumbs/bread-crumbs';
 import { Button } from '../../components/button';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
@@ -20,7 +20,6 @@ import { RootState } from '../../store';
 import { fetchBook } from '../../store/book-slice';
 
 import styles from './book-page.module.scss';
-import { BreadCrumbs } from '../../components/bread crumbs/bread-crumbs';
 
 
 

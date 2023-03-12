@@ -9,26 +9,14 @@ interface Props {
     step1: boolean,
     touched: boolean | undefined,
     error: string | undefined,
-    handleBlur: (e:any) => void,
-    handleChange: (e:any) => void,
+    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     name:string,
 }
 
-// const mask = '+63(9XX) XXX-XX-XX';
-// const maskGenerator = {
-//   rules: new Map([['X', /\d/]]),
-//   generateMask: () => mask
-// };
-
-export const InputPhone:React.FC<Props> = ({step1,value, touched, error, handleBlur, handleChange, label, name}) => {
 
 
-
-
-const [values, setValues] = React.useState('');
-const [focus,setFocus] = React.useState<boolean>(false)
-
-    return(
+export const InputPhone:React.FC<Props> = ({step1,value, touched, error, handleBlur, handleChange, label, name}) => (
 
 
 
@@ -38,12 +26,9 @@ const [focus,setFocus] = React.useState<boolean>(false)
         guide={true}
         placeholderChar='x'
         showMask={value  ? true : false}
-        // mask = {['+63(9XX) XXX-XX-XX']}
-        // maskGenerator={maskGenerator}
             id={name}
             name={name}
             value={value}
-            // onFocus={setFocus(true)}
             onBlur={handleBlur}
             onChange={handleChange}
         />
@@ -60,5 +45,5 @@ const [focus,setFocus] = React.useState<boolean>(false)
 
     </div>
 )
-    }
+
 

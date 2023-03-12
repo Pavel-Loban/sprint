@@ -6,6 +6,7 @@ import Logo from '../../assets/image/logo.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { setMenuIsOpen } from '../../store/burger-slice';
+import { ModalHelpAndLogout } from '../modal-help-and-logout/modal-help-and-logout';
 
 import styles from './header.module.scss';
 
@@ -20,7 +21,6 @@ export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const { menuIsOpen} = useAppSelector((state: RootState) => state.burger);
   const { user} = useAppSelector((state: RootState) => state.user);
-  // console.log(user)
 
   const getMenuBurger = () => {
     dispatch(setMenuIsOpen(!menuIsOpen));
@@ -86,6 +86,9 @@ export const Header: React.FC = () => {
         <header className={styles.title_user}>
           <h3 className={styles.user_name}>Привет, {user?.username}!</h3>
           <img src={Avatar} alt='avatar' className={styles.user_avatar} />
+
+
+          <ModalHelpAndLogout/>
         </header>
       </section>
     </section>

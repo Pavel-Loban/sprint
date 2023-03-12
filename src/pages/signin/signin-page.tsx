@@ -116,7 +116,7 @@ export const SigninPage = () => {
     }, [err])
 
     return (
-    token ? <Navigate to='/'/>
+    token ? <Navigate to='/books/all'/>
      :  <div className={styles.auth_wrapper}>
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, useLocation,useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -18,8 +18,8 @@ import styles from './form-email-for-rename-pass.module.scss';
 
 export const Schema = Yup.object().shape({
 
-     email: Yup.string().email().required('Введите корректный E-mail')
-     .matches(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/, 'Введите корректный E-mail'),
+     email: Yup.string().required('Поле не может быть пустым')
+     .matches(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/, 'Введите корректный e-mail'),
  });
 
 
@@ -44,6 +44,7 @@ export const Schema = Yup.object().shape({
                     dispatch(setAuthLoader(false));
                  }).catch((error) => {
                     const err = error as AxiosError
+
                     console.log(err)
                     setAxiosEmailError(err.message)
                     dispatch(setAuthLoader(false));
@@ -93,7 +94,9 @@ export const Schema = Yup.object().shape({
                      const d = new Date();
 
 
-                     return (
+                     const token = localStorage.getItem('tokenData');
+
+                     return token ? <Navigate to='/books/all'/> : (
                     <form className={styles.auth_form}
                              onSubmit={handleSubmit}
                              data-test-id='send-email-form'

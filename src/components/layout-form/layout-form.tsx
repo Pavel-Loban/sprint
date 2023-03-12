@@ -1,10 +1,10 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
-
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { RootState } from '../../store';
 import {ReactComponent as  Preloader} from '../../assets/image/preloader.svg';
+import {useAppSelector } from '../../hooks/redux-hooks';
+import { RootState } from '../../store';
+
 import styles from './layout-form.module.scss';
 
 export const LayoutForm:React.FC = () => {

@@ -7,47 +7,66 @@ interface Props {
     step1: boolean,
     touched: boolean | undefined,
     error: string | undefined,
-    handleBlur: (e: any) => void,
-    handleChange: (e: any) => void,
+    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     dirty: boolean,
+    name: string,
+    label: string,
 }
 
-export const Input2span: React.FC<Props> = ({ step1, value, touched, error, handleBlur, handleChange, dirty}) => (
+export const Input2span: React.FC<Props> = ({ step1, value, touched, error, handleBlur, handleChange, dirty, name, label}) => {
+
+    const [focus, setFocus] = React.useState<boolean>(false);
+
+    const onBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
+        setFocus(false)
+        handleBlur(e);
+    }
+    const onFocusInput = () => {
+        setFocus(true)
+    }
+
+    React.useEffect(() => {
+    },[focus])
+
+    return(
 
     <div className={styles.top_input_wrapper}>
         <input className={styles.top_input}
-            id='username'
-            name="username"
+            id={name}
+            name={name}
             value={value}
-            onBlur={handleBlur}
+            onBlur={(e) => onBlurInput(e)}
             onChange={handleChange}
+            onFocus={onFocusInput}
+            placeholder={focus ? '' : 'Придумайте логин для входа'}
         />
-        {/* <label className={value ? styles.top_label_value : styles.top_label} htmlFor="username">Придумайте логин для входа</label> */}
-        {/* {!value && touched && <span className={styles.top_input_span_error} data-test-id='hint'>{error}</span>} */}
+        {focus && <label className={value ? styles.top_label_value : styles.top_label} htmlFor={name}>{label}</label>}
 
 
-        {/* { touched && !value &&   */}
-        {(!value && dirty) || (touched && !value)
+
+
+        {(!value && dirty && !focus ) || (touched && !value && !focus )
             ?
             <span className={styles.top_input_span_error} data-test-id='hint'>{error}</span>
             :
-            <span className={styles.top_input_span} data-test-id='hint'> <span className={error ? styles.top_input_span_error : styles.top_input_span}>Используйте для логина</span>
-                {/* {dirty && !value?.match(/[a-zA-Z]/) ? <span style={{ color: 'rgb(244, 44, 79)' }} data-test-id='hint'> латинский алфавит</span> : ' латинский алфавит'} */}
+             <span className={touched && error && !focus  ? styles.top_input_span_error : styles.top_input_span} data-test-id='hint'> <span >Используйте для логина</span>
 
 
-                <span className={dirty && !value?.match(/[a-zA-Z]/) ? styles.span_red : ''}data-test-id='hint'> латинский алфавит</span>
 
-                <span className={error ? styles.span_red : ''}> и</span>
+                <span className={error && dirty && !value?.match(/[a-zA-Z]/) ? styles.span_red : ''}data-test-id='hint'> латинский алфавит</span>
 
-                {/* {dirty && !value?.match(/[0-9]/) ? <span style={{ color: 'rgb(244, 44, 79)' }} data-test-id='hint'> цифры</span> : 'цифры'} */}
+                <span > и</span>
 
-                <span className={dirty && !value?.match(/[0-9]/) || (touched && !value?.match(/[a-zA-Z]/))  ? styles.span_red : styles.span_gray} data-test-id='hint'> цифры</span>
+
+
+                <span className={dirty && (!focus || focus) && !value?.match(/[0-9]/)   ? styles.span_red : styles.span_gray} data-test-id='hint'> цифры</span>
 
 
             </span>
         }
-        {/* (touched  && value) ? styles.top_input_span_error : */}
+
 
     </div>
 )
-
+    }

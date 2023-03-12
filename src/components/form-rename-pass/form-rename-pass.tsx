@@ -12,6 +12,8 @@
   import { Input3span } from '../inputs/input-3span/input-3span';
 
   import styles from './form-rename-pass.module.scss'
+import { InputRenamePass } from '../inputs/input-rename-pass/input-rename-pass';
+import { InputRepeatPass } from '../inputs/input-repeat-pass/input-repeat-pass';
 
 interface Props{
     code: string,
@@ -19,7 +21,10 @@ interface Props{
   export const Schema = Yup.object().shape({
 
       password: Yup.string()
-          .required('')
+          .required('Поле не может быть пустым')
+          .matches(
+            (/^\S*$/),
+            'Пароль не менее 8 символов, с заглавной буквой и цифрой',)
           .min(8, 'Пароль должен быть более 8 символов')
           .max(16)
           .matches(
@@ -28,8 +33,8 @@ interface Props{
           )
           .matches(/\d/, 'Пароль должен содержать как минимум одну цифру'),
           passwordConfirmation: Yup.string()
-    .required('Пароли должны совпадать')
-    .oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
+    .required('Поле не может быть пустым')
+    .oneOf([Yup.ref('password')], 'Пароли не совпадают'),
   });
 
 
@@ -118,20 +123,24 @@ interface Props{
                               </div>
 
 
-                              <Input3span step1={step1} value={values.password} touched={touched?.password} error={errors.password} handleBlur={handleBlur}
+
+
+<InputRenamePass step1={step1} value={values.password} touched={touched?.password} error={errors.password} handleBlur={handleBlur} dirty={dirty}
                               name='password' label='Новый пароль' handleChange={handleChange}
                                   visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword} />
 
 
-                              <Input3span step1={step1} value={values.passwordConfirmation} touched={touched?.passwordConfirmation}
+                              <InputRepeatPass step1={step1} value={values.passwordConfirmation} touched={touched?.passwordConfirmation}
                               name='passwordConfirmation' label='Повторите пароль'  error={errors.passwordConfirmation} handleBlur={handleBlur} handleChange={handleChange}
+                              dirty={dirty}
                                   visiblePass={visibleChangePass} getVisibilityPassword={getVisibilityChangePassword} />
 
 
 
                               <footer className={styles.footer_form}>
 
-                                  <FormButton buttonText='СОХРАНИТЬ ИЗМЕНЕНИЯ ' typeSubmit={true} disabledButton ={!!errors.passwordConfirmation}
+                                  <FormButton buttonText='СОХРАНИТЬ ИЗМЕНЕНИЯ ' typeSubmit={true} disabledButton ={ errors.password || !values.passwordConfirmation.match(
+              /(?=.*[0-9])(?=.*[A-Z])[0-9a-zA-Z]{8,}/g) ? true : false}
                                       getNextStep={() => { }}
                                   />
 

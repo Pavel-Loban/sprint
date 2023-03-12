@@ -8,8 +8,8 @@ interface Props {
     step1: boolean,
     touched: boolean | undefined,
     error: string | undefined,
-    handleBlur: (e:any) => void,
-    handleChange: (e:any) => void,
+    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     name:string,
     axiosEmailError: string,
 }

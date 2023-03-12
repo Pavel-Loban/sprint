@@ -6,10 +6,10 @@ import * as Yup from 'yup';
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { setPassword,setStep1, setStep2, setStep3, setUserName, setIdFormStep1, setIdFormStep2 } from '../../store/form-slice';
+import { setIdFormStep1, setIdFormStep2,setPassword,setStep1, setStep2, setUserName } from '../../store/form-slice';
 import { FormButton } from '../form-button/form-button';
 import { Input2span } from '../inputs/input-2span/input-2span';
-import { Input3span } from '../inputs/input-3span/input-3span';
+import { InputRenamePass } from '../inputs/input-rename-pass/input-rename-pass';
 
 import styles from './form.module.scss'
 
@@ -19,9 +19,10 @@ export const Schema = Yup.object().shape({
     username: Yup.string().required('Поле не может быть пустым')
         .matches(
             (/^[a-z0-9]+$/i),
-            'Поле не может быть пустым',
+            'Поле не может быть пустым',)
+            .matches((/[a-zA-Z]/), '')
 
-        ),
+            ,
     password: Yup.string()
         .required('Поле не может быть пустым')
         .min(8, 'Пароль должен быть более 8 символов')
@@ -38,7 +39,7 @@ export const Form: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
-    const { step1, step2, step3, idFormStep1 } = useAppSelector((state: RootState) => state.form);
+    const { step1, idFormStep1 } = useAppSelector((state: RootState) => state.form);
     const [visiblePass, setVisiblePass] = React.useState<boolean>(false);
     const [step, setStep] = React.useState<string>('1');
 
@@ -83,7 +84,6 @@ export const Form: React.FC = () => {
                     handleBlur,
                     dirty,
                     touched,
-                    isValid,
                 }) => {
                     const d = new Date();
 
@@ -102,13 +102,14 @@ export const Form: React.FC = () => {
 
                             <section className={styles.inputs_wrapper}>
 
-                            <Input2span step1={step1} value={values.username} touched={touched?.username} error={errors.username} handleBlur={handleBlur} handleChange={handleChange} dirty={dirty}
+                            <Input2span step1={step1} value={values.username} touched={touched?.username} error={errors.username} handleBlur={handleBlur} handleChange={handleChange} dirty={dirty} name='username' label='Придумайте логин для входа'
                             />
 
 
-                            <Input3span step1={step1} value={values.password} touched={touched?.password} error={errors.password}
-                            name='password' label='Пароль' handleBlur={handleBlur} handleChange={handleChange}
-                                visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword} />
+
+<InputRenamePass step1={step1} value={values.password} touched={touched?.password} error={errors.password} handleBlur={handleBlur} dirty={dirty}
+                              name='password' label='Пароль' handleChange={handleChange}
+                                  visiblePass={visiblePass} getVisibilityPassword={getVisibilityPassword} />
                             </section>
 
 

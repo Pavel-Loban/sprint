@@ -1,6 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Navigate,useNavigate  } from 'react-router-dom';
 
 import { Flow } from '../../components/flow/flow';
 import { Form } from '../../components/form/form';
@@ -8,7 +7,7 @@ import { FormLastStep } from '../../components/form-last-step/form-last-step';
 import { FormStep2 } from '../../components/form-step2/form-step2';
 import { useAppDispatch,useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import {setErrorReg,setStep1, setStep2, setStep3} from '../../store/form-slice';
+import {setErrorReg,setStep1} from '../../store/form-slice';
 
 import styles from './registration-page.module.scss';
 
@@ -17,7 +16,6 @@ export const RegistrationPage: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
-    const [visiblyPassword, setVisiblyPassword] = React.useState<boolean>(false);
     const { step1, step2, step3, errorReg } = useAppSelector((state: RootState) => state.form);
 
 
@@ -30,12 +28,13 @@ export const RegistrationPage: React.FC = () => {
        dispatch(setStep1(true));
     }
 
-console.log(step2)
 
 
 
 
-    return (
+const token = localStorage.getItem('tokenData');
+
+return token ? <Navigate to='/books/all'/> : (
         <section className={styles.auth_wrapper} >
 
 
