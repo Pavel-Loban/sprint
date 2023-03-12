@@ -2,19 +2,33 @@
   position: absolute;
   top: 50px;
   right: 10px;
-  background-color: white;
-  width: 255px;
-  height: 150px;
+  background-color: #ffffff;
+  width: 270px;
+  height: 152px;
   border-radius: 10px;
-  box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
+  box-shadow: 4px 4px 4px rgba(54, 54, 54, 0.05), -4px 4px 4px rgba(54, 54, 54, 0.05);
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
 
-  ul{
-    li{
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    margin-right: 24px;
+    height: 100%;
+
+    li {
       cursor: pointer;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 28px;
+
+      &:hover{
+        color: #F83600;
+      }
     }
   }
 }
