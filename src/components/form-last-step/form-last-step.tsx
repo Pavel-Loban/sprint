@@ -2,29 +2,19 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { setAuthLoader,setEmail, setErrorReg,setIdFormStep1,setIdFormStep3, setPhone,setStep1, setStep2, setStep3} from '../../store/form-slice';
+import { SchemaLastStep } from '../../validations-shema';
 import { FormButton } from '../form-button/form-button';
 import { InputNameOrLastName } from '../inputs/input-name-or-last-name/input';
 import { InputPhone } from '../inputs/input-phone/input-phone';
 
 import styles from '../form/form.module.scss';
+import { TitleForm } from '../title-form/title-form';
 
-
-
-export const Schema = Yup.object().shape({
-   phone: Yup.string().required('Поле не может быть пустым')
-    .matches(/(?:\+375)\s?\(?29|25|33|44\)?\s?\d\d(?:\d[-\s]\d\d[-\s]\d\d|[-\s]\d\d[-\s]\d\d\d|\d{5})/, 'В формате +375 (xx) xxx-xx-xx')
-    .matches(/^([^\\s*]+)/g,'poiuyt')
-    .matches(/(.*\d.*){12}/, 'В формате +375 (xx) xxx-xx-xx')
-    ,
-    email: Yup.string().required('Поле не может быть пустым')
-    .matches(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/, 'Введите корректный e-mail'),
-});
 
 
 
@@ -54,7 +44,6 @@ export const FormLastStep: React.FC = () => {
                     'lastName': lastName,
                     'phone':paramPhone,
                 }).then((data) => {
-                    // console.log(data)
                     dispatch(setStep3(false));
                     dispatch(setErrorReg('false'));
                     dispatch(setIdFormStep3(''));
@@ -62,7 +51,6 @@ export const FormLastStep: React.FC = () => {
                     dispatch(setAuthLoader(false));
                 }).catch((err) => {
                     dispatch(setAuthLoader(false));
-                    console.log(err);
                     dispatch(setStep3(false));
                     if(err.response.status === 400) {
                         dispatch(setErrorReg('true'));
@@ -94,7 +82,7 @@ export const FormLastStep: React.FC = () => {
                     phone: '',
                     email: '',
                 }}
-                validationSchema={Schema}
+                validationSchema={SchemaLastStep}
                 onSubmit={(values) => getReg(values.email,values.phone)}
             >
                 {({
@@ -115,10 +103,11 @@ export const FormLastStep: React.FC = () => {
                             onSubmit={handleSubmit}
                             data-test-id={idFormStep3}
                         >
-                            <div className={styles.form_header}>
+                            {/* <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Регистрация</h3>
                                 <p className={styles.auth_sub_title}>3 из 3</p>
-                            </div>
+                            </div> */}
+                            <TitleForm step='3' title='Регистрация'/>
 
                             <section className={styles.inputs_wrapper}>
                             <InputPhone step1={step1} value={values.phone} touched={touched?.phone} error={errors.phone} handleBlur={handleBlur} handleChange={handleChange} label='Номер телефона' name='phone'

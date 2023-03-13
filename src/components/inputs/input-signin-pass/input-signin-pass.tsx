@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { ReactComponent as EyeOpen } from '../../../assets/image/eye-open.svg';
-import { ReactComponent as EyeClosed } from '../../../assets/image/EyeClosed.svg';
 import { VisiblePass } from '../../visible-pass/visible-pass';
 
 import styles from './input-signin-pass.module.scss';
@@ -45,20 +43,7 @@ export const InputSignInPass: React.FC<Props> = ({ value, touched, error, handle
 
 
         <VisiblePass visiblePass={visiblePass} value={value} getVisibilityPassword={getVisibilityPassword} />
-            {/* {visiblePass && value && (
-      <EyeOpen
-        className={visiblePass && value !== '' ? styles.icon_eye : styles.hide}
-        onClick={getVisibilityPassword}
-        data-test-id='eye-opened'
-      />
-    )}
-    {!visiblePass && value && (
-      <EyeClosed
-        className={visiblePass && value !== '' ? styles.hide : styles.icon_eye}
-        onClick={getVisibilityPassword}
-        data-test-id='eye-closed'
-      />
-    )} */}
+
 
     </div>
 )

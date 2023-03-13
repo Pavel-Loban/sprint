@@ -36,11 +36,7 @@ interface Props {
     isDesktop?: boolean,
 }
 
-interface Categories {
-    id: number,
-    path: string,
-    name: string,
-}
+
 
 export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdCategory }) => {
 
@@ -213,11 +209,7 @@ export const Sections: React.FC<Props> = ({ dataId1, dataId2, isDesktop, dataIdC
 
                 ))}
 
-{/* <span className={styles.profil_exit_wrapper}/> */}
-            {/* <ul >
-                    <li className={styles.subTitle} >Профиль</li>
-                    <li className={styles.subTitle} onClick={logout} role='presentation'  data-test-id='exit-button' >Выход</li>
-                </ul> */}
+
 
             </ul>
 

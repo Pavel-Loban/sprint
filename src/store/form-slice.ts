@@ -1,14 +1,5 @@
-import { createAsyncThunk,createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-import {instance} from '../services';
-
-import { setUser } from './user-slice';
-import { AppDispatch } from '.';
-
-// const push = useNavigate();
-const baseUrl = 'https://strapi.cleverland.by/api/auth/local/register';
+import {createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
 
@@ -170,72 +161,69 @@ export const {
 export default formSlice.reducer;
 
 
-export const getReg = (param1: string, param2: string,param3: string, param4: string,param5: string, param6: string,) => async (dispatch: AppDispatch) => {
-  // dispatch(SetLoaderAC(false))
-  await axios
-    .post(baseUrl, {
-      email: param1,
-      username: param2,
-      password: param3,
-      firstName: param4,
-      lastName: param5,
-      phone: param6,
-    })
-    .then((data) => {
 
-      dispatch(setStep3(false))
-      dispatch(setErrorReg('false'));
-    })
-    .catch((err) => {
-      dispatch(setStep3(false))
-                    if(err.response.status === 400) {
-                        dispatch(setErrorReg('true'));
-                    }
-                    if(err.response?.status !== 400){
-                        dispatch(setErrorReg('errorNot400'));
-                    }
-    })
-    .finally(() => {
-      // dispatch(SetLoaderAC(true));
-    });
-};
+// export const getReg = (param1: string, param2: string,param3: string, param4: string,param5: string, param6: string,) => async (dispatch: AppDispatch) => {
+//   await axios
+//     .post(baseUrl, {
+//       email: param1,
+//       username: param2,
+//       password: param3,
+//       firstName: param4,
+//       lastName: param5,
+//       phone: param6,
+//     })
+//     .then((data) => {
+
+//       dispatch(setStep3(false))
+//       dispatch(setErrorReg('false'));
+//     })
+//     .catch((err) => {
+//       dispatch(setStep3(false))
+//                     if(err.response.status === 400) {
+//                         dispatch(setErrorReg('true'));
+//                     }
+//                     if(err.response?.status !== 400){
+//                         dispatch(setErrorReg('errorNot400'));
+//                     }
+//     })
+// };
 
 
-export const authorize =  (username: string, password: string, resetForm: () => void) => async (dispatch: AppDispatch) => {
-  console.log('hghfh')
-  const push = useNavigate();
+// export const authorize =  (username: string, password: string, resetForm: () => void) => async (dispatch: AppDispatch) => {
+//   console.log('hghfh')
+//   const push = useNavigate();
 
-  try {
+//   try {
 
-    const { data } = await instance.post('/api/auth/local', {
-      'identifier':username,
-      'password':password
-    });
+//     const { data } = await instance.post('/api/auth/local', {
+//       'identifier':username,
+//       'password':password
+//     });
 
-    console.log(data)
+//     console.log(data)
 
-    localStorage.setItem('tokenData', data.jwt);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    const userLocalStorage= localStorage.getItem('user');
-    const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
+//     localStorage.setItem('tokenData', data.jwt);
+//     localStorage.setItem('user', JSON.stringify(data.user));
+//     const userLocalStorage= localStorage.getItem('user');
+//     const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
 
-    console.log(user)
-    dispatch(setUser(data.user))
+//     console.log(user)
+//     dispatch(setUser(data.user))
 
-    push('/books/all');
+//     push('/books/all');
 
-  } catch (error) {
-      const err = error as AxiosError
+//   } catch (error) {
+//       const err = error as AxiosError
 
-    console.log('ERROR', err);
-    if(err.response?.status === 400){
-     dispatch(setErrAuth(true));
-  }
+//     console.log('ERROR', err);
+//     if(err.response?.status === 400){
+//      dispatch(setErrAuth(true));
+//   }
 
-  if(err.response?.status !== 400){
-      console.log('другая ошибка')
-      dispatch(setErrFlow(true));
-      resetForm()
-  }
-  }
-};
+//   if(err.response?.status !== 400){
+//       console.log('другая ошибка')
+//       dispatch(setErrFlow(true));
+//       resetForm()
+//   }
+//   }
+// };

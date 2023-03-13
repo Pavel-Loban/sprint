@@ -4,17 +4,17 @@ import { Provider } from 'react-redux';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components/layout/layout';
+import { LayoutForm } from './components/layout-form/layout-form';
 import { BookPage } from './pages/book';
 import { Contract } from './pages/contract';
 import { MainPage } from './pages/main';
 import { RegistrationPage } from './pages/registration-page/registration-page';
+import { RenamePasswordPage } from './pages/rename-password-page/rename-password-page';
 import { Rules } from './pages/rules';
 import { SigninPage } from './pages/signin/signin-page';
 import { store } from './store';
 
 import './index.scss';
-import { RenamePasswordPage } from './pages/rename-password-page/rename-password-page';
-import { LayoutForm } from './components/layout-form/layout-form';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -41,7 +41,6 @@ root.render(
           <Route path='/contract' element={<Contract />} />
 
         </Route>
-        {/* </Route> */}
       </Routes>
     </HashRouter>
   </Provider>

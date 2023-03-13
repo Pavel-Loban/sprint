@@ -1,56 +1,42 @@
 
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
+import  { AxiosError } from 'axios';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { Flow } from '../../components/flow/flow';
 import { FormButton } from '../../components/form-button/form-button';
 import { InputSignInName } from '../../components/inputs/input-signin-name/input-signin-name';
 import { InputSignInPass } from '../../components/inputs/input-signin-pass/input-signin-pass';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 import {instance} from '../../services'
-import { RootState } from '../../store';
-import { authorize,setAuthLoader,setErrFlow } from '../../store/form-slice';
+import { setAuthLoader} from '../../store/form-slice';
 import { setUser } from '../../store/user-slice';
+import { SchemaSignIn } from '../../validations-shema';
 
 import styles from './signin.module.scss';
+import { TitleForm } from '../../components/title-form/title-form';
 
 
-
-
-export const Schema = Yup.object().shape({
-    identifier: Yup.string().required('Поле не может быть пустым')
-    // .matches(/^\S*$/, 'Поле не может быть пустым')
-    ,
-    password: Yup.string()
-        .required('Поле не может быть пустым')
-
-});
 
 export const SigninPage = () => {
 
     const dispatch = useAppDispatch();
     const push = useNavigate();
-    // const { errAuth, errFlow } = useAppSelector((state: RootState) => state.form);
 
     const [visiblePass, setVisiblePass] = React.useState<boolean>(false);
+
+
+
+    const [err, setErr] = React.useState<boolean>(false)
+    const [errFlow, setErrFlow] = React.useState<boolean>(false)
+
+    const token = localStorage.getItem('tokenData');
 
     const getVisibilityPassword = () => {
         setVisiblePass(!visiblePass);
     }
-
-    const [err, setErr] = React.useState<boolean>(false)
-    const [errFlow, setErrFlow] = React.useState<boolean>(false)
-    // console.log(errAuth,errFlow)
-    const baseUrl = 'https://strapi.cleverland.by/api/auth/local'
-
-
-    const token = localStorage.getItem('tokenData');
-
-
 
      const authorize = async (username: string, password: string, resetForm: () => void) => {
         try {
@@ -60,14 +46,12 @@ export const SigninPage = () => {
             'password':password
           });
 
-          console.log(data)
 
           localStorage.setItem('tokenData', data.jwt);
           localStorage.setItem('user', JSON.stringify(data.user));
           const userLocalStorage= localStorage.getItem('user');
           const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
 
-          console.log(user)
           dispatch(setUser(data.user))
 
           push('/books/all');
@@ -76,14 +60,12 @@ export const SigninPage = () => {
         } catch (error) {
             const err = error as AxiosError
 
-          console.log('ERROR', err);
           if(err.response?.status === 400){
             setErr(true);
             dispatch(setAuthLoader(false))
         }
 
         if(err.response?.status !== 400){
-            console.log('другая ошибка')
             setErrFlow(true);
             resetForm()
             dispatch(setAuthLoader(false))
@@ -101,7 +83,6 @@ export const SigninPage = () => {
 
     const getSignInForm = (res: () => void) => {
         setErrFlow(false);
-        // dispatch(setErrFlow(false))
         res();
     }
 
@@ -125,7 +106,7 @@ export const SigninPage = () => {
                     identifier: '',
                     password: '',
                 }}
-                validationSchema={Schema}
+                validationSchema={SchemaSignIn}
                 onSubmit={(values,{resetForm}) => {authorize(values.identifier, values.password, resetForm)}}
             >
                 {({
@@ -136,7 +117,6 @@ export const SigninPage = () => {
                     handleBlur,
                     dirty,
                     touched,
-                    isValid,
                     resetForm,
                 }) => {
                     const d = new Date();
@@ -148,16 +128,15 @@ export const SigninPage = () => {
                      <Flow title='Вход не выполнен' getPage={() =>  getSignInForm(resetForm)} buttonText='ПОВТОРИТЬ' flowText='Что-то пошло не так. Попробуйте еще раз' />
                     :
                     <section className={styles.auth_form}>
-                     <div className={styles.form_header}>
+                     {/* <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Вход в личный кабинет</h3>
-                            </div>
+                            </div> */}
+                            <TitleForm  title='Вход в личный кабинет'/>
                     <form className={styles.form}
                             onSubmit={handleSubmit}
                             data-test-id='auth-form'
                         >
-                            {/* <div className={styles.form_header}>
-                                <h3 className={styles.auth_title}>Вход в личный кабинет</h3>
-                            </div> */}
+
 
                             <section className={styles.inputs_wrapper}>
                             <InputSignInName value={values.identifier} touched={touched?.identifier} error={errors.identifier} handleBlur={handleBlur} handleChange={handleChange}

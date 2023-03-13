@@ -1,38 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { setIdFormStep1, setIdFormStep2,setPassword,setStep1, setStep2, setUserName } from '../../store/form-slice';
+import { SchemaFormStep1 } from '../../validations-shema';
 import { FormButton } from '../form-button/form-button';
 import { Input2span } from '../inputs/input-2span/input-2span';
 import { InputRenamePass } from '../inputs/input-rename-pass/input-rename-pass';
 
-import styles from './form.module.scss'
+import styles from './form.module.scss';
+import { TitleForm } from '../title-form/title-form';
 
 
 
-export const Schema = Yup.object().shape({
-    username: Yup.string().required('Поле не может быть пустым')
-        .matches(
-            (/^[a-z0-9]+$/i),
-            'Поле не может быть пустым',)
-            .matches((/[a-zA-Z]/), '')
 
-            ,
-    password: Yup.string()
-        .required('Поле не может быть пустым')
-        .min(8, 'Пароль должен быть более 8 символов')
-        .max(16)
-        .matches(
-            /(?=.*[A-Z])\w+/,
-            'Пароль должен содержать как минимум одну прописную',
-        )
-        .matches(/\d/, 'Пароль должен содержать как минимум одну цифру'),
-});
 
 
 export const Form: React.FC = () => {
@@ -56,7 +40,8 @@ export const Form: React.FC = () => {
         dispatch(setStep1(false));
         dispatch(setStep2(true));
         dispatch(setIdFormStep1(''));
-        dispatch(setIdFormStep2('register-form'))
+        dispatch(setIdFormStep2('register-form'));
+        setStep('2');
     }
 
     const getSignInPage = () => {
@@ -73,7 +58,7 @@ export const Form: React.FC = () => {
                     username: '',
                     password: '',
                 }}
-                validationSchema={Schema}
+                validationSchema={SchemaFormStep1}
                 onSubmit={(values) => getStep2(values.username, values.password)}
             >
                 {({
@@ -95,10 +80,11 @@ export const Form: React.FC = () => {
                             onSubmit={handleSubmit}
                             data-test-id={idFormStep1}
                         >
-                            <div className={styles.form_header}>
+                            {/* <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Регистрация</h3>
                                 <p className={styles.auth_sub_title}>{step} шаг из 3</p>
-                            </div>
+                            </div> */}
+                            <TitleForm step='1 шаг из 3' title='Регистрация'/>
 
                             <section className={styles.inputs_wrapper}>
 

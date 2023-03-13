@@ -7,13 +7,12 @@
   import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
   import { RootState } from '../../store';
   import { setAuthLoader,setServerResponse} from '../../store/form-slice';
-  import { setUser } from '../../store/user-slice';
   import { FormButton } from '../form-button/form-button';
-  import { Input3span } from '../inputs/input-3span/input-3span';
-
-  import styles from './form-rename-pass.module.scss'
 import { InputRenamePass } from '../inputs/input-rename-pass/input-rename-pass';
 import { InputRepeatPass } from '../inputs/input-repeat-pass/input-repeat-pass';
+
+  import styles from './form-rename-pass.module.scss'
+import { TitleForm } from '../title-form/title-form';
 
 interface Props{
     code: string,
@@ -74,7 +73,6 @@ interface Props{
           dispatch(setServerResponse('ok'))
           dispatch(setAuthLoader(false));
                 }).catch((err) => {
-                    // console.log(err);
                     dispatch(setServerResponse('error'))
                     dispatch(setAuthLoader(false));
                 })
@@ -86,7 +84,6 @@ interface Props{
 
       return (
 
-        //   <React.Fragment>
 
 
 
@@ -118,9 +115,11 @@ interface Props{
                               onSubmit={handleSubmit}
                               data-test-id='reset-password-form'
                           >
-                              <div className={styles.form_header}>
+                              {/* <div className={styles.form_header}>
                                   <h3 className={styles.auth_title}>Восстановление пароля</h3>
-                              </div>
+                              </div> */}
+
+<TitleForm title='Восстановление пароля'/>
 
 
 
@@ -159,7 +158,6 @@ interface Props{
                   }}
               </Formik>
 
-        //   </React.Fragment>
 
       )
   }

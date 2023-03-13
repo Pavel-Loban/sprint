@@ -5,14 +5,14 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { RootState } from '../../store';
+import { useAppDispatch} from '../../hooks/redux-hooks';
 import { setAuthLoader} from '../../store/form-slice';
 import { Flow } from '../flow/flow';
 import { FormButton } from '../form-button/form-button';
 import { InputNameOrLastName } from '../inputs/input-name-or-last-name/input';
 
 import styles from './form-email-for-rename-pass.module.scss';
+import { TitleForm } from '../title-form/title-form';
 
 
 
@@ -39,13 +39,11 @@ export const Schema = Yup.object().shape({
                  .post(baseUrl, {
                      'email': paramEmail,
                  }).then((data) => {
-                    console.log(data)
                     setPostEmailOk(true);
                     dispatch(setAuthLoader(false));
                  }).catch((error) => {
                     const err = error as AxiosError
 
-                    console.log(err)
                     setAxiosEmailError(err.message)
                     dispatch(setAuthLoader(false));
                  })
@@ -107,10 +105,11 @@ export const Schema = Yup.object().shape({
                                              onClick={getAuthPage} />
                                 <nav>Вход в личный кабинет</nav>
                             </div>
-                             <div className={styles.form_header}>
+                             {/* <div className={styles.form_header}>
 
                                  <h3 className={styles.auth_title}>Восстановление пароля</h3>
-                             </div>
+                             </div> */}
+                             <TitleForm title='Восстановление пароля'/>
 
 
                              <section className={styles.inputs_wrapper}>

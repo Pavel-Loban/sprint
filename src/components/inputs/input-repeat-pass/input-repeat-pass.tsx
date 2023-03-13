@@ -2,7 +2,7 @@ import React from 'react';
 
 import { VisiblePass } from '../../visible-pass/visible-pass';
 
-import styles from '../input-3span/input-3span.module.scss';
+import styles from '../input-rename-pass/input-rename.module.scss';
 
 interface Props {
     value: string,

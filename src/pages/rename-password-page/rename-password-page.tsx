@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
 import { setServerResponse} from '../../store/form-slice';
 
-import styles from './renamePass.module.scss';
+
 
 
 
@@ -21,7 +21,7 @@ import styles from './renamePass.module.scss';
 
     const { serverResponse } = useAppSelector((state: RootState) => state.form);
 
-    // console.log(code)
+
 
     const getSignInPage = () => {
         push('/auth');

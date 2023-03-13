@@ -1,31 +1,19 @@
 import React from 'react';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { Formik } from 'formik';
 
 import { ReactComponent as ArrowRight } from '../../assets/image/arrow-right.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { RootState } from '../../store';
-import { setStep1, setStep2, setStep3, setFirstName, setLastName, setIdFormStep2, setIdFormStep3 } from '../../store/form-slice';
+import { setFirstName, setIdFormStep2, setIdFormStep3,setLastName, setStep1, setStep2, setStep3 } from '../../store/form-slice';
+import { SchemaStep2 } from '../../validations-shema';
 import { FormButton } from '../form-button/form-button';
 import { InputNameOrLastName } from '../inputs/input-name-or-last-name/input';
 
 import styles from '../form/form.module.scss';
+import { TitleForm } from '../title-form/title-form';
 
 
-
-
-
-export const Schema = Yup.object().shape({
-    firstName: Yup.string().required('Поле не может быть пустым')
-        .matches(/^\S*$/, 'Не заполнено')
-        .max(16),
-    lastName: Yup.string()
-        .required('Поле не может быть пустым')
-        .matches(/^\S*$/, 'Не заполнено')
-        .max(25),
-
-});
 
 
 
@@ -71,7 +59,7 @@ export const FormStep2: React.FC = () => {
                     firstName: '',
                     lastName: '',
                 }}
-                validationSchema={Schema}
+                validationSchema={SchemaStep2}
                 onSubmit={values => getStep3(values.firstName, values.lastName)}
             >
                 {({
@@ -92,10 +80,12 @@ export const FormStep2: React.FC = () => {
                             onSubmit={handleSubmit}
                             data-test-id={idFormStep2}
                         >
-                            <div className={styles.form_header}>
+                            {/* <div className={styles.form_header}>
                                 <h3 className={styles.auth_title}>Регистрация</h3>
                                 <p className={styles.auth_sub_title}>2 шаг из 3</p>
-                            </div>
+                            </div> */}
+
+<TitleForm step='2 шаг из 3' title='Регистрация'/>
 
 
 

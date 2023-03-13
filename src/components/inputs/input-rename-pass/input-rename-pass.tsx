@@ -3,7 +3,7 @@ import React from 'react';
 import { ReactComponent as ValidPasswordOk } from '../../../assets/image/CheckOk.svg';
 import { VisiblePass } from '../../visible-pass/visible-pass';
 
-import styles from '../input-3span/input-3span.module.scss';
+import styles from './input-rename.module.scss';
 
 interface Props {
     value: string,
